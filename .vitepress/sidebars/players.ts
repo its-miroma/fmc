@@ -20,7 +20,6 @@ export default [
           {
             text: "players.installing_java.macos",
             link: "https://fabricmc.net/wiki/player:tutorials:java:mac",
-            process: false,
           },
           {
             text: "players.installing_java.linux",
