@@ -71,7 +71,7 @@ This section assumes that you are using the standard GitHub Action workflow incl
 
 Your tests will now run on every build, including those by CI providers such as GitHub Actions. But what if a build fails? We need to upload the logs as an artifact so we can view the test reports.
 
-Add this to your `.github/workflows/build.yml` file, below the `./gradlew build` step.
+Add this to your `.github/workflows/build.yaml` file, below the `./gradlew build` step.
 
 ```yaml
 - name: Store reports
@@ -101,7 +101,7 @@ To see all available options, see [the Loom documentation on tests](./loom/fabri
 #### Setting up Game Test Directory {#setting-up-game-test-directory}
 
 ::: info
-You only need this section if you enabled `createSourceSet`, which is recommended. You can, of course, do your own gradle magic, but you'll be on your own.
+You only need this section if you enabled `createSourceSet`, which is recommended. You can, of course, do your own Gradle magic, but you'll be on your own.
 :::
 
 If you enabled `createSourceSet` like the example above, your gametest will be in a separate source set with a separate `fabric.mod.json`. The module name defaults to `gametest`. Create a new `fabric.mod.json` in `src/gametest/resources/` as shown:
