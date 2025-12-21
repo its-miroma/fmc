@@ -22,7 +22,7 @@ public class ExampleModEvents implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// :::1
+		// #region 1
 		AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
 			BlockState state = world.getBlockState(pos);
 
@@ -33,9 +33,9 @@ public class ExampleModEvents implements ModInitializer {
 
 			return InteractionResult.PASS;
 		});
-		// :::1
+		// #endregion 1
 
-		// :::2
+		// #region 2
 		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 			// Let's only modify built-in loot tables and leave data pack loot tables untouched by checking the source.
 			// We also check that the loot table ID is equal to the ID we want.
@@ -45,9 +45,9 @@ public class ExampleModEvents implements ModInitializer {
 				tableBuilder.withPool(poolBuilder);
 			}
 		});
-		// :::2
+		// #endregion 2
 
-		// :::3
+		// #region 3
 		SheepShearCallback.EVENT.register((player, sheep) -> {
 			sheep.setSheared(true);
 
@@ -58,6 +58,6 @@ public class ExampleModEvents implements ModInitializer {
 
 			return InteractionResult.FAIL;
 		});
-		// :::3
+		// #endregion 3
 	}
 }

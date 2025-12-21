@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import com.example.docs.ExampleMod;
 
-// :::summon_Lightning_payload
+// #region summon-lightning-payload
 public record SummonLightningS2CPayload(BlockPos pos) implements CustomPacketPayload {
 	public static final ResourceLocation SUMMON_LIGHTNING_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "summon_lightning");
 	public static final CustomPacketPayload.Type<SummonLightningS2CPayload> ID = new CustomPacketPayload.Type<>(SUMMON_LIGHTNING_PAYLOAD_ID);
@@ -19,4 +19,4 @@ public record SummonLightningS2CPayload(BlockPos pos) implements CustomPacketPay
 		return ID;
 	}
 }
-// :::summon_Lightning_payload
+// #endregion summon-lightning-payload

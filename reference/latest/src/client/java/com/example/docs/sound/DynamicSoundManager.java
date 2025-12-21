@@ -9,7 +9,7 @@ import net.minecraft.sounds.SoundEvent;
 
 import com.example.docs.sound.instance.SoundInstanceCallback;
 
-// :::1
+// #region 1
 public class DynamicSoundManager implements SoundInstanceCallback {
 	// An instance of the client to use Minecraft's default SoundManager
 	private static final Minecraft client = Minecraft.getInstance();
@@ -34,9 +34,9 @@ public class DynamicSoundManager implements SoundInstanceCallback {
 		return instance;
 	}
 
-	// :::1
+	// #endregion 1
 
-	// :::2
+	// #region 2
 	// Plays a sound instance, if it doesn't already exist in the list
 	public <T extends AbstractDynamicSoundInstance> void play(T soundInstance) {
 		if (this.activeSounds.contains(soundInstance)) return;
@@ -64,9 +64,9 @@ public class DynamicSoundManager implements SoundInstanceCallback {
 		return Optional.empty();
 	}
 
-	// :::2
+	// #endregion 2
 
-	// :::1
+	// #region 1
 
 	// This is where the callback signal of a finished custom SoundInstance will arrive.
 	// For now, we can just stop and remove the sound from the list, but you can add
@@ -76,4 +76,4 @@ public class DynamicSoundManager implements SoundInstanceCallback {
 		this.stop(soundInstance);
 	}
 }
-// :::1
+// #endregion 1

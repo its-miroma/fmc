@@ -36,24 +36,24 @@ import com.example.docs.ExampleMod;
 
 public class CustomRenderPipeline implements ClientModInitializer {
 	private static CustomRenderPipeline instance;
-	// :::custom-pipelines:define-pipeline
+	// #region custom-pipelines--define-pipeline
 	private static final RenderPipeline FILLED_THROUGH_WALLS = RenderPipelines.register(RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
 			.withLocation(ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "pipeline/debug_filled_box_through_walls"))
 			.withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLE_STRIP)
 			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
 			.build()
 	);
-	// :::custom-pipelines:define-pipeline
-	// :::custom-pipelines:extraction-phase
+	// #endregion custom-pipelines--define-pipeline
+	// #region custom-pipelines--extraction-phase
 	private static final ByteBufferBuilder allocator = new ByteBufferBuilder(RenderType.SMALL_BUFFER_SIZE);
 	private BufferBuilder buffer;
 
-	// :::custom-pipelines:extraction-phase
-	// :::custom-pipelines:drawing-phase
+	// #endregion custom-pipelines--extraction-phase
+	// #region custom-pipelines--drawing-phase
 	private static final Vector4f COLOR_MODULATOR = new Vector4f(1f, 1f, 1f, 1f);
 	private MappableRingBuffer vertexBuffer;
 
-	// :::custom-pipelines:drawing-phase
+	// #endregion custom-pipelines--drawing-phase
 	public static CustomRenderPipeline getInstance() {
 		return instance;
 	}
@@ -69,7 +69,7 @@ public class CustomRenderPipeline implements ClientModInitializer {
 		drawFilledThroughWalls(Minecraft.getInstance(), FILLED_THROUGH_WALLS);
 	}
 
-	// :::custom-pipelines:extraction-phase
+	// #region custom-pipelines--extraction-phase
 	private void renderWaypoint(WorldRenderContext context) {
 		PoseStack matrices = context.matrices();
 		Vec3 camera = context.worldState().cameraRenderState.pos;
@@ -86,9 +86,9 @@ public class CustomRenderPipeline implements ClientModInitializer {
 
 		matrices.popPose();
 	}
-	// :::custom-pipelines:extraction-phase
+	// #endregion custom-pipelines--extraction-phase
 
-	// :::custom-pipelines:drawing-phase
+	// #region custom-pipelines--drawing-phase
 	private void drawFilledThroughWalls(Minecraft client, @SuppressWarnings("SameParameterValue") RenderPipeline pipeline) {
 		// Build the buffer
 		MeshData builtBuffer = buffer.buildOrThrow();
@@ -165,9 +165,9 @@ public class CustomRenderPipeline implements ClientModInitializer {
 
 		builtBuffer.close();
 	}
-	// :::custom-pipelines:drawing-phase
+	// #endregion custom-pipelines--drawing-phase
 
-	// :::custom-pipelines:clean-up
+	// #region custom-pipelines--clean-up
 	public void close() {
 		allocator.close();
 
@@ -176,5 +176,5 @@ public class CustomRenderPipeline implements ClientModInitializer {
 			vertexBuffer = null;
 		}
 	}
-	// :::custom-pipelines:clean-up
+	// #endregion custom-pipelines--clean-up
 }

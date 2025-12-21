@@ -16,13 +16,13 @@ import net.minecraft.world.item.Rarity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
-// :::problems:basic-logger-definition
+// #region problems--basic-logger-definition
 public class ExampleModDebug implements ModInitializer {
 	public static final String MOD_ID = "example-mod";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	// ...
-	// :::problems:basic-logger-definition
+	// #endregion problems--basic-logger-definition
 
 	@Override
 	public void onInitialize() {
@@ -33,7 +33,7 @@ public class ExampleModDebug implements ModInitializer {
 						.component(DataComponents.CUSTOM_NAME, Component.literal("[Use on Stone Block]"))));
 	}
 
-	// :::problems:dev-logger
+	// #region problems--dev-logger
 	// This method will only log if the Minecraft instance
 	// is running in a Development Environment, like your IDE
 	public static void devLogger(String loggerInput) {
@@ -44,7 +44,7 @@ public class ExampleModDebug implements ModInitializer {
 		LOGGER.info("DEV - [ %s ]".formatted(loggerInput));
 	}
 
-	// :::problems:dev-logger
-	// :::problems:basic-logger-definition
+	// #endregion problems--dev-logger
+	// #region problems--basic-logger-definition
 }
-// :::problems:basic-logger-definition
+// #endregion problems--basic-logger-definition

@@ -11,44 +11,44 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import com.example.docs.block.entity.ModBlockEntities;
 
-// :::1
+// #region 1
 public class CounterBlockEntity extends BlockEntity {
-	// :::1
+	// #endregion 1
 
-	// :::2
+	// #region 2
 	private int clicks = 0;
-	// :::2
+	// #endregion 2
 
 	private int ticksSinceLast = 0;
 
-	// :::1
+	// #region 1
 	public CounterBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.COUNTER_BLOCK_ENTITY, pos, state);
 	}
 
-	// :::1
+	// #endregion 1
 
-	// :::2
+	// #region 2
 	public int getClicks() {
 		return clicks;
 	}
 
 	public void incrementClicks() {
-		// :::2
+		// #endregion 2
 
-		// :::6
+		// #region 6
 		if (ticksSinceLast < 10) return;
 		ticksSinceLast = 0;
-		// :::6
+		// #endregion 6
 
-		// :::2
+		// #region 2
 		clicks++;
 		setChanged();
 	}
 
-	// :::2
+	// #endregion 2
 
-	// :::3
+	// #region 3
 	@Override
 	protected void saveAdditional(ValueOutput writeView) {
 		writeView.putInt("clicks", clicks);
@@ -56,9 +56,9 @@ public class CounterBlockEntity extends BlockEntity {
 		super.saveAdditional(writeView);
 	}
 
-	// :::3
+	// #endregion 3
 
-	// :::4
+	// #region 4
 	@Override
 	protected void loadAdditional(ValueInput readView) {
 		super.loadAdditional(readView);
@@ -66,23 +66,23 @@ public class CounterBlockEntity extends BlockEntity {
 		clicks = readView.getIntOr("clicks", 0);
 	}
 
-	// :::4
+	// #endregion 4
 
-	// :::5
+	// #region 5
 	public static void tick(Level world, BlockPos blockPos, BlockState blockState, CounterBlockEntity entity) {
 		entity.ticksSinceLast++;
 	}
 
-	// :::5
+	// #endregion 5
 
-	// :::7
+	// #region 7
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
 		return saveWithoutMetadata(registryLookup);
 	}
 
-	// :::7
+	// #endregion 7
 
-	// :::1
+	// #region 1
 }
-// :::1
+// #endregion 1

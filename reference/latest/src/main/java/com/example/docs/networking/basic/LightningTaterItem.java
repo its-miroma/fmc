@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
-// :::lightning_tater_item
+// #region lightning-tater-item
 public class LightningTaterItem extends Item {
 	public LightningTaterItem(Properties settings) {
 		super(settings);
@@ -32,4 +32,4 @@ public class LightningTaterItem extends Item {
 		return InteractionResult.SUCCESS;
 	}
 }
-// :::lightning_tater_item
+// #endregion lightning-tater-item

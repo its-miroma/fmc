@@ -18,7 +18,7 @@ public class ModBlockEntities {
 	public static final BlockEntityType<EngineBlockEntity> ENGINE_BLOCK_ENTITY =
 			register("engine", EngineBlockEntity::new, ModBlocks.ENGINE_BLOCK);
 
-	// :::1
+	// #region 1
 	public static final BlockEntityType<CounterBlockEntity> COUNTER_BLOCK_ENTITY =
 			register("counter", CounterBlockEntity::new, ModBlocks.COUNTER_BLOCK);
 
@@ -31,7 +31,7 @@ public class ModBlockEntities {
 		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id, FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build());
 	}
 
-	// :::1
+	// #endregion 1
 
 	public static void initialize() {
 	}

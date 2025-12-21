@@ -12,7 +12,7 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-// :::tint_source
+// #region tint-source
 public record RainTintSource(int color) implements ItemTintSource {
 	public static final MapCodec<RainTintSource> MAP_CODEC = RecordCodecBuilder.mapCodec(
 					instance -> instance.group(
@@ -37,4 +37,4 @@ public record RainTintSource(int color) implements ItemTintSource {
 		return MAP_CODEC;
 	}
 }
-// :::tint_source
+// #endregion tint-source

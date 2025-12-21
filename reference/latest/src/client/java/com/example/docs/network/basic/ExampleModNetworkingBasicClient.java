@@ -21,7 +21,7 @@ import com.example.docs.networking.basic.SummonLightningS2CPayload;
 public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// :::client_global_receiver
+		// #region client-global-receiver
 		ClientPlayNetworking.registerGlobalReceiver(SummonLightningS2CPayload.ID, (payload, context) -> {
 			ClientLevel world = context.client().level;
 
@@ -37,9 +37,9 @@ public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 				world.addEntity(entity);
 			}
 		});
-		// :::client_global_receiver
+		// #endregion client-global-receiver
 
-		// :::use_entity_callback
+		// #region use-entity-callback
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
 			if (!world.isClientSide()) {
 				return InteractionResult.PASS;
@@ -56,6 +56,6 @@ public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 
 			return InteractionResult.PASS;
 		});
-		// :::use_entity_callback
+		// #endregion use-entity-callback
 	}
 }

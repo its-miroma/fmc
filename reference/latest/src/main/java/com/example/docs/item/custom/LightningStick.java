@@ -16,14 +16,14 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
-// :::1
+// #region 1
 public class LightningStick extends Item {
 	public LightningStick(Properties settings) {
 		super(settings);
 	}
 
-	// :::1
-	// :::2
+	// #endregion 1
+	// #region 2
 	@Override
 	public InteractionResult use(Level world, Player user, InteractionHand hand) {
 		// Ensure we don't spawn the lightning only on the client.
@@ -42,14 +42,14 @@ public class LightningStick extends Item {
 		return InteractionResult.SUCCESS;
 	}
 
-	// :::2
-	// :::3
+	// #endregion 2
+	// #region 3
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
 		textConsumer.accept(Component.translatable("itemTooltip.example-mod.lightning_stick").withStyle(ChatFormatting.GOLD));
 	}
 
-	// :::3
-	// :::1
+	// #endregion 3
+	// #region 1
 }
-// :::1
+// #endregion 1

@@ -17,7 +17,7 @@ Make sure you've completed the [datagen setup](./setup) process first.
 First, we will need to create our ModelProvider. Create a class that extends `FabricModelProvider`. Implement both abstract methods: `generateBlockStateModels` and `generateItemModels`.
 Lastly, create a constructor matching super.
 
-@[code lang=java transcludeWith=:::provider](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#provider
 
 Register this class in your `DataGeneratorEntrypoint` within the `onInitializeDataGenerator` method.
 
@@ -34,15 +34,15 @@ Here are some handy examples you can use to generate your desired models:
 
 ### Simple Cube All {#simple-cube-all}
 
-@[code lang=java transcludeWith=:::cube-all](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#cube-all
 
 This is the most commonly used function. It generates a JSON model file for a normal `cube_all` block model. One texture is used for all six sides, in this case we use `steel_block`.
 
-@[code](@/reference/latest/src/main/generated/assets/example-mod/models/block/steel_block.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/models/block/steel_block.json
 
 It also generates a blockstate JSON file. Since we have no blockstate properties (e.g. Axis, Facing, ...), one variant is sufficient, and is used every time the block is placed.
 
-@[code](@/reference/latest/src/main/generated/assets/example-mod/blockstates/steel_block.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/blockstates/steel_block.json
 
 <DownloadEntry visualURL="/assets/develop/data-generation/block-model/steel_block_big.png" downloadURL="/assets/develop/data-generation/block-model/steel_block.png">Steel Block Texture</DownloadEntry>
 
@@ -50,11 +50,11 @@ It also generates a blockstate JSON file. Since we have no blockstate properties
 
 The `registerSingleton` method provides JSON model files based on the `TexturedModel` you pass in and a single blockstate variant.
 
-@[code lang=java transcludeWith=:::cube-top-for-ends](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#cube-top-for-ends
 
 This method will generate models for a normal cube, that uses the texture file `pipe_block` for the sides and the texture file `pipe_block_top` for the top and bottom sides.
 
-@[code](@/reference/latest/src/main/generated/assets/example-mod/models/block/pipe_block.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/models/block/pipe_block.json
 
 ::: tip
 If you're stuck choosing which `TextureModel` you should use, open the `TexturedModel` class and look at the [`TextureMaps`](#using-texture-map)!
@@ -64,7 +64,7 @@ If you're stuck choosing which `TextureModel` you should use, open the `Textured
 
 ### Block Texture Pool {#block-texture-pool}
 
-@[code lang=java transcludeWith=:::block-texture-pool-normal](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#block-texture-pool-normal
 
 Another useful method is `registerCubeAllModelTexturePool`: define the textures by passing in the "base block", and then append the "children", which will have the same textures.
 In this case, we passed in the `RUBY_BLOCK`, so the stairs, slab and fence will use the `RUBY_BLOCK` texture.
@@ -77,15 +77,15 @@ Be aware of this, if you're changing block model of this particular block, as it
 
 You can also append a `BlockFamily`, which will generate models for all of its "children".
 
-@[code lang=java transcludeWith=:::family-declaration](@/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#family-declaration
 
-@[code lang=java transcludeWith=:::block-texture-pool-family](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#block-texture-pool-family
 
 <DownloadEntry visualURL="/assets/develop/data-generation/block-model/ruby_block_big.png" downloadURL="/assets/develop/data-generation/block-model/ruby_block.png">Ruby Block Texture</DownloadEntry>
 
 ### Doors and Trapdoors {#doors-and-trapdoors}
 
-@[code lang=java transcludeWith=:::door-and-trapdoor](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#door-and-trapdoor
 
 Doors and trapdoors are a little different. Here, you have to make three new textures - two for the door, and one for the trapdoor.
 
@@ -107,7 +107,7 @@ All fields and methods for this part of the tutorial are declared in a static in
 
 ::: details Show `CustomBlockStateModelGenerator`
 
-@[code transcludeWith=:::custom-blockstate-model-generator](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#custom-blockstate-model-generator
 
 :::
 
@@ -116,13 +116,13 @@ All fields and methods for this part of the tutorial are declared in a static in
 Create a `VerticalSlab` block with a `FACING` property and a `SINGLE` boolean property, like in the [Block States](../blocks/blockstates) tutorial. `SINGLE` will indicate if there are both slabs.
 Then you should override `getOutlineShape` and `getCollisionShape`, so that the outline is rendered correctly, and the block has the correct collision shape.
 
-@[code lang=java transcludeWith=:::custom-voxels](@/reference/latest/src/main/java/com/example/docs/block/custom/VerticalSlabBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/VerticalSlabBlock.java#custom-voxels
 
-@[code lang=java transcludeWith=:::custom-collision](@/reference/latest/src/main/java/com/example/docs/block/custom/VerticalSlabBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/VerticalSlabBlock.java#custom-collision
 
 Also override the `canReplace()` method, otherwise you couldn't make the slab a full block.
 
-@[code lang=java transcludeWith=:::custom-replace](@/reference/latest/src/main/java/com/example/docs/block/custom/VerticalSlabBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/VerticalSlabBlock.java#custom-replace
 
 And you're done! You can now test the block out and place it in game.
 
@@ -153,7 +153,7 @@ The `bottom` value will replace the `#bottom` placeholder and so on. **Put it in
 
 Another thing we will need is an instance of the `Model` class. It will represent the actual [parent block model](#parent-block-model) inside our mod.
 
-@[code lang=java transcludeWith=:::custom-model](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#custom-model
 
 The `block()` method creates a new `Model`, pointing to the `vertical_slab.json` file inside the `resources/assets/example-mod/models/block/` folder.
 The `TextureSlot`s represent the "placeholders" (`#bottom`, `#top`, ...) as an Object.
@@ -170,7 +170,7 @@ You can either use the vanilla ones, like `TextureMapping.cube()`(which associat
 
 Since we want to use the Oak Log textures, but have the `BOTTOM`, `TOP` and `SIDE` `TextureSlot`s, we need to create a new one.
 
-@[code lang=java transcludeWith=:::custom-texture-map](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#custom-texture-map
 
 The `bottom` and `top` faces will use `oak_log_top.png`, the sides will use `oak_log.png`.
 
@@ -182,7 +182,7 @@ All `TextureSlot`s in the TextureMap **have to** match all `TextureSlot`s in you
 
 The `BlockModelDefinitionGenerator` contains all blockstate variants, their rotation, and other options like UV lock.
 
-@[code lang=java transcludeWith=:::custom-supplier](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#custom-supplier
 
 First, we create a new `BlockModelDefinitionGenerator` using `MultiVariantGenerator.dispatch()`.
 Then we create a new `PropertyDispatch` that contains parameters for all variants of the block, in this case `FACING` and `SINGLE`, and pass it into the `MultiVariantGenerator`.
@@ -203,7 +203,7 @@ But what are the parameters for?
 3. `Block fullBlock` - is the model used when the `SINGLE` property is false = the slab block looks like a full block.
 4. `TextureMapping textures` defines the actual textures the model uses. See the [Using Texture Map](#using-texture-map) chapter.
 
-@[code lang=java transcludeWith=:::custom-gen](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#custom-gen
 
 First, we get the `ResourceLocation` of the single slab model with `VERTICAL_SLAB.upload()`. Then we get the `ResourceLocation` of the full block model with `ModelLocationUtils.getModelLocation()`, and pass those two models into `createVerticalSlabBlockStates`.
 The `BlockStateSupplier` gets passed into the `blockStateCollector`, so that the JSON files are actually generated.
@@ -211,7 +211,7 @@ Also, we create a model for the vertical slab item with `BlockModelGenerators.re
 
 And that is all! Now all that's left to do is to call our method in our `ModelProvider`:
 
-@[code lang=java transcludeWith=:::custom-method-call](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModModelProvider.java#custom-method-call
 
 ## Sources and Links {#sources-and-links}
 

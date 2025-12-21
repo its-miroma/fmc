@@ -41,11 +41,11 @@ import com.example.docs.item.armor.GuiditeArmorMaterial;
 import com.example.docs.item.custom.CounterItem;
 import com.example.docs.item.custom.LightningStick;
 
-// :::1
+// #region 1
 public class ModItems {
-	// :::1
+	// #endregion 1
 
-	// :::guidite_tool_material
+	// #region guidite-tool-material
 	public static final ToolMaterial GUIDITE_TOOL_MATERIAL = new ToolMaterial(
 			BlockTags.INCORRECT_FOR_WOODEN_TOOL,
 			455,
@@ -54,9 +54,9 @@ public class ModItems {
 			22,
 			GuiditeArmorMaterial.REPAIRS_GUIDITE_ARMOR
 	);
-	// :::guidite_tool_material
+	// #endregion guidite-tool-material
 
-	// :::6
+	// #region 6
 	public static final Item GUIDITE_HELMET = register(
 			"guidite_helmet",
 			Item::new,
@@ -82,16 +82,16 @@ public class ModItems {
 			new Item.Properties().humanoidArmor(GuiditeArmorMaterial.INSTANCE, ArmorType.BOOTS)
 					.durability(ArmorType.BOOTS.getDurability(GuiditeArmorMaterial.BASE_DURABILITY))
 	);
-	// :::6
+	// #endregion 6
 	public static final Item LIGHTNING_STICK = register("lightning_stick", LightningStick::new, new Item.Properties());
-	// :::7
+	// #region 7
 	public static final Item GUIDITE_SWORD = register(
 			"guidite_sword",
 			Item::new,
 			new Item.Properties().sword(GUIDITE_TOOL_MATERIAL, 1f, 1f)
 	);
-	// :::7
-	// :::_13
+	// #endregion 7
+	// #region 13
 	public static final Item COUNTER = register(
 			"counter",
 			CounterItem::new,
@@ -99,15 +99,15 @@ public class ModItems {
 					// Initialize the click count component with a default value of 0
 					.component(ModComponents.CLICK_COUNT_COMPONENT, 0)
 	);
-	// :::_13
-	// :::9
+	// #endregion 13
+	// #region 9
 	public static final ResourceKey<CreativeModeTab> CUSTOM_ITEM_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "item_group"));
 	public static final CreativeModeTab CUSTOM_ITEM_GROUP = FabricItemGroup.builder()
 			.icon(() -> new ItemStack(ModItems.GUIDITE_SWORD))
 			.title(Component.translatable("itemGroup.example-mod"))
 			.build();
-	// :::9
-	// :::5
+	// #endregion 9
+	// #region 5
 	public static final Consumable POISON_FOOD_CONSUMABLE_COMPONENT = Consumables.defaultFood()
 			// The duration is in ticks, 20 ticks = 1 second
 			.onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 6 * 20, 1), 1.0f))
@@ -115,31 +115,31 @@ public class ModItems {
 	public static final FoodProperties POISON_FOOD_COMPONENT = new FoodProperties.Builder()
 			.alwaysEdible()
 			.build();
-	// :::5
+	// #endregion 5
 
-	// :::poisonous_apple
+	// #region poisonous-apple
 	public static final Item POISONOUS_APPLE = register(
 			"poisonous_apple",
 			Item::new,
 			new Item.Properties().food(POISON_FOOD_COMPONENT, POISON_FOOD_CONSUMABLE_COMPONENT)
 	);
-	// :::poisonous_apple
+	// #endregion poisonous-apple
 
-	// :::2
+	// #region 2
 	public static final Item SUSPICIOUS_SUBSTANCE = register("suspicious_substance", Item::new, new Item.Properties());
-	// :::2
+	// #endregion 2
 
 	public static final Item RUBY = register("ruby", Item::new, new Item.Properties());
 
 	public static final Item GUIDITE_AXE = register("guidite_axe", settings -> new AxeItem(GUIDITE_TOOL_MATERIAL, 5.0F, -3.0F, settings), new Item.Properties());
 
-	// :::spawn_egg:::
+	// #region spawn-egg
 	public static final SpawnEggItem CUSTOM_SPAWN_EGG = register(
 			"custom_spawn_egg",
 			SpawnEggItem::new,
 			new Item.Properties().spawnEgg(EntityType.FROG)
 	);
-	// :::spawn_egg:::
+	// #endregion spawn-egg
 
 	public static final Item LEATHER_GLOVES = register("leather_gloves", Item::new, new Item.Properties());
 
@@ -159,7 +159,7 @@ public class ModItems {
 
 	public static final Item THROWING_KNIVES = register("throwing_knives", Item::new, new Item.Properties().stacksTo(3));
 
-	// :::1
+	// #region 1
 	public static <GenericItem extends Item> GenericItem register(String name, Function<Item.Properties, GenericItem> itemFactory, Item.Properties settings) {
 		// Create the item key.
 		ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, name));
@@ -173,17 +173,17 @@ public class ModItems {
 		return item;
 	}
 
-	// :::1
+	// #endregion 1
 
-	// :::3
+	// #region 3
 	public static void initialize() {
-		// :::3
-		// :::4
+		// #endregion 3
+		// #region 4
 		// Get the event for modifying entries in the ingredients group.
 		// And register an event handler that adds our suspicious item to the ingredients group.
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS)
 				.register((itemGroup) -> itemGroup.accept(ModItems.SUSPICIOUS_SUBSTANCE));
-		// :::4
+		// #endregion 4
 
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
 				.register((itemGroup) -> {
@@ -193,17 +193,17 @@ public class ModItems {
 					itemGroup.accept(ModItems.GUIDITE_CHESTPLATE);
 				});
 
-		// :::8
+		// #region 8
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
 				.register((itemGroup) -> itemGroup.accept(ModItems.GUIDITE_SWORD));
-		// :::8
+		// #endregion 8
 
-		// :::spawn_egg_creative_tab
+		// #region spawn-egg-creative-tab
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS)
 				.register(itemGroup -> itemGroup.accept(ModItems.CUSTOM_SPAWN_EGG));
-		// :::spawn_egg_creative_tab
+		// #endregion spawn-egg-creative-tab
 
-		// :::_12
+		// #region 12
 		// Register the group.
 		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CUSTOM_ITEM_GROUP_KEY, CUSTOM_ITEM_GROUP);
 
@@ -219,7 +219,7 @@ public class ModItems {
 			itemGroup.accept(ModItems.LIGHTNING_STICK);
 			// ...
 		});
-		// :::_12
+		// #endregion 12
 
 		ItemGroupEvents.modifyEntriesEvent(CUSTOM_ITEM_GROUP_KEY).register(itemGroup -> {
 			itemGroup.accept(ModItems.RUBY);
@@ -232,23 +232,23 @@ public class ModItems {
 			itemGroup.accept(ModItems.THROWING_KNIVES);
 		});
 
-		// :::_10
+		// #region 10
 		// Add the suspicious substance to the composting registry with a 30% chance of increasing the composter's level.
 		CompostingChanceRegistry.INSTANCE.add(ModItems.SUSPICIOUS_SUBSTANCE, 0.3f);
-		// :::_10
+		// #endregion 10
 
-		// :::_11
+		// #region 11
 		// Add the suspicious substance to the registry of fuels, with a burn time of 30 seconds.
 		// Remember, Minecraft deals with logical based-time using ticks.
 		// 20 ticks = 1 second.
 		FuelRegistryEvents.BUILD.register((builder, context) -> {
 			builder.add(ModItems.SUSPICIOUS_SUBSTANCE, 30 * 20);
 		});
-		// :::_11
-		// :::3
+		// #endregion 11
+		// #region 3
 	}
 
-	// :::3
-	// :::1
+	// #endregion 3
+	// #region 1
 }
-// :::1
+// #endregion 1

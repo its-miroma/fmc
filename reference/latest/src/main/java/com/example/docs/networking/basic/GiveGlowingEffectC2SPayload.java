@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import com.example.docs.ExampleMod;
 
-// :::give_glowing_effect_payload
+// #region give-glowing-effect-payload
 public record GiveGlowingEffectC2SPayload(int entityId) implements CustomPacketPayload {
 	public static final ResourceLocation GIVE_GLOWING_EFFECT_PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "give_glowing_effect");
 	public static final CustomPacketPayload.Type<GiveGlowingEffectC2SPayload> ID = new CustomPacketPayload.Type<>(GIVE_GLOWING_EFFECT_PAYLOAD_ID);
@@ -19,4 +19,4 @@ public record GiveGlowingEffectC2SPayload(int entityId) implements CustomPacketP
 		return ID;
 	}
 }
-// :::give_glowing_effect_payload
+// #endregion give-glowing-effect-payload

@@ -50,11 +50,11 @@ Depending on how many Registry entries there are, this can get messy quickly. To
 
 Add two new methods to the newly created helper class. One, which registers all the sounds and one which is used to initialize this class in the first place. After that you can comfortably add new custom `SoundEvent` static class variables as needed.
 
-@[code lang=java transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/sound/CustomSounds.java)
+<<< @/reference/latest/src/main/java/com/example/docs/sound/CustomSounds.java#1
 
 This way, the mod's initializer only needs to implement one line to register all custom SoundEvents.
 
-@[code lang=java transcludeWith=:::2](@/reference/latest/src/main/java/com/example/docs/sound/ExampleModSounds.java)
+<<< @/reference/latest/src/main/java/com/example/docs/sound/ExampleModSounds.java#2
 
 ## Using the Custom SoundEvent {#using-the-custom-soundevent}
 

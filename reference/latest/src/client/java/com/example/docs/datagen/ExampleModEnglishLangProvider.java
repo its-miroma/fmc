@@ -14,7 +14,7 @@ import com.example.docs.appearance.ExampleModAppearance;
 import com.example.docs.block.ModBlocks;
 import com.example.docs.item.ModItems;
 
-// :::datagen-translations:provider
+// #region datagen-translations--provider
 public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
 	protected ExampleModEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 		// Specifying en_us is optional, as it's the default language code
@@ -23,10 +23,10 @@ public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
 
 	@Override
 	public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
-		// :::datagen-translations:provider
-		// :::datagen-translations:build
+		// #endregion datagen-translations--provider
+		// #region datagen-translations--build
 		translationBuilder.add("text.example-mod.greeting", "Hello there!");
-		// :::datagen-translations:build
+		// #endregion datagen-translations--build
 		translationBuilder.add(ModItems.GUIDITE_HELMET, "Guidite Helmet");
 		translationBuilder.add(ModItems.GUIDITE_CHESTPLATE, "Guidite Chestplate");
 		translationBuilder.add(ModItems.GUIDITE_LEGGINGS, "Guidite Leggings");
@@ -66,7 +66,7 @@ public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
 		translationBuilder.add(ModBlocks.VERTICAL_OAK_LOG_SLAB, "Vertical Oak Log Slab");
 		translationBuilder.add(ExampleModAppearance.WAXCAP_BLOCK, "Waxcap");
 		translationBuilder.add(ExampleModAppearance.WAXCAP_BLOCK_ITEM, "Waxcap");
-		// :::datagen-translations:provider
+		// #region datagen-translations--provider
 	}
 }
-// :::datagen-translations:provider
+// #endregion datagen-translations--provider

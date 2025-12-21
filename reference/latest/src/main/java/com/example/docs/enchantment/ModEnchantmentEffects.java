@@ -13,7 +13,7 @@ import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import com.example.docs.ExampleMod;
 import com.example.docs.enchantment.effect.LightningEnchantmentEffect;
 
-//#entrypoint
+// #region entrypoint
 public class ModEnchantmentEffects {
 	public static final ResourceKey<Enchantment> THUNDERING = of("thundering");
 	public static MapCodec<LightningEnchantmentEffect> LIGHTNING_EFFECT = register("lightning_effect", LightningEnchantmentEffect.CODEC);
@@ -31,4 +31,4 @@ public class ModEnchantmentEffects {
 		ExampleMod.LOGGER.info("Registering EnchantmentEffects for" + ExampleMod.MOD_ID);
 	}
 }
-//#entrypoint
+// #endregion entrypoint

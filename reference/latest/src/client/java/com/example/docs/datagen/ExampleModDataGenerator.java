@@ -13,14 +13,14 @@ import com.example.docs.damage.ExampleModDamageTypes;
 import com.example.docs.datagen.internal.ExampleModInternalModelProvider;
 import com.example.docs.network.basic.ExampleModNetworkingBasicModelProvider;
 
-// :::datagen-setup:generator
+// #region datagen-setup--generator
 public class ExampleModDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-		// :::datagen-setup:generator
-		// :::datagen-setup:pack
+		// #endregion datagen-setup--generator
+		// #region datagen-setup--pack
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-		// :::datagen-setup:pack
+		// #endregion datagen-setup--pack
 
 		pack.addProvider(ExampleModEnchantmentGenerator::new);
 
@@ -46,10 +46,10 @@ public class ExampleModDataGenerator implements DataGeneratorEntrypoint {
 
 		pack.addProvider(ExampleModAppearanceModelProvider::new);
 
-		// :::datagen-setup:generator
+		// #region datagen-setup--generator
 	}
 
-	// :::datagen-setup:generator
+	// #endregion datagen-setup--generator
 	@Override
 	public void buildRegistry(RegistrySetBuilder registryBuilder) {
 		registryBuilder.add(Registries.DAMAGE_TYPE, registerable -> {
@@ -57,6 +57,6 @@ public class ExampleModDataGenerator implements DataGeneratorEntrypoint {
 		});
 	}
 
-	// :::datagen-setup:generator
+	// #region datagen-setup--generator
 }
-// :::datagen-setup:generator
+// #endregion datagen-setup--generator

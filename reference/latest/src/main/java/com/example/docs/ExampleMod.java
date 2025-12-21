@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 
-//#entrypoint
+// #region entrypoint
 public class ExampleMod implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -19,13 +19,13 @@ public class ExampleMod implements ModInitializer {
 	public static final String MOD_ID = "example-mod";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	//#entrypoint
-	//#particle_register_main
+	// #endregion entrypoint
+	// #region particle-register-main
 	// This DefaultParticleType gets called when you want to use your particle in code.
 	public static final SimpleParticleType SPARKLE_PARTICLE = FabricParticleTypes.simple();
 
-	//#particle_register_main
-	//#entrypoint
+	// #endregion particle-register-main
+	// #region entrypoint
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -33,13 +33,13 @@ public class ExampleMod implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
-		//#entrypoint
+		// #endregion entrypoint
 
-		//#particle_register_main
+		// #region particle-register-main
 		// Register our custom particle type in the mod initializer.
 		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, "sparkle_particle"), SPARKLE_PARTICLE);
-		//#particle_register_main
-		//#entrypoint
+		// #endregion particle-register-main
+		// #region entrypoint
 	}
 }
-//#entrypoint
+// #endregion entrypoint

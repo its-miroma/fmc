@@ -17,27 +17,27 @@ public class DrawContextExampleScreen extends Screen {
 	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
-		// :::1
+		// #region 1
 		int rectangleX = 10;
 		int rectangleY = 10;
 		int rectangleWidth = 100;
 		int rectangleHeight = 50;
 		// x1, y1, x2, y2, color
 		context.fill(rectangleX, rectangleY, rectangleX + rectangleWidth, rectangleY + rectangleHeight, 0xFF0000FF);
-		// :::1
+		// #endregion 1
 
-		// :::2
+		// #region 2
 		// x, y, width, height, color
 		context.submitOutline(rectangleX, rectangleY, rectangleWidth, rectangleHeight, 0xFFFF0000);
-		// :::2
+		// #endregion 2
 
-		// :::3
+		// #region 3
 		// Let's split the rectangle in half using a green line.
 		// x, y1, y2, color
 		context.vLine(rectangleX + rectangleWidth / 2, rectangleY, rectangleY + rectangleHeight, 0xFF00FF00);
-		// :::3
+		// #endregion 3
 
-		// :::4
+		// #region 4
 		// Let's create a scissor region that covers a middle bar section of the screen.
 		int scissorRegionX = 200;
 		int scissorRegionY = 20;
@@ -55,24 +55,24 @@ public class DrawContextExampleScreen extends Screen {
 
 		// Disable the scissor region.
 		context.disableScissor();
-		// :::4
+		// #endregion 4
 
-		// :::5
+		// #region 5
 		ResourceLocation texture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/deepslate.png");
 		// renderLayer, texture, x, y, u, v, width, height, textureWidth, textureHeight
 		context.blit(RenderPipelines.GUI_TEXTURED, texture, 90, 90, 0, 0, 16, 16, 16, 16);
-		// :::5
+		// #endregion 5
 
-		// :::6
+		// #region 6
 		ResourceLocation texture2 = ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "textures/gui/test-uv-drawing.png");
 		int u = 10, v = 13, regionWidth = 14, regionHeight = 14;
 		// renderLayer, texture, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight
 		context.blit(RenderPipelines.GUI_TEXTURED, texture2, 90, 190, 14, 14, u, v, regionWidth, regionHeight, 256, 256);
-		// :::6
+		// #endregion 6
 
-		// :::7
+		// #region 7
 		// TextRenderer, text (string, or Text object), x, y, color, shadow
 		context.drawString(minecraft.font, "Hello, world!", 10, 200, 0xFFFFFFFF, false);
-		// :::7
+		// #endregion 7
 	}
 }

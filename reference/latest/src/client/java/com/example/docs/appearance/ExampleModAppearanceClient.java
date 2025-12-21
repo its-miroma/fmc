@@ -15,10 +15,10 @@ import com.example.docs.ExampleMod;
 public class ExampleModAppearanceClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// :::item_tint_source
+		// #region item-tint-source
 		ItemTintSources.ID_MAPPER.put(ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "color"), RainTintSource.MAP_CODEC);
-		// :::item_tint_source
-		// :::color_provider
+		// #endregion item-tint-source
+		// #region color-provider
 		ColorProviderRegistry.BLOCK.register((blockState, blockAndTintGetter, blockPos, i) -> {
 			if (blockAndTintGetter != null && blockPos != null) {
 				BlockState stateBelow = blockAndTintGetter.getBlockState(blockPos.below());
@@ -30,10 +30,10 @@ public class ExampleModAppearanceClient implements ClientModInitializer {
 
 			return 0xFFDAB9; // Color code in hex format
 		}, ExampleModAppearance.WAXCAP_BLOCK);
-		// :::color_provider
+		// #endregion color-provider
 
-		// :::block_render_layer_map
+		// #region block-render-layer-map
 		BlockRenderLayerMap.putBlock(ExampleModAppearance.WAXCAP_BLOCK, ChunkSectionLayer.CUTOUT);
-		// :::block_render_layer_map
+		// #endregion block-render-layer-map
 	}
 }

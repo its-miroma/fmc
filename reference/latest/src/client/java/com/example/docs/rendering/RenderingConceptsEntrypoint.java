@@ -17,22 +17,22 @@ public class RenderingConceptsEntrypoint implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		// "A Practical Example: Rendering a Triangle Strip"
-		// :::registration
+		// #region registration
 		HudElementRegistry.addLast(ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "last_element"), hudLayer());
-		// :::registration
+		// #endregion registration
 	}
 
-	// :::hudLayer
+	// #region hud-layer
 	private HudElement hudLayer() {
 		return (drawContext, tickCounter) -> {
-			// :::hudLayer
+			// #endregion hud-layer
 
 			if (false) {
 				return;
 			}
 
-			// :::hudLayer
-			// :::2
+			// #region hud-layer
+			// #region 2
 			Matrix3x2fStack matrices = drawContext.pose();
 
 			// Store the total tick delta in a field, so we can use it later.
@@ -40,36 +40,36 @@ public class RenderingConceptsEntrypoint implements ClientModInitializer {
 
 			// Push a new matrix onto the stack.
 			matrices.pushMatrix();
-			// :::2
+			// #endregion 2
 
-			// :::2
+			// #region 2
 			// Scale the matrix by 0.5 to make the triangle smaller and larger over time.
 			float scaleAmount = Mth.sin(totalTickProgress / 10F) / 2F + 1.5F;
 
 			// Apply the scaling amount to the matrix.
 			// We don't need to scale the Z axis since it's on the HUD and 2D.
 			matrices.scale(scaleAmount, scaleAmount);
-			// :::2
+			// #endregion 2
 			matrices.scale(1 / scaleAmount, 1 / scaleAmount);
 			matrices.translate(60f, 60f);
-			// :::3
+			// #region 3
 			// Lerp between 0 and 360 degrees over time.
 			float rotationAmount = totalTickProgress / 50F % 360;
 			matrices.rotate(rotationAmount);
 			// Shift entire square so that it rotates in its center.
 			matrices.translate(-20f, -40f);
-			// :::3
-			// :::hudLayer
+			// #endregion 3
+			// #endregion hud-layer
 			drawContext.fillGradient(5, 20, 35, 60, 0xFF414141, 0xFF000000);
 
-			// :::hudLayer
-			// :::2
+			// #region hud-layer
+			// #region 2
 			// We do not need to manually write to the buffer. DrawContext methods write to GUI buffer in `GuiRenderer` at the end of preparation.
 
 			// Pop our matrix from the stack.
 			matrices.popMatrix();
-			// :::2
+			// #endregion 2
 		};
 	}
-	// :::hudLayer
+	// #endregion hud-layer
 }

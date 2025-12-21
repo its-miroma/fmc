@@ -17,16 +17,16 @@ When creating a `BlockEntityRenderer` for the `CounterBlockEntity`, it's importa
 
 First, we need to create a `BlockEntityRenderState` for our `CounterBlockEntity` to hold the data that will be used for rendering. In this case, we will need the `clicks` to be available during rendering.
 
-@[code transcludeWith=:::render-state](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderState.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderState.java#render-state
 
 Then we create a `BlockEntityRenderer` for our `CounterBlockEntity`.
 
-@[code transcludeWith=:::1](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#1
 
 The new class has a constructor with `BlockEntityRendererProvider.Context` as a parameter. The `Context` has a few useful rendering utilities, like the `ItemRenderer` or `TextRenderer`.
 Also, by including a constructor like this, it becomes possible to use the constructor as the `BlockEntityRendererProvider` functional interface itself:
 
-@[code transcludeWith=:::1](@/reference/latest/src/client/java/com/example/docs/ExampleModBlockEntityRenderer.java)
+<<< @/reference/latest/src/client/java/com/example/docs/ExampleModBlockEntityRenderer.java#1
 
 We will override a few methods to set up the render state along with the `render` method where the rendering logic will be set up.
 
@@ -91,7 +91,7 @@ matrices.scale(1/18f, 1/18f, 1/18f);
 
 Now, the whole transformation looks like this:
 
-@[code transcludeWith=:::2](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#2
 
 ### Drawing Text {#drawing-text}
 
@@ -99,7 +99,7 @@ As mentioned earlier, the `Context` passed into the constructor of our renderer 
 
 To draw the text, we will be submitting the necessary data to the render queue. Since we're drawing some text, we can use the `submitText` method provided through the `OrderedRenderCommandQueue` instance passed into the `render` method.
 
-@[code transcludeWith=:::3](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#3
 
 The `submitText` method takes a lot of parameters, but the most important ones are:
 

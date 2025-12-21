@@ -18,7 +18,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import com.example.docs.block.entity.ModBlockEntities;
 import com.example.docs.block.entity.custom.CounterBlockEntity;
 
-// :::1
+// #region 1
 public class CounterBlock extends BaseEntityBlock {
 	public CounterBlock(Properties settings) {
 		super(settings);
@@ -35,9 +35,9 @@ public class CounterBlock extends BaseEntityBlock {
 		return new CounterBlockEntity(pos, state);
 	}
 
-	// :::1
+	// #endregion 1
 
-	// :::2
+	// #region 2
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (!(world.getBlockEntity(pos) instanceof CounterBlockEntity counterBlockEntity)) {
@@ -50,17 +50,17 @@ public class CounterBlock extends BaseEntityBlock {
 		return InteractionResult.SUCCESS;
 	}
 
-	// :::2
+	// #endregion 2
 
-	// :::3
+	// #region 3
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
 		return createTickerHelper(type, ModBlockEntities.COUNTER_BLOCK_ENTITY, CounterBlockEntity::tick);
 	}
 
-	// :::3
+	// #endregion 3
 
-	// :::1
+	// #region 1
 }
-// :::1
+// #endregion 1

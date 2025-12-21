@@ -2,25 +2,25 @@ def minecraftVersion = "1.21.10"
 def yarnVersion = "1.21.10+build.2"
 def fabricApiVersion = "0.137.0+1.21.10"
 
-// :::automatic-testing:game-test:2
+// #region automatic-testing--game-test--2
 dependencies {
-// :::automatic-testing:game-test:2
+// #endregion automatic-testing--game-test--2
   minecraft "com.mojang:minecraft:${minecraftVersion}"
   mappings loom.officialMojangMappings()
   modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 
-// :::automatic-testing:game-test:2
+// #region automatic-testing--game-test--2
   productionRuntimeMods "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 }
 
-// :::automatic-testing:game-test:2
-// :::automatic-testing:2
+// #endregion automatic-testing--game-test--2
+// #region automatic-testing--2
 test {
 	useJUnitPlatform()
 }
-// :::automatic-testing:2
+// #endregion automatic-testing--2
 
-// :::automatic-testing:game-test:1
+// #region automatic-testing--game-test--1
 fabricApi {
 	configureTests {
 		createSourceSet = true
@@ -30,9 +30,9 @@ fabricApi {
 		eula = true // By setting this to true, you agree to the Minecraft EULA.
 	}
 }
-// :::automatic-testing:game-test:1
+// #endregion automatic-testing--game-test--1
 
-// :::automatic-testing:game-test:2
+// #region automatic-testing--game-test--2
 tasks.register("runProductionClientGameTest", net.fabricmc.loom.task.prod.ClientProductionRunTask) {
 	jvmArgs.add("-Dfabric.client.gametest")
 	// Whether to use XVFB to run the game, using a virtual framebuffer. This is useful for headless CI environments.
@@ -40,4 +40,4 @@ tasks.register("runProductionClientGameTest", net.fabricmc.loom.task.prod.Client
 	// XVFB must be installed, on Debian-based systems you can install it with: `apt install xvfb`
 	useXVFB = true
 }
-// :::automatic-testing:game-test:2
+// #endregion automatic-testing--game-test--2

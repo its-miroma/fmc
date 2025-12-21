@@ -15,7 +15,7 @@ public class CustomSoundItem extends Item {
 		super(settings);
 	}
 
-	// :::1
+	// #region 1
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
 		// As stated above, don't use the playSound() method on the client side
@@ -28,8 +28,8 @@ public class CustomSoundItem extends Item {
 		return super.interactLivingEntity(stack, user, entity, hand);
 	}
 
-	// :::1
-	// :::2
+	// #endregion 1
+	// #region 2
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		if (!context.getLevel().isClientSide()) {
@@ -43,5 +43,5 @@ public class CustomSoundItem extends Item {
 		return super.useOn(context);
 	}
 
-	// :::2
+	// #endregion 2
 }

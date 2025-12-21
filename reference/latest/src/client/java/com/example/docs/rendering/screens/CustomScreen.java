@@ -6,10 +6,10 @@ import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-// :::1
+// #region 1
 public class CustomScreen extends Screen {
-	// :::1
-	// :::2
+	// #endregion 1
+	// #region 2
 	public Screen parent;
 	public CustomScreen(Component title, Screen parent) {
 		super(title);
@@ -21,8 +21,8 @@ public class CustomScreen extends Screen {
 		this.minecraft.setScreen(this.parent);
 	}
 
-	// :::2
-	// :::1
+	// #endregion 2
+	// #region 1
 	public CustomScreen(Component title) {
 		super(title);
 	}
@@ -42,14 +42,14 @@ public class CustomScreen extends Screen {
 		// Register the button widget.
 		this.addRenderableWidget(buttonWidget);
 
-		// :::1
-		// :::3
+		// #endregion 1
+		// #region 3
 		// Add a custom widget to the screen.
 		// x, y, width, height
 		CustomWidget customWidget = new CustomWidget(40, 80, 120, 20);
 		this.addRenderableWidget(customWidget);
-		// :::3
-		// :::1
+		// #endregion 3
+		// #region 1
 	}
 
 	@Override
@@ -63,4 +63,4 @@ public class CustomScreen extends Screen {
 		context.drawString(this.font, "Special Button", 40, 40 - this.font.lineHeight - 10, 0xFFFFFFFF, true);
 	}
 }
-// :::1
+// #endregion 1

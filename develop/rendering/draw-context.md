@@ -18,7 +18,7 @@ The `GuiGraphics` class can be used to easily draw **square-based** shapes. If y
 
 You can use the `GuiGraphics.fill(...)` method to draw a filled rectangle.
 
-@[code lang=java transcludeWith=:::1](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#1
 
 ![A rectangle](/assets/develop/rendering/draw-context-rectangle.png)
 
@@ -26,7 +26,7 @@ You can use the `GuiGraphics.fill(...)` method to draw a filled rectangle.
 
 Let's say we want to outline the rectangle we just drew. We can use the `GuiGraphics.submitOutline(...)` method to draw an outline.
 
-@[code lang=java transcludeWith=:::2](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#2
 
 ![Rectangle with border](/assets/develop/rendering/draw-context-rectangle-border.png)
 
@@ -34,7 +34,7 @@ Let's say we want to outline the rectangle we just drew. We can use the `GuiGrap
 
 We can use the `GuiGraphics.hLine(...)` and `DrawContext.vLine(...)` methods to draw lines.
 
-@[code lang=java transcludeWith=:::3](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#3
 
 ![Lines](/assets/develop/rendering/draw-context-lines.png)
 
@@ -50,7 +50,7 @@ Scissor regions can be nested! But make sure that you disable the scissor manage
 
 To enable the scissor manager, simply use the `GuiGraphics.enableScissor(...)` method. Likewise, to disable the scissor manager, use the `GuiGraphics.disableScissor()` method.
 
-@[code lang=java transcludeWith=:::4](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#4
 
 ![Scissor region in action](/assets/develop/rendering/draw-context-scissor.png)
 
@@ -66,7 +66,7 @@ Generally, it's recommended that you use the overload that specifies the `textur
 
 You will also need to specify which render pipeline which your texture will use. For basic textures, this will usually always be `RenderPipelines.GUI_TEXTURED`.
 
-@[code lang=java transcludeWith=:::5](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#5
 
 ![Drawing whole texture example](/assets/develop/rendering/draw-context-whole-texture.png)
 
@@ -80,7 +80,7 @@ Let's take this texture as an example.
 
 If we want to only draw a region that contains the magnifying glass, we can use the following `u`, `v`, `regionWidth` and `regionHeight` values:
 
-@[code lang=java transcludeWith=:::6](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#6
 
 ![Region Texture](/assets/develop/rendering/draw-context-region-texture.png)
 
@@ -94,6 +94,6 @@ Let's say we want to draw "Hello World" onto the screen. We can use the `GuiGrap
 Minecraft 1.21.6 and above changes text color to be ARGB instead of RGB. Passing RGB values will cause your text to render transparent. Helper methods like `ARGB.opaque(...)` can be used to change RGB to ARGB while porting.
 :::
 
-@[code lang=java transcludeWith=:::7](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java#7
 
 ![Drawing text](/assets/develop/rendering/draw-context-text.png)

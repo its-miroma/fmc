@@ -42,7 +42,7 @@ of `DamageSource`.
 
 The `ResourceKey` can be obtained as follows:
 
-@[code lang=java transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/damage/ExampleModDamageTypes.java)
+<<< @/reference/latest/src/main/java/com/example/docs/damage/ExampleModDamageTypes.java#1
 
 ### Using Damage Types {#using-damage-types}
 
@@ -61,7 +61,7 @@ Then, we call `entity.damage()` with our `DamageSource` and an amount.
 
 The complete block implementation:
 
-@[code lang=java transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java#1
 
 Now whenever a living entity steps on our custom block, it'll take 5 damage (2.5 hearts) using our custom damage type.
 

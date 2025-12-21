@@ -20,7 +20,7 @@ Make sure you've completed the [datagen setup](./setup) process first.
 
 First, we'll make our **provider**. Remember, providers are what actually generate data for us. Create a class that extends `FabricLanguageProvider` and fill out the base methods:
 
-@[code lang=java transcludeWith=:::datagen-translations:provider](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModEnglishLangProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModEnglishLangProvider.java#datagen-translations--provider
 
 ::: tip
 You will need a different provider for each language you want to generate (eg. one `ExampleEnglishLangProvider` and one `ExamplePirateLangProvider`).
@@ -34,7 +34,7 @@ To finish setup, add this provider to your `DataGeneratorEntrypoint` within the 
 
 Along with creating raw translations, translations from `Identifier`s, and copying them from an already existing file (by passing a `Path`), there are helper methods for translating items, blocks, tags, stats, entities, status effects, item groups, entity attributes, and enchantments. Simply call `add` on the `translationBuilder` with what you want to translate and what it should translate to:
 
-@[code lang=java transcludeWith=:::datagen-translations:build](@/reference/latest/src/client/java/com/example/docs/datagen/ExampleModEnglishLangProvider.java)
+<<< @/reference/latest/src/client/java/com/example/docs/datagen/ExampleModEnglishLangProvider.java#datagen-translations--build
 
 ## Using Translations {#using-translations}
 

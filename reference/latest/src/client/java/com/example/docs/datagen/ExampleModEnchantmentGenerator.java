@@ -19,7 +19,7 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import com.example.docs.enchantment.ModEnchantmentEffects;
 import com.example.docs.enchantment.effect.LightningEnchantmentEffect;
 
-//#entrypoint
+// #region entrypoint
 public class ExampleModEnchantmentGenerator extends FabricDynamicRegistryProvider {
 	public ExampleModEnchantmentGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
@@ -65,4 +65,4 @@ public class ExampleModEnchantmentGenerator extends FabricDynamicRegistryProvide
 		return "ExampleModEnchantmentGenerator";
 	}
 }
-//#entrypoint
+// #endregion entrypoint

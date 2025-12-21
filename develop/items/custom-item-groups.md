@@ -11,9 +11,9 @@ Creative Tabs, also known as Item Groups, are the tabs in the creative inventory
 
 Adding a creative tab is pretty simple. Simply create a new static final field in your items class to store the creative tab and a resource key for it, you can then use Fabric's `ItemGroupEvents.modifyEntriesEvent` similarly to how you added your items to the vanilla creative tabs:
 
-@[code transcludeWith=:::9](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#9
 
-@[code transcludeWith=:::_12](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#12
 
 You should see a new tab is now in the creative inventory menu. However, it is untranslated - you must add a translation key to your translations file - similarly to how you translated your first item.
 

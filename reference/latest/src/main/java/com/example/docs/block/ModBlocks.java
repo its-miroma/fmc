@@ -30,11 +30,11 @@ import com.example.docs.block.custom.PrismarineLampBlock;
 import com.example.docs.block.custom.VerticalSlabBlock;
 import com.example.docs.item.ModItems;
 
-// :::1
+// #region 1
 public class ModBlocks {
-	// :::1
+	// #endregion 1
 
-	// :::2
+	// #region 2
 	public static final Block CONDENSED_DIRT = register(
 			"condensed_dirt",
 			Block::new,
@@ -42,8 +42,8 @@ public class ModBlocks {
 			true
 	);
 
-	// :::2
-	// :::3
+	// #endregion 2
+	// #region 3
 	public static final Block CONDENSED_OAK_LOG = register(
 			"condensed_oak_log",
 			RotatedPillarBlock::new,
@@ -51,8 +51,8 @@ public class ModBlocks {
 			true
 	);
 
-	// :::3
-	// :::4
+	// #endregion 3
+	// #region 4
 	public static final Block PRISMARINE_LAMP = register(
 			"prismarine_lamp",
 			PrismarineLampBlock::new,
@@ -61,7 +61,7 @@ public class ModBlocks {
 					.lightLevel(PrismarineLampBlock::getLuminance),
 			true
 	);
-	// :::4
+	// #endregion 4
 	public static final ResourceKey<Block> ENGINE_BLOCK_KEY = ResourceKey.create(
 			Registries.BLOCK,
 			ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "engine")
@@ -73,14 +73,14 @@ public class ModBlocks {
 			true
 	);
 
-	// :::5
+	// #region 5
 	public static final Block COUNTER_BLOCK = register(
 			"counter_block",
 			CounterBlock::new,
 			BlockBehaviour.Properties.of(),
 			true
 	);
-	// :::5
+	// #endregion 5
 
 	public static final Block STEEL_BLOCK = register(
 			"steel_block", RotatedPillarBlock::new, BlockBehaviour.Properties.of(), true
@@ -113,16 +113,16 @@ public class ModBlocks {
 			"vertical_oak_log_slab", VerticalSlabBlock::new, BlockBehaviour.Properties.of(), true
 	);
 
-	// :::family-declaration
+	// #region family-declaration
 	public static final BlockFamily RUBY_FAMILY =
 			new BlockFamily.Builder(ModBlocks.RUBY_BLOCK)
 			.stairs(ModBlocks.RUBY_STAIRS)
 			.slab(ModBlocks.RUBY_SLAB)
 			.fence(ModBlocks.RUBY_FENCE)
 			.getFamily();
-	// :::family-declaration
+	// #endregion family-declaration
 
-	// :::1
+	// #region 1
 	private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block
 		ResourceKey<Block> blockKey = keyOfBlock(name);
@@ -151,18 +151,18 @@ public class ModBlocks {
 		return ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, name));
 	}
 
-	// :::1
+	// #endregion 1
 
 	public static void initialize() {
 		setupItemGroups();
 	}
 
 	public static void setupItemGroups() {
-		// :::6
+		// #region 6
 		ItemGroupEvents.modifyEntriesEvent(ModItems.CUSTOM_ITEM_GROUP_KEY).register((itemGroup) -> {
 			itemGroup.accept(ModBlocks.CONDENSED_DIRT.asItem());
 		});
-		// :::6
+		// #endregion 6
 
 		ItemGroupEvents.modifyEntriesEvent(ModItems.CUSTOM_ITEM_GROUP_KEY).register((itemGroup) -> {
 			itemGroup.accept(ModBlocks.CONDENSED_OAK_LOG.asItem());
@@ -179,6 +179,6 @@ public class ModBlocks {
 		});
 	}
 
-	// :::1
+	// #region 1
 }
-// :::1
+// #endregion 1

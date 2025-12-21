@@ -18,9 +18,9 @@ import com.example.docs.ExampleMod;
 public class ExampleModDamageTypes implements ModInitializer {
 	public static final ResourceKey<Block> TATER_BLOCK_KEY = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "tater"));
 	public static final Block TATER_BLOCK = new TaterBlock(BlockBehaviour.Properties.of().setId(TATER_BLOCK_KEY));
-	// :::1
+	// #region 1
 	public static final ResourceKey<DamageType> TATER_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "tater"));
-	// :::1
+	// #endregion 1
 
 	@Override
 	public void onInitialize() {

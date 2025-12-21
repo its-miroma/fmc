@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 public class ExampleModSavedData implements ModInitializer {
 	@Override
 	public void onInitialize() {
-		// :::event_registration
+		// #region event-registration
 		PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> {
 			MinecraftServer server = world.getServer();
 
@@ -23,6 +23,6 @@ public class ExampleModSavedData implements ModInitializer {
 			savedData.incrementBlocksBroken(); // Increment the counter each time a block is broken.
 			player.displayClientMessage(Component.literal("Blocks broken: " + savedData.getBlocksBroken()), false);
 		});
-		// :::event_registration
+		// #endregion event-registration
 	}
 }

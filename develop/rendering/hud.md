@@ -48,7 +48,7 @@ You can retrieve `tickProgress` by calling `renderTickCounter.getGameTimeDeltaPa
 
 In this example, we'll use `Util.getMillis()` to linearly interpolate the color of a square that is being rendered to the HUD.
 
-@[code lang=java transcludeWith=:::1](@/reference/latest/src/client/java/com/example/docs/rendering/HudRenderingEntrypoint.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/HudRenderingEntrypoint.java#1
 
 ![Lerping a color over time](/assets/develop/rendering/hud-rendering-deltatick.webp)
 

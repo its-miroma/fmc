@@ -14,7 +14,7 @@ You must first understand [how to create an item](./first-item), which you can t
 
 Spawn eggs are special items that, when used, spawn their corresponding mob. You can register one with the `register` method from your [items class](./first-item#preparing-your-items-class), by passing `SpawnEggItem::new` to it.
 
-@[code transcludeWith=:::spawn_egg:::](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#spawn-egg
 
 ![Spawn egg item without texture](/assets/develop/items/spawn_egg_1.png)
 
@@ -30,13 +30,13 @@ Create the 16x16 item texture in the `assets/example-mod/textures/item` director
 
 Create the item model in the `assets/example-mod/models/item` directory, with the same file name as the id of the item: `custom_spawn_egg.json`.
 
-@[code](@/reference/latest/src/main/generated/assets/example-mod/models/item/custom_spawn_egg.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/models/item/custom_spawn_egg.json
 
 ## Creating the Client Item {#creating-the-client-item}
 
 Create the client item JSON in the `assets/example-mod/items` directory, with the same file name as the id of the item model: `custom_spawn_egg.json`.
 
-@[code](@/reference/latest/src/main/generated/assets/example-mod/items/custom_spawn_egg.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/items/custom_spawn_egg.json
 
 ![Spawn egg item with client item](/assets/develop/items/spawn_egg_2.png)
 
@@ -56,7 +56,7 @@ Create or edit JSON file at: `src/main/resources/assets/example-mod/lang/en_us.j
 
 The spawn egg is added to the spawn egg `CreativeModeTab` in the `initialize()` method of the [items class](./first-item#preparing-your-items-class).
 
-@[code transcludeWith=:::spawn_egg_creative_tab](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#spawn-egg-creative-tab
 
 ![Spawn egg item with name and creative tab](/assets/develop/items/spawn_egg_3.png)
 

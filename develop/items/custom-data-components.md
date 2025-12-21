@@ -17,7 +17,7 @@ As with anything else in your mod you will need to register your custom componen
 
 Choose a sensible class to place this in. For this example we're going to make a new package called `component` and a class to contain all of our component types called `ModComponents`. Make sure you call `ModComponents.initialize()` in your [mod's initializer](../getting-started/project-structure#entrypoints).
 
-@[code transcludeWith=::1](@/reference/latest/src/main/java/com/example/docs/component/ModComponents.java)
+<<< @/reference/latest/src/main/java/com/example/docs/component/ModComponents.java#1
 
 This is the basic template to register a component type:
 
@@ -41,7 +41,7 @@ Basic data components (like `minecraft:damage`) consist of a single data value, 
 
 As an example, let's create an `Integer` value that will track how many times the player has right-clicked while holding our item. Let's update our component registration to the following:
 
-@[code transcludeWith=::2](@/reference/latest/src/main/java/com/example/docs/component/ModComponents.java)
+<<< @/reference/latest/src/main/java/com/example/docs/component/ModComponents.java#2
 
 You can see that we're now passing `<Integer>` as our generic type, indicating that this component will be stored as a single `int` value. For our codec, we are using the provided `ExtraCodecs.POSITIVE_INT` codec. We can get away with using basic codecs for simple components like this, but more complex scenarios might require a custom codec (this will be covered briefly later on).
 
@@ -55,7 +55,7 @@ When you run the command, you should receive the item containing the component. 
 
 Let's add a new item which will increase the counter each time it is right clicked. You should read the [Custom Item Interactions](./custom-item-interactions) page which will cover the techniques we will use in this guide.
 
-@[code transcludeWith=::1](@/reference/latest/src/main/java/com/example/docs/item/custom/CounterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CounterItem.java#1
 
 Remember as usual to register the item in your `ModItems` class.
 
@@ -115,7 +115,7 @@ There are three solutions we can use to address this problem.
 
 When you register your item and pass a `Item.Properties` object to your item constructor, you can also provide a list of default components that are applied to all new items. If we go back to our `ModItems` class, where we register the `CounterItem`, we can add a default value for our custom component. Add this so that new items display a count of `0`.
 
-@[code transcludeWith=:::_13](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#13
 
 When a new item is created, it will automatically apply our custom component with the given value.
 
@@ -145,7 +145,7 @@ boolean exists = stack.has(ModComponents.CLICK_COUNT_COMPONENT);
 
 We're going to go with the third option. So along with adding a default component value, we'll also check if the component is present on the stack and only show the tooltip if it is.
 
-@[code transcludeWith=::3](@/reference/latest/src/main/java/com/example/docs/item/custom/CounterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CounterItem.java#3
 
 Start the game again and hover over the item without the component, you should see that it displays "Used 0 times" and no longer crashes the game.
 
@@ -177,7 +177,7 @@ int oldValue = stack.set(ModComponents.CLICK_COUNT_COMPONENT, newValue);
 
 Let's set up a new `use()` method to read the old click count, increase it by one, and then set the updated click count.
 
-@[code transcludeWith=::2](@/reference/latest/src/main/java/com/example/docs/item/custom/CounterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CounterItem.java#2
 
 Now try starting the game and right-clicking with the Counter item in your hand. If you open up your inventory and look at the item again you should see that the usage number has gone up by the amount of times you've clicked it.
 
@@ -210,11 +210,11 @@ public record MyCustomComponent() {
 
 Notice that there's a set of brackets after the class name. This is where we define the list of properties we want our component to have. Let's add a float and a boolean called `temperature` and `burnt` respectively.
 
-@[code transcludeWith=::1](@/reference/latest/src/main/java/com/example/docs/component/MyCustomComponent.java)
+<<< @/reference/latest/src/main/java/com/example/docs/component/MyCustomComponent.java#1
 
 Since we are defining a custom data structure, there won't be a pre-existing `Codec` for our use case like with the [basic component](#basic-data-components). This means we're going to have to construct our own codec. Let's define one in our record class using a `RecordCodecBuilder` which we can reference once we register the component. For more details on using a `RecordCodecBuilder` you can refer to [this section of the Codecs page](../codecs#merging-codecs-for-record-like-classes).
 
-@[code transcludeWith=::2](@/reference/latest/src/main/java/com/example/docs/component/MyCustomComponent.java)
+<<< @/reference/latest/src/main/java/com/example/docs/component/MyCustomComponent.java#2
 
 You can see that we are defining a list of custom fields based on the primitive `Codec` types. However, we are also telling it what our fields are called using `fieldOf()`, and then using `forGetter()` to tell the game which attribute of our record to populate.
 
@@ -224,7 +224,7 @@ Finally, we call `apply()` and pass our record's constructor. For more details o
 
 Registering a composite component is similar to before. We just pass our record class as the generic type, and our custom `Codec` to the `codec()` method.
 
-@[code transcludeWith=::3](@/reference/latest/src/main/java/com/example/docs/component/ModComponents.java)
+<<< @/reference/latest/src/main/java/com/example/docs/component/ModComponents.java#3
 
 Now start the game. Using the `/give` command, try applying the component. Composite component values are passed as an object enclosed with `{}`. If you put blank curly brackets, you'll see an error telling you that the required key `temperature` is missing.
 

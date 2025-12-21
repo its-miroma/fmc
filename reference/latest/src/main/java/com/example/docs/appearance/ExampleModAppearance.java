@@ -23,7 +23,7 @@ public class ExampleModAppearance implements ModInitializer {
 					Registries.BLOCK,
 					ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "waxcap")
 	);
-	// :::block
+	// #region block
 	public static final Block WAXCAP_BLOCK = Registry.register(
 					BuiltInRegistries.BLOCK,
 					ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "waxcap"),
@@ -33,15 +33,15 @@ public class ExampleModAppearance implements ModInitializer {
 									.offsetType(BlockBehaviour.OffsetType.XYZ)
 									.setId(WAXCAP_BLOCK_KEY)
 					));
-	// :::block
-	// :::item
+	// #endregion block
+	// #region item
 	public static final Item WAXCAP_BLOCK_ITEM = Registry.register(
 					BuiltInRegistries.ITEM,
 					ResourceLocation.fromNamespaceAndPath(ExampleMod.MOD_ID, "waxcap"),
 					new BlockItem(WAXCAP_BLOCK, new Item.Properties()
 									.setId(WAXCAP_BLOCK_ITEM_KEY))
 	);
-	// :::item
+	// #endregion item
 	@Override
 	public void onInitialize() {
 	}

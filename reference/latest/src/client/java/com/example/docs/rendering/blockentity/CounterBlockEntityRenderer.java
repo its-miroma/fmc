@@ -15,17 +15,17 @@ import net.minecraft.world.phys.Vec3;
 
 import com.example.docs.block.entity.custom.CounterBlockEntity;
 
-// :::1
+// #region 1
 public class CounterBlockEntityRenderer implements BlockEntityRenderer<CounterBlockEntity, CounterBlockEntityRenderState> {
-	// :::1
+	// #endregion 1
 
 	private final Font textRenderer;
 
-	// :::1
+	// #region 1
 	public CounterBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-		// :::1
+		// #endregion 1
 		textRenderer = context.font();
-		// :::1
+		// #region 1
 	}
 
 	@Override
@@ -35,24 +35,24 @@ public class CounterBlockEntityRenderer implements BlockEntityRenderer<CounterBl
 
 	@Override
 	public void extractRenderState(CounterBlockEntity blockEntity, CounterBlockEntityRenderState state, float tickProgress, Vec3 cameraPos, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
-		// :::1
+		// #endregion 1
 		BlockEntityRenderer.super.extractRenderState(blockEntity, state, tickProgress, cameraPos, crumblingOverlay);
 		state.setClicks(blockEntity.getClicks());
-		// :::1
+		// #region 1
 	}
 
 	@Override
 	public void submit(CounterBlockEntityRenderState state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
-		// :::1
+		// #endregion 1
 
-		// :::2
+		// #region 2
 		matrices.pushPose();
 		matrices.translate(0.5, 1, 0.5);
 		matrices.mulPose(Axis.XP.rotationDegrees(90));
 		matrices.scale(1/18f, 1/18f, 1/18f);
-		// :::2
+		// #endregion 2
 
-		// :::3
+		// #region 3
 		String text = state.getClicks() + "";
 		float width = textRenderer.width(text);
 
@@ -69,11 +69,11 @@ public class CounterBlockEntityRenderer implements BlockEntityRenderer<CounterBl
 				0,
 				0
 		);
-		// :::3
+		// #endregion 3
 
 		matrices.popPose();
 
-		// :::1
+		// #region 1
 	}
 }
-// :::1
+// #endregion 1

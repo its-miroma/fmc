@@ -14,11 +14,11 @@ As an example, we will create a block that counts how many times it has been rig
 
 To make Minecraft recognize and load the new block entities, we need to create a block entity type. This is done by extending the `BlockEntity` class and registering it in a new `ModBlockEntities` class.
 
-@[code transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#1
 
 Registering a `BlockEntity` yields a `BlockEntityType` like the `COUNTER_BLOCK_ENTITY` we've used above:
 
-@[code transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/block/entity/ModBlockEntities.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/ModBlockEntities.java#1
 
 ::: tip
 Note how the constructor of the `CounterBlockEntity` takes two parameters, but the `BlockEntity` constructor takes three: the `BlockEntityType`, the `BlockPos`, and the `BlockState`.
@@ -38,7 +38,7 @@ There's two ways to approach this:
 We'll use the first approach in this example, since `BlockWithEntity` also provides some nice utilities.
 :::
 
-@[code transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/block/custom/CounterBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/CounterBlock.java#1
 
 Using `BlockWithEntity` as the parent class means we also need to implement the `createCodec` method, which is rather easy.
 
@@ -46,19 +46,19 @@ Unlike blocks, which are singletons, a new block entity is created for every ins
 
 Don't forget to register the block in the `ModBlocks` class, just like in the [Creating Your First Block](../blocks/first-block) guide:
 
-@[code transcludeWith=:::5](@/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#5
 
 ## Using the Block Entity {#using-the-block-entity}
 
 Now that we have a block entity, we can use it to store the number of times the block has been right-clicked. We'll do this by adding a `clicks` field to the `CounterBlockEntity` class:
 
-@[code transcludeWith=:::2](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#2
 
 The `setChanged` method, used in `incrementClicks`, tells the game that this entity's data has been updated; this will be useful when we add the methods to serialize the counter and load it back from the save file.
 
 Next, we need to increment this field every time the block is right-clicked. This is done by overriding the `useWithoutItem` method in the `CounterBlock` class:
 
-@[code transcludeWith=:::2](@/reference/latest/src/main/java/com/example/docs/block/custom/CounterBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/CounterBlock.java#2
 
 Since the `BlockEntity` is not passed into the method, we use `world.getBlockEntity(pos)`, and if the `BlockEntity` is not valid, return from the method.
 
@@ -76,13 +76,13 @@ There are also methods for primitives, such as `getInt`, `getShort`, `getBoolean
 
 Serialization is done with the `saveAdditional` method:
 
-@[code transcludeWith=:::3](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#3
 
 Here, we add the fields that should be saved into the passed `WriteView`: in the case of the counter block, that's the `clicks` field.
 
 Reading is similar, you get the values you saved previously from the `ReadView`, and save them in the BlockEntity's fields:
 
-@[code transcludeWith=:::4](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#4
 
 Now, if we save and reload the game, the counter block should continue from where it left off when saved.
 
@@ -93,7 +93,7 @@ While `writeAdditional` and `loadAdditional` handle saving and loading to and fr
 
 To fix this, we override `getUpdateTag`:
 
-@[code transcludeWith=:::7](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#7
 
 Now, when a player logs in or moves into a chunk where the block exists, they will see the correct counter value right away.
 
@@ -103,19 +103,19 @@ The `BlockEntityProvider` interface also defines a method called `getTicker`, wh
 
 The `getTicker` method should also check if the passed `BlockEntityType` is the same as the one we're using, and if it is, return the function that will be called every tick. Thankfully, there is a utility function that does the check in `BlockWithEntity`:
 
-@[code transcludeWith=:::3](@/reference/latest/src/main/java/com/example/docs/block/custom/CounterBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/CounterBlock.java#3
 
 `CounterBlockEntity::tick` is a reference to the static method `tick` we should create in the `CounterBlockEntity` class. Structuring it like this is not required, but it's a good practice to keep the code clean and organized.
 
 Let's say we want to make it so that the counter can only be incremented once every 10 ticks (2 times a second). We can do this by adding a `ticksSinceLast` field to the `CounterBlockEntity` class, and increasing it every tick:
 
-@[code transcludeWith=:::5](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#5
 
 Don't forget to serialize and deserialize this field!
 
 Now we can use `ticksSinceLast` to check if the counter can be increased in `incrementClicks`:
 
-@[code transcludeWith=:::6](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/CounterBlockEntity.java#6
 
 ::: tip
 If the block entity does not seem to tick, try checking the registration code! It should pass the blocks that are valid for this entity into the `BlockEntityType.Builder`, or else it will give a warning in the console:

@@ -23,7 +23,7 @@ The most important fields in the `fabric.mod.json` file are:
 You can see an example `fabric.mod.json` file below - this is the `fabric.mod.json` file for the mod that powers this documentation site.
 
 ::: details `fabric.mod.json` of the Example Mod
-@[code lang=json](@/reference/latest/src/main/resources/fabric.mod.json)
+<<< @/reference/latest/src/main/resources/fabric.mod.json
 :::
 
 ## Entrypoints {#entrypoints}
@@ -39,7 +39,7 @@ These entrypoints are called respectively when the game starts.
 
 Here's an example of a simple `main` entrypoint that logs a message to the console when the game starts:
 
-@[code lang=java transcludeWith=#entrypoint](@/reference/latest/src/main/java/com/example/docs/ExampleMod.java)
+<<< @/reference/latest/src/main/java/com/example/docs/ExampleMod.java#entrypoint
 
 ## `src/main/resources` {#src-main-resources}
 
