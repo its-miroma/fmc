@@ -184,21 +184,7 @@ For example, to highlight lines 15-21 of the `ExampleMod.java` file from the mod
 <<< @/reference/latest/src/main/java/com/example/docs/ExampleMod.java{15-21}
 ```
 
-<<< @/reference/latest/src/main/java/com/example/docs/ExampleMod.java{15-21}[java]
-
-:::
-
-If you need a greater span of control, you can use the [transclude feature from `markdown-it-vuepress-code-snippet-enhanced`](https://github.com/fabioaanthony/markdown-it-vuepress-code-snippet-enhanced).
-
-For example, this will embed the sections of the file above that are marked with the `#entrypoint` tag:
-
-::: code-group
-
-```md
-@[code transcludeWith=#entrypoint](@/reference/latest/src/main/java/com/example/docs/ExampleMod.java)
-```
-
-@[code transcludeWith=#entrypoint](@/reference/latest/src/main/java/com/example/docs/ExampleMod.java)
+<<< @/reference/latest/src/main/java/com/example/docs/ExampleMod.java{15-21}
 
 :::
 

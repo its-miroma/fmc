@@ -65,3 +65,4 @@ public class ExampleModEnchantmentGenerator extends FabricDynamicRegistryProvide
 		return "ExampleModEnchantmentGenerator";
 	}
 }
+//#entrypoint

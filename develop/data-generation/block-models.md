@@ -131,7 +131,7 @@ And you're done! You can now test the block out and place it in game.
 Now, let's create a parent block model. It will determine the size, position in hand or other slots and the `x` and `y` coordinates of the texture.
 It's recommended to use an editor such as [Blockbench](https://www.blockbench.net/) for this, as making it manually is a really tedious process. It should look something like this:
 
-@[code lang=json](@/reference/latest/src/main/resources/assets/example-mod/models/block/vertical_slab.json)
+<<< @/reference/latest/src/main/resources/assets/example-mod/models/block/vertical_slab.json
 
 See [how blockstates are formatted](https://minecraft.wiki/w/Blockstates_definition_format) for more information.
 Notice the `#bottom`, `#top`, `#side` keywords. They act as variables that can be set by models that have this one as a parent:

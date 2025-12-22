@@ -137,4 +137,4 @@ Currently, game test may fail on GitHub Actions due to an error in the network s
 :::
 
 @[code transcludeWith=:::automatic-testing:game-test:2](@/reference/latest/build.gradle)
-@[code transcludeWith=:::automatic-testing:game-test:3](@/.github/workflows/build.yml)
+<<< @/.github/workflows/build.yml#automatic-testing--game-test--3

@@ -38,7 +38,7 @@ jobs:
           reports: |
             reference/**/build/reports/checkstyle/*.xml
 
-# :::automatic-testing:game-test:3
+#region automatic-testing--game-test--3
   client_game_test:
     runs-on: ubuntu-24.04
     steps:
@@ -52,13 +52,13 @@ jobs:
 
       - name: Run production client gametest
         run: ./gradlew runProductionClientGameTest
-# :::automatic-testing:game-test:3
+#endregion automatic-testing--game-test--3
         working-directory: ./reference
-# :::automatic-testing:game-test:3
+#region automatic-testing--game-test--3
       - name: Upload test screenshots
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: Test Screenshots
           path: build/run/clientGameTest/screenshots
-# :::automatic-testing:game-test:3
+#endregion automatic-testing--game-test--3

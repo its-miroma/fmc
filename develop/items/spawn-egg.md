@@ -14,7 +14,7 @@ You must first understand [how to create an item](./first-item), which you can t
 
 Spawn eggs are special items that, when used, spawn their corresponding mob. You can register one with the `register` method from your [items class](./first-item#preparing-your-items-class), by passing `SpawnEggItem::new` to it.
 
-@[code transcludeWith=:::spawn_egg](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
+@[code transcludeWith=:::spawn_egg:::](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
 
 ![Spawn egg item without texture](/assets/develop/items/spawn_egg_1.png)
 

@@ -20,19 +20,19 @@ public class TestItem extends Item {
 		super(settings);
 	}
 
-	// ::::::problems:logger-usage-example
+	// :::problems:logger-usage-example
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
 		Level world = user.level();
 
-		// ::::::problems:logger-usage-example
+		// :::problems:logger-usage-example
 		if (world.isClientSide()) {
 			// :::problems:using-logger
 			ExampleModDebug.LOGGER.info("You interacted with an entity!");
 			// :::problems:using-logger
 		}
 
-		// ::::::problems:logger-usage-example
+		// :::problems:logger-usage-example
 
 		// Values are used in a String to provide more information in the console
 		String output = "Is Client World: %s | Health: %s / %s | The item was used with the %s"
@@ -55,7 +55,7 @@ public class TestItem extends Item {
 		return InteractionResult.SUCCESS;
 	}
 
-	// ::::::problems:logger-usage-example
+	// :::problems:logger-usage-example
 
 	// :::problems:breakpoints
 	@Override

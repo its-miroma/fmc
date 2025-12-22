@@ -42,3 +42,4 @@ public class ExampleMod implements ModInitializer {
 		//#entrypoint
 	}
 }
+//#entrypoint

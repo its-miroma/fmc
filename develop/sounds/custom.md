@@ -31,7 +31,7 @@ Add the new `resources/assets/example-mod/sounds` directory for the sounds in yo
 
 Continue with creating the `resources/assets/example-mod/sounds.json` file if it doesn't exist yet and add your sound to the sound entries.
 
-@[code lang=json](@/reference/latest/src/main/resources/assets/example-mod/sounds.json)
+<<< @/reference/latest/src/main/resources/assets/example-mod/sounds.json
 
 The subtitle entry provides more context for the player. The subtitle name is used in the language files in the `resources/assets/example-mod/lang` directory and will be displayed if the in-game subtitle setting is turned on and this custom sound is being played.
 

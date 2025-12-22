@@ -53,7 +53,7 @@ We then need to register our item tint source. This is done in the **client init
 
 Once this is done, we can use our item tint source in a client item definition.
 
-@[code lang=json transclude](@/reference/latest/src/main/generated/assets/example-mod/items/waxcap.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/items/waxcap.json
 
 You can observe the item color change in-game.
 

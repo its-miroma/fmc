@@ -45,7 +45,7 @@ When building your advancement entries, remember that the function accepts the `
 :::
 
 ::: details JSON Output
-@[code lang=json](@/reference/latest/src/main/generated/data/example-mod/advancement/get_dirt.json)
+<<< @/reference/latest/src/main/generated/data/example-mod/advancement/get_dirt.json
 :::
 
 ## One More Example {#one-more-example}
@@ -100,7 +100,7 @@ Now that we've got a criterion and its conditions, we need a way to trigger it. 
 
 Almost there! Next, we need an instance of our criterion to work with. Let's put it in a new class, called `ModCriteria`.
 
-@[code lang=java transcludeWith=:::datagen-advancements:mod-criteria](@/reference/latest/src/main/java/com/example/docs/advancement/ModCriteria.java)
+@[code lang=java transcludeWith=:::datagen-advancements:mod-criteria:::](@/reference/latest/src/main/java/com/example/docs/advancement/ModCriteria.java)
 
 To make sure that our criteria are initialized at the right time, add a blank `init` method:
 

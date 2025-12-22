@@ -34,7 +34,7 @@ public class ParameterizedUseToolCriterion extends SimpleCriterionTrigger<Parame
 				ContextAwarePredicate.CODEC.optionalFieldOf("player").forGetter(Conditions::player),
 				Codec.INT.fieldOf("requiredTimes").forGetter(Conditions::requiredTimes)
 		).apply(instance, Conditions::new));
-		// :::datagen-advancements:new-parameter
+		// :::datagen-advancements:new-codec
 		@Override
 		public Optional<ContextAwarePredicate> player() {
 			return playerPredicate;

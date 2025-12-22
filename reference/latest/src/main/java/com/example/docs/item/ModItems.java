@@ -133,13 +133,13 @@ public class ModItems {
 
 	public static final Item GUIDITE_AXE = register("guidite_axe", settings -> new AxeItem(GUIDITE_TOOL_MATERIAL, 5.0F, -3.0F, settings), new Item.Properties());
 
-	// :::spawn_egg
+	// :::spawn_egg:::
 	public static final SpawnEggItem CUSTOM_SPAWN_EGG = register(
 			"custom_spawn_egg",
 			SpawnEggItem::new,
 			new Item.Properties().spawnEgg(EntityType.FROG)
 	);
-	// :::spawn_egg
+	// :::spawn_egg:::
 
 	public static final Item LEATHER_GLOVES = register("leather_gloves", Item::new, new Item.Properties());
 

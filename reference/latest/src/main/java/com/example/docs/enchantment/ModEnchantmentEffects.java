@@ -31,3 +31,4 @@ public class ModEnchantmentEffects {
 		ExampleMod.LOGGER.info("Registering EnchantmentEffects for" + ExampleMod.MOD_ID);
 	}
 }
+//#entrypoint
