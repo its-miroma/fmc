@@ -374,11 +374,11 @@ these with a registry dispatch, we'll need a few things:
 
 With all of this, we can create a registry dispatch codec for beans:
 
-<<< @/reference/latest/src/main/java/com/example/docs/codec/Bean.java#TODO-give-me-a-name
-<<< @/reference/latest/src/main/java/com/example/docs/codec/BeanType.java#TODO-give-me-a-name
-<<< @/reference/latest/src/main/java/com/example/docs/codec/StringyBean.java#TODO-give-me-a-name
-<<< @/reference/latest/src/main/java/com/example/docs/codec/CountingBean.java#TODO-give-me-a-name
-<<< @/reference/latest/src/main/java/com/example/docs/codec/BeanTypes.java#TODO-give-me-a-name
+<<< @/reference/latest/src/main/java/com/example/docs/codec/Bean.java#bean
+<<< @/reference/latest/src/main/java/com/example/docs/codec/BeanType.java#bean-type
+<<< @/reference/latest/src/main/java/com/example/docs/codec/StringyBean.java#stringy-bean
+<<< @/reference/latest/src/main/java/com/example/docs/codec/CountingBean.java#counting-bean
+<<< @/reference/latest/src/main/java/com/example/docs/codec/BeanTypes.java#bean-types
 
 ```java
 // Now we can create a codec for bean types

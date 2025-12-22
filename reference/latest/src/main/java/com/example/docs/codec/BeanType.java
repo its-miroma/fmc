@@ -8,7 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
-// #region TODO-give-me-a-name
+// #region bean-type
 // A record to keep information relating to a specific
 // subclass of Bean, in this case only holding a Codec.
 public record BeanType<T extends Bean>(MapCodec<T> codec) {
@@ -16,4 +16,4 @@ public record BeanType<T extends Bean>(MapCodec<T> codec) {
 	public static final Registry<BeanType<?>> REGISTRY = new MappedRegistry<>(
 			ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("example", "bean_types")), Lifecycle.stable());
 }
-// #endregion TODO-give-me-a-name
+// #endregion bean-type
