@@ -19,15 +19,21 @@ public class LightningTaterItem extends Item {
 
 	@Override
 	public InteractionResult use(Level world, Player user, InteractionHand hand) {
+		// #region client-check
 		if (world.isClientSide()) {
 			return InteractionResult.PASS;
 		}
+		// #endregion client-check
 
+		// #region payload-instance
 		SummonLightningS2CPayload payload = new SummonLightningS2CPayload(user.blockPosition());
+		// #endregion payload-instance
 
+		// #region lookup
 		for (ServerPlayer player : PlayerLookup.world((ServerLevel) world)) {
 			ServerPlayNetworking.send(player, payload);
 		}
+		// #endregion lookup
 
 		return InteractionResult.SUCCESS;
 	}

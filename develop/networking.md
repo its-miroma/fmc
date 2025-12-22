@@ -60,21 +60,21 @@ At the same time, we've defined:
 - A `ResourceLocation` used to identify our packet's payload. For this example our identifier will be
   `example-mod:summon_lightning`.
 
-@[code lang=java transclude={13-13}](@/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java#resource-location
 
 - A public static instance of `CustomPayload.Id` to uniquely identify this custom payload. We will be referencing this
   ID in both our common and client code.
 
-@[code lang=java transclude={14-14}](@/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java)
+@/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java#payload-id
 
 - A public static instance of a `StreamCodec` so that the game knows how to serialize/deserialize the contents of the
   packet.
 
-@[code lang=java transclude={15-15}](@/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java#stream-codec
 
 We have also overridden `type` to return our payload ID.
 
-@[code lang=java transclude={17-20}](@/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java#type
 
 ### Registering a Payload {#registering-a-payload}
 
@@ -87,7 +87,7 @@ Before we send a packet with our custom payload, we need to register it on both 
 This can be done in our **common initializer** by using `PayloadTypeRegistry.playS2C().register` which takes in a
 `CustomPayload.Id` and a `StreamCodec`.
 
-@[code lang=java transclude={25-25}](@/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java)
+@/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java#s2c
 
 A similar method exists to register client-to-server payloads: `PayloadTypeRegistry.playC2S().register`.
 
@@ -103,17 +103,17 @@ In this case, let's send packets to the players in the server world.
 
 Let's examine the code above.
 
-We only send packets when the action is initiated on the server, by returning early with a `isClient` check:
+We only send packets when the action is initiated on the server, by returning early with a `isClientSide` check:
 
-@[code lang=java transclude={22-24}](@/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java#client-check
 
 We create an instance of the payload with the user's position:
 
-@[code lang=java transclude={26-26}](@/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java#payload-instance
 
 Finally, we get the players in the server world through `PlayerLookup` and send a packet to each player.
 
-@[code lang=java transclude={28-30}](@/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java#lookup
 
 ::: info
 Fabric API provides `PlayerLookup`, a collection of helper functions that will look up players in a server.
@@ -144,11 +144,11 @@ Let's examine the code above.
 We can access the data from our payload by calling the Record's getter methods. In this case `payload.pos()`. Which then
 can be used to get the `x`, `y` and `z` positions.
 
-@[code lang=java transclude={32-32}](@/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/networking/basic/ExampleModNetworkingBasicClient.java#payload-pos
 
 Finally, we create a `LightningBolt` and add it to the world.
 
-@[code lang=java transclude={33-38}](@/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/networking/basic/ExampleModNetworkingBasicClient.java#lightning-bolt
 
 Now, if you add this mod to a server and when a player uses our Lightning Tater item, every player will see lightning
 striking at the user's position.
@@ -167,7 +167,7 @@ We pass in the appropriate codec along with a method reference to get the value 
 Then we register our payload in our **common initializer**. However, this time as _Client-to-Server_ payload by using
 `PayloadTypeRegistry.playC2S().register`.
 
-@[code lang=java transclude={26-26}](@/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java#c2s
 
 To send a packet, let's add an action when the player uses a Poisonous Potato. We'll be using the `UseEntityCallback`
 event to
@@ -182,12 +182,12 @@ We create an instance of our `GiveGlowingEffectC2SPayload` with the necessary ar
 of
 the targeted entity.
 
-@[code lang=java transclude={51-51}](@/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/networking/basic/ExampleModNetworkingBasicClient.java#payload
 
 Finally, we send a packet to the server by calling `ClientPlayNetworking.send` with the instance of our
 `GiveGlowingEffectC2SPayload`.
 
-@[code lang=java transclude={52-52}](@/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java#send
 
 ### Receiving a Packet on the Server {#receiving-a-packet-on-the-server}
 
@@ -201,12 +201,12 @@ It is important that you validate the content of the packet on the server side.
 
 In this case, we validate if the entity exists based on its network ID.
 
-@[code lang=java transclude={30-30}](@/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java#validate-entity
 
 Additionally, the targeted entity has to be a living entity, and we restrict the range of the target entity from the
-player to 5.
+player to 5. If those conditions are met, we'll apply the effect:
 
-@[code lang=java transclude={32-32}](@/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java#entity-checks
 :::
 
 Now when any player tries to use a Poisonous Potato on a living entity, the glowing effect will be applied to it.
