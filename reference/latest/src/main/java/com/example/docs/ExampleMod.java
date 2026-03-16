@@ -75,3 +75,4 @@ public class ExampleMod implements ModInitializer {
 		// #advanced_tooltip_provider
 	}
 }
+//#entrypoint

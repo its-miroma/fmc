@@ -100,7 +100,7 @@ We'll now need to create a `ModEntityModelLayers` class in the client package. T
 
 This class must then be initialized in the mod's client initializer.
 
-@[code transcludeWith=::register_client](@/reference/latest/src/client/java/com/example/docs/entity/ExampleModCustomEntityClient.java)
+@[code transcludeWith=:::register_client](@/reference/latest/src/client/java/com/example/docs/entity/ExampleModCustomEntityClient.java)
 
 ### Setting up the Texture {#setting-up-texture}
 
@@ -126,7 +126,7 @@ This is also where the shadow radius is set, for this entity that will be `0.375
 
 This renderer must then be registered in the mod's client initializer.
 
-@[code transcludeWith=::register_renderer](@/reference/latest/src/client/java/com/example/docs/entity/ExampleModCustomEntityClient.java)
+@[code transcludeWith=:::register_renderer](@/reference/latest/src/client/java/com/example/docs/entity/ExampleModCustomEntityClient.java)
 
 ### Adding Walking Animations {#walking-animations}
 
