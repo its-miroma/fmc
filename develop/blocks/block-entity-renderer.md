@@ -17,7 +17,7 @@ When creating a `BlockEntityRenderer` for the `CounterBlockEntity`, it's importa
 
 First, we need to create a `BlockEntityRenderState` for our `CounterBlockEntity` to hold the data that will be used for rendering. In this case, we will need the `clicks` to be available during rendering.
 
-@[code transcludeWith=::render-state](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderState.java)
+@[code transcludeWith=:::render-state](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderState.java)
 
 Then we create a `BlockEntityRenderer` for our `CounterBlockEntity`.
 
