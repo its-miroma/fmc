@@ -1,7 +1,7 @@
-diff --git a/node_modules/vitepress/dist/node/chunk-3d7P_gGE.js b/node_modules/vitepress/dist/node/chunk-3d7P_gGE.js
-index 2970286..9b7624e 100644
---- a/node_modules/vitepress/dist/node/chunk-3d7P_gGE.js
-+++ b/node_modules/vitepress/dist/node/chunk-3d7P_gGE.js
+diff --git a/dist/node/chunk-3d7P_gGE.js b/dist/node/chunk-3d7P_gGE.js
+index 2970286cac137f7c15d531954cca600407fdbedd..9b7624e1152bdcb48c62c654c7e7d3861dfe4258 100644
+--- a/dist/node/chunk-3d7P_gGE.js
++++ b/dist/node/chunk-3d7P_gGE.js
 @@ -36951,32 +36951,41 @@ const markers = [
      end: /^\s*\(\*\s*#endregion\b\s*(.*?)\s*\*\)/
    }
