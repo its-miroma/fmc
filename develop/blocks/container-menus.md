@@ -24,9 +24,9 @@ In this guide, we will create a dirt chest with a 3x3 container that can be acce
 
 First, we want to create a block and block entity; read more in the [Block Containers](./block-containers#creating-the-block) guide.
 
-@[code transcludeWith=:::block](@/reference/latest/src/main/java/com/example/docs/block/custom/DirtChestBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/DirtChestBlock.java#block
 
-@[code transcludeWith=:::be](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/DirtChestBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/DirtChestBlockEntity.java#be
 
 ::: info
 
@@ -38,13 +38,13 @@ As we want a 3x3 container, we need to set the size of items to 9.
 
 We want to be able to open the menu somehow, so we will handle that within the `useWithoutItem` method:
 
-@[code transcludeWith=:::use](@/reference/latest/src/main/java/com/example/docs/block/custom/DirtChestBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/custom/DirtChestBlock.java#use
 
 ### Implementing MenuProvider {#implementing-menuprovider}
 
 To add the menu functionality, we now need to implement `MenuProvider` in the block entity:
 
-@[code transcludeWith=:::menu](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/DirtChestBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/DirtChestBlockEntity.java#menu
 
 The `getDisplayName` method returns the name of the block, which will be displayed at the top of the screen.
 
@@ -52,7 +52,7 @@ The `getDisplayName` method returns the name of the block, which will be display
 
 `createMenu` wants us to return a menu, but we haven't created one for our block yet. To do this, we'll create a `DirtChestMenu` class which extends `AbstractContainerMenu`:
 
-@[code transcludeWith=:::menu](@/reference/latest/src/main/java/com/example/docs/menu/custom/DirtChestMenu.java)
+<<< @/reference/latest/src/main/java/com/example/docs/menu/custom/DirtChestMenu.java#menu
 
 The client-side constructor gets called on the client when the server wants it to open a menu. It creates an empty container which then gets automatically synced with the actual container on the server.
 
@@ -62,11 +62,11 @@ The server-side constructor is called on the server, and because it knows the co
 
 Then we need to register the menu in a new `ModMenuType` class:
 
-@[code transcludeWith=:::registerMenu](@/reference/latest/src/main/java/com/example/docs/menu/ModMenuType.java)
+<<< @/reference/latest/src/main/java/com/example/docs/menu/ModMenuType.java#register-menu
 
 We can now set the return value of `createMenu` in the block entity to use our menu:
 
-@[code transcludeWith=:::providerImplemented](@/reference/latest/src/main/java/com/example/docs/block/entity/custom/DirtChestBlockEntity.java)
+<<< @/reference/latest/src/main/java/com/example/docs/block/entity/custom/DirtChestBlockEntity.java#provider-implemented
 
 ::: info
 
@@ -79,13 +79,13 @@ The `createMenu` method only gets called on the server, so we call the server-si
 To actually display the contents of the container on the client, we also need to create a screen for our menu.
 We'll make a new class which extends `AbstractContainerScreen`:
 
-@[code transcludeWith=:::screen](@/reference/latest/src/client/java/com/example/docs/rendering/screens/inventory/DirtChestScreen.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/screens/inventory/DirtChestScreen.java#screen
 
 For this screen's background, we're just using the default Dispenser screen texture, because our dirt chest uses the same slot layout. You could alternatively provide your own texture for `CONTAINER_TEXTURE`.
 
 Because this is a screen for a menu, we also need to register it on the client with the `MenuScreens#register()` method:
 
-@[code transcludeWith=:::registerScreens](@/reference/latest/src/client/java/com/example/docs/ExampleModScreens.java)
+<<< @/reference/latest/src/client/java/com/example/docs/ExampleModScreens.java#register-screens
 
 Upon loading your game, you should now have a dirt chest which you can right-click to open a menu and store items in.
 

@@ -4,7 +4,7 @@ import net.minecraft.resources.Identifier;
 
 import com.example.docs.ExampleMod;
 
-// :::1
+// #region 1
 public enum TransitionState {
 	STARTING("starting_phase"),
 	RUNNING("idle_phase"),
@@ -20,4 +20,4 @@ public enum TransitionState {
 		return identifier;
 	}
 }
-// :::1
+// #endregion 1

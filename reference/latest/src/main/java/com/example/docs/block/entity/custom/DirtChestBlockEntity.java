@@ -19,21 +19,21 @@ import com.example.docs.container.ImplementedContainer;
 import com.example.docs.menu.custom.DirtChestMenu;
 
 /*
-// :::be
+// #region be
 public class DirtChestBlockEntity extends BlockEntity implements ImplementedContainer {
-// :::be
+// #endregion be
 */
 
-// :::menu
+// #region menu
 public class DirtChestBlockEntity extends BlockEntity implements ImplementedContainer, MenuProvider {
-	// :::menu
+	// #endregion menu
 
-	// :::be
+	// #region be
 	private static final int CONTAINER_SIZE = 9;
 	private final NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 
 	// ...
-	// :::be
+	// #endregion be
 
 	public DirtChestBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.DIRT_CHEST_BLOCK_ENTITY, pos, state);
@@ -48,34 +48,34 @@ public class DirtChestBlockEntity extends BlockEntity implements ImplementedCont
 		return items;
 	}
 
-	// :::menu
+	// #region menu
 	@Override
 	@NonNull
 	public Component getDisplayName() {
 		return Component.translatable("block.example-mod.dirt_chest");
 	}
 
-	// :::menu
+	// #endregion menu
 
 	/*
-	// :::menu
+	// #region menu
 	@Override
 	public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
 		return null;
 	}
 	// ...
-	// :::menu
+	// #endregion menu
 	 */
 
-	// :::providerImplemented
+	// #region provider-implemented
 	@Override
 	public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
 		return new DirtChestMenu(containerId, inventory, this);
 	}
-	// :::providerImplemented
+	// #endregion provider-implemented
 
-	// :::be
-	// :::menu
+	// #region be
+	// #region menu
 }
-// :::be
-// :::menu
+// #endregion be
+// #endregion menu

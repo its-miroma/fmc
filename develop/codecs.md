@@ -325,11 +325,11 @@ For example, say we have an abstract `Bean` interface with two implementing clas
 
 With all of this, we can create a registry dispatch codec for beans:
 
-@[code transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/codec/Bean.java)
-@[code transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/codec/BeanType.java)
-@[code transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/codec/StringyBean.java)
-@[code transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/codec/CountingBean.java)
-@[code transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/codec/BeanTypes.java)
+<<< @/reference/latest/src/main/java/com/example/docs/codec/Bean.java#TODO-give-me-a-name
+<<< @/reference/latest/src/main/java/com/example/docs/codec/BeanType.java#TODO-give-me-a-name
+<<< @/reference/latest/src/main/java/com/example/docs/codec/StringyBean.java#TODO-give-me-a-name
+<<< @/reference/latest/src/main/java/com/example/docs/codec/CountingBean.java#TODO-give-me-a-name
+<<< @/reference/latest/src/main/java/com/example/docs/codec/BeanTypes.java#TODO-give-me-a-name
 
 ```java
 // Now we can create a codec for bean types

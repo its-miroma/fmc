@@ -15,19 +15,19 @@ import net.minecraft.world.item.Rarity;
 
 import net.fabricmc.api.ModInitializer;
 
-// :::problems:basic-logger-definition
+// #region problems--basic-logger-definition
 public class ExampleModDebug implements ModInitializer {
 	public static final String MOD_ID = "example-mod";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	// ...
-	// :::problems:basic-logger-definition
+	// #endregion problems--basic-logger-definition
 
 	@Override
 	public void onInitialize() {
-		// :::problems:debug-logging
+		// #region problems--debug-logging
 		LOGGER.debug("Debug logging is enabled");
-		// :::problems:debug-logging
+		// #endregion problems--debug-logging
 
 		Identifier identifier = Identifier.fromNamespaceAndPath(MOD_ID, "test_item");
 		ResourceKey<Item> testItemKey = ResourceKey.create(Registries.ITEM, identifier);
@@ -36,6 +36,6 @@ public class ExampleModDebug implements ModInitializer {
 						.component(DataComponents.CUSTOM_NAME, Component.literal("[Use on Stone Block]"))));
 	}
 
-	// :::problems:basic-logger-definition
+	// #region problems--basic-logger-definition
 }
-// :::problems:basic-logger-definition
+// #endregion problems--basic-logger-definition
