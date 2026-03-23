@@ -13,7 +13,9 @@ public class ExampleModCustomEntityClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		ModEntityModelLayers.registerModelLayers();
 		//:::register_client
+		//:::register_renderer
 		EntityRenderers.register(ModEntityTypes.MINI_GOLEM, MiniGolemEntityRenderer::new);
+		//:::register_renderer
 		//:::register_client
 	}
 }
