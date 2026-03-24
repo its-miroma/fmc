@@ -384,6 +384,20 @@ export default [
     ],
   },
   {
+    text: "develop.class_tweakers",
+    collapsed: true,
+    items: [
+      {
+        text: "develop.class_tweakers.introduction",
+        link: "/develop/class-tweakers/",
+      },
+      {
+        text: "develop.class_tweakers.access_widening",
+        link: "/develop/class-tweakers/access-widening",
+      },
+    ],
+  },
+  {
     text: "develop.misc",
     collapsed: true,
     items: [
