@@ -55,9 +55,14 @@ pre {
 }
 
 /* Sidebar Scrollbar - Styles scrollbars within the side navigation pane for improved visibility. */
-.VPSidebar {
-  scrollbar-width: thin;
+.VPSidebar,
+.aside-container {
+  scrollbar-width: thin !important;
   scrollbar-color: var(--vp-c-gray-1) var(--vp-c-bg-alt);
+}
+
+.aside-container::-webkit-scrollbar {
+  display: block;
 }
 
 ::-webkit-scrollbar {
@@ -128,12 +133,4 @@ kbd:not(.DocSearch-Button-Key) {
 .vp-doc > div > p > img {
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Style the <h1> heading generated from the frontmatter */
-h1.vp-doc {
-  font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 40px;
 }
