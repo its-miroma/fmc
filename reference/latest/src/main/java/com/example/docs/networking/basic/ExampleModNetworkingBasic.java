@@ -25,7 +25,7 @@ public class ExampleModNetworkingBasic implements ModInitializer {
 		PayloadTypeRegistry.playS2C().register(SummonLightningS2CPayload.ID, SummonLightningS2CPayload.CODEC);
 		PayloadTypeRegistry.playC2S().register(GiveGlowingEffectC2SPayload.ID, GiveGlowingEffectC2SPayload.CODEC);
 
-		// :::server_global_receiver
+		// #region server-global-receiver
 		ServerPlayNetworking.registerGlobalReceiver(GiveGlowingEffectC2SPayload.ID, (payload, context) -> {
 			Entity entity = context.player().level().getEntity(payload.entityId());
 
@@ -33,6 +33,6 @@ public class ExampleModNetworkingBasic implements ModInitializer {
 				livingEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100));
 			}
 		});
-		// :::server_global_receiver
+		// #endregion server-global-receiver
 	}
 }

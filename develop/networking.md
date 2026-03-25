@@ -55,7 +55,7 @@ A payload is the data that is sent within a packet.
 
 This can be done by creating a Java `Record` with a `BlockPos` parameter that implements `CustomPacketPayload`.
 
-@[code lang=java transcludeWith=:::summon_Lightning_payload](@/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/SummonLightningS2CPayload.java#summon-lightning-payload
 
 At the same time, we've defined:
 
@@ -103,7 +103,7 @@ and a `CustomPayload`.
 Let's start by creating our Lightning Tater item. You can override `use` to trigger an action when the item is used.
 In this case, let's send packets to the players in the server level.
 
-@[code lang=java transcludeWith=:::lightning_tater_item](@/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/LightningTaterItem.java#lightning-tater-item
 
 Let's examine the code above.
 
@@ -143,7 +143,7 @@ This can be done in the **client initializer**, by calling `ClientPlayNetworking
 In this case, we'll define the action to trigger within the implementation of `PlayPayloadHandler` implementation (as a
 lambda expression).
 
-@[code lang=java transcludeWith=:::client_global_receiver](@/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java#client-global-receiver
 
 Let's examine the code above.
 
@@ -166,7 +166,7 @@ striking at the user's position.
 Just like sending a packet to the client, we start by creating a custom payload. This time, when a player uses a
 Poisonous Potato on a living entity, we request the server to apply the Glowing effect to it.
 
-@[code lang=java transcludeWith=:::give_glowing_effect_payload](@/reference/latest/src/main/java/com/example/docs/networking/basic/GiveGlowingEffectC2SPayload.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/GiveGlowingEffectC2SPayload.java#give-glowing-effect-payload
 
 We pass in the appropriate codec along with a method reference to get the value from the Record to build this codec.
 
@@ -182,7 +182,7 @@ keep things concise.
 We register the event in our **client initializer**, and we use `isClientSide()` to ensure that the action is only triggered
 on the logical client.
 
-@[code lang=java transcludeWith=:::use_entity_callback](@/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/network/basic/ExampleModNetworkingBasicClient.java#use-entity-callback
 
 We create an instance of our `GiveGlowingEffectC2SPayload` with the necessary arguments. In this case, the network ID
 of
@@ -200,7 +200,7 @@ Finally, we send a packet to the server by calling `ClientPlayNetworking.send` w
 This can be done in the **common initializer**, by calling `ServerPlayNetworking.registerGlobalReceiver` and passing a
 `CustomPayload.Id` and a `PlayPayloadHandler`.
 
-@[code lang=java transcludeWith=:::server_global_receiver](@/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java)
+<<< @/reference/latest/src/main/java/com/example/docs/networking/basic/ExampleModNetworkingBasic.java#server-global-receiver
 
 ::: info
 

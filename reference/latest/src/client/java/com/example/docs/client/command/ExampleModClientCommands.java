@@ -10,13 +10,13 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 public class ExampleModClientCommands implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// :::1
+		// #region 1
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
 			dispatcher.register(ClientCommandManager.literal("clienttater").executes(context -> {
 				context.getSource().sendFeedback(Component.literal("Called /clienttater with no arguments."));
 				return 1;
 			}));
 		});
-		// :::1
+		// #endregion 1
 	}
 }

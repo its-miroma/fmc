@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 
 import com.example.docs.ExampleMod;
 
-//:::model_layer
+// #region model-layer
 public class ModEntityModelLayers {
 	public static final ModelLayerLocation MINI_GOLEM = createMain("mini_golem");
 
@@ -19,4 +19,4 @@ public class ModEntityModelLayers {
 		EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.MINI_GOLEM, MiniGolemEntityModel::getTexturedModelData);
 	}
 }
-//:::model_layer
+// #endregion model-layer

@@ -14,13 +14,13 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import com.example.docs.ExampleMod;
 
 public class ExampleModKeyMappingsClient implements ClientModInitializer {
-	// :::category
+	// #region category
 	KeyMapping.Category CATEGORY = new KeyMapping.Category(
 			Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "custom_category")
 	);
-	// :::category
+	// #endregion category
 
-	// :::key_mapping
+	// #region key-mapping
 	KeyMapping sendToChatKey = KeyBindingHelper.registerKeyBinding(
 		new KeyMapping(
 			"key.example-mod.send_to_chat", // The translation key for the key mapping.
@@ -28,11 +28,11 @@ public class ExampleModKeyMappingsClient implements ClientModInitializer {
 			GLFW.GLFW_KEY_J, // The GLFW keycode of the key.
 			CATEGORY // The category of the mapping.
 		));
-	// :::key_mapping
+	// #endregion key-mapping
 
 	@Override
 	public void onInitializeClient() {
-		// :::client_tick_event
+		// #region client-tick-event
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (sendToChatKey.consumeClick()) {
 				if (client.player != null) {
@@ -40,6 +40,6 @@ public class ExampleModKeyMappingsClient implements ClientModInitializer {
 				}
 			}
 		});
-		// :::client_tick_event
+		// #endregion client-tick-event
 	}
 }

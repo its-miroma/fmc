@@ -17,7 +17,7 @@ public class ReceiveS2C {
 		ClientPlayNetworking.registerGlobalReceiver(EngineSoundInstancePacket.IDENTIFIER, ReceiveS2C::handleS2CEngineSoundPacket);
 	}
 
-	// :::1
+	// #region 1
 	private static void handleS2CEngineSoundPacket(EngineSoundInstancePacket packet, ClientPlayNetworking.Context context) {
 		ClientLevel level = context.client().level;
 		if (level == null) return;
@@ -40,7 +40,7 @@ public class ReceiveS2C {
 			soundManager.getPlayingSoundInstance(CustomSounds.ENGINE_LOOP).ifPresent(AbstractDynamicSoundInstance::end);
 		}
 	}
-	// :::1
+	// #endregion 1
 
 	public static void initialize() {
 	}

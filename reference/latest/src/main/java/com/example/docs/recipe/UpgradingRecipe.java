@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-// :::baseClass
+// #region base-class
 public class UpgradingRecipe implements Recipe<UpgradingRecipeInput> {
 	private final ItemStack result;
 	private final Ingredient baseItem;
@@ -35,9 +35,9 @@ public class UpgradingRecipe implements Recipe<UpgradingRecipeInput> {
 	public Ingredient getUpgradeItem() {
 		return upgradeItem;
 	}
-	// :::baseClass
+	// #endregion base-class
 
-	// :::implementing
+	// #region implementing
 	@Override
 	public boolean matches(UpgradingRecipeInput recipeInput, Level level) {
 		return baseItem.test(recipeInput.baseItem()) && upgradeItem.test(recipeInput.upgradeItem());
@@ -47,9 +47,9 @@ public class UpgradingRecipe implements Recipe<UpgradingRecipeInput> {
 	public ItemStack assemble(UpgradingRecipeInput recipeInput, HolderLookup.Provider provider) {
 		return result.copy();
 	}
-	// :::implementing
+	// #endregion implementing
 
-	// :::implementRegistryObjects
+	// #region implement-registry-objects
 	@Override
 	public RecipeSerializer<? extends Recipe<UpgradingRecipeInput>> getSerializer() {
 		return ExampleModRecipes.UPGRADING_RECIPE_SERIALIZER;
@@ -59,9 +59,9 @@ public class UpgradingRecipe implements Recipe<UpgradingRecipeInput> {
 	public RecipeType<? extends Recipe<UpgradingRecipeInput>> getType() {
 		return ExampleModRecipes.UPGRADING_RECIPE_TYPE;
 	}
-	// :::implementRegistryObjects
+	// #endregion implement-registry-objects
 
-	// :::recipeBook
+	// #region recipe-book
 	@Override
 	public @Nullable RecipeBookCategory recipeBookCategory() {
 		return null;
@@ -76,7 +76,7 @@ public class UpgradingRecipe implements Recipe<UpgradingRecipeInput> {
 	public boolean isSpecial() {
 		return true;
 	}
-	// :::recipeBook
-	// :::baseClass
+	// #endregion recipe-book
+	// #region base-class
 }
-// :::baseClass
+// #endregion base-class

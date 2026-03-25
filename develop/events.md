@@ -37,7 +37,7 @@ Each event has a corresponding callback interface. Callbacks are registered by c
 
 This example registers an `AttackBlockCallback` to damage the player when they hit blocks that don't drop an item when hand-mined.
 
-@[code lang=java transcludeWith=:::1](@/reference/latest/src/main/java/com/example/docs/event/ExampleModEvents.java)
+<<< @/reference/latest/src/main/java/com/example/docs/event/ExampleModEvents.java#1
 
 ### Adding Items to Existing Loot Tables {#adding-items-to-existing-loot-tables}
 
@@ -61,7 +61,7 @@ We can make a pool with `LootPool#builder`, and add it to the loot table.
 
 Our pool doesn't have any items either, so we'll make an item entry using `ItemEntry#builder` and add it to the pool.
 
-@[code highlight={6-7} transcludeWith=:::2](@/reference/latest/src/main/java/com/example/docs/event/ExampleModEvents.java)
+<<< @/reference/latest/src/main/java/com/example/docs/event/ExampleModEvents.java#2{6-7}
 
 ## Custom Events {#custom-events}
 
@@ -85,7 +85,7 @@ Using `ActionResult` as a return value is a conventional way to make event handl
 
 You'll need to create an interface that has an `Event` instance and method for response implementation. A basic setup for our sheep shear callback is:
 
-@[code lang=java transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/event/SheepShearCallback.java)
+<<< @/reference/latest/src/main/java/com/example/docs/event/SheepShearCallback.java#TODO-give-me-a-name
 
 Let's look at this more in-depth. When the invoker is called, we iterate over all listeners:
 
@@ -107,12 +107,12 @@ We can add Javadoc comments to the top of callback classes to document what each
 
 We now have the basic event skeleton, but we need to trigger it. Because we want to have the event called when a player attempts to shear a sheep, we call the event `invoker` in `SheepEntity#interactMob` when `sheared()` is called (i.e. sheep can be sheared, and the player is holding shears):
 
-@[code lang=java transcludeWith=:::](@/reference/latest/src/main/java/com/example/docs/mixin/event/SheepEntityMixin.java)
+<<< @/reference/latest/src/main/java/com/example/docs/mixin/event/SheepEntityMixin.java#TODO-give-me-a-name
 
 ### Creating a Test Implementation {#creating-a-test-implementation}
 
 Now we need to test our event. You can register a listener in your initialization method (or another area, if you prefer) and add custom logic there. Here's an example that drops a diamond instead of wool at the sheep's feet:
 
-@[code lang=java transcludeWith=:::3](@/reference/latest/src/main/java/com/example/docs/event/ExampleModEvents.java)
+<<< @/reference/latest/src/main/java/com/example/docs/event/ExampleModEvents.java#3
 
 If you enter into your game and shear a sheep, a diamond should drop instead of wool.
