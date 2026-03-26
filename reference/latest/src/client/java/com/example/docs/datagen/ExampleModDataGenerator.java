@@ -66,6 +66,8 @@ public class ExampleModDataGenerator implements DataGeneratorEntrypoint {
 
 		pack.addProvider(ExampleModWorldgenProvider::new);
 
+		pack.addProvider(ExampleModFluidTagProvider::new);
+
 		// :::datagen-setup:generator
 	}
 	// :::datagen-setup:generator

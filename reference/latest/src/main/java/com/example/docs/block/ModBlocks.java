@@ -12,8 +12,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -31,10 +33,20 @@ import com.example.docs.block.custom.DuplicatorBlock;
 import com.example.docs.block.custom.EngineBlock;
 import com.example.docs.block.custom.PrismarineLampBlock;
 import com.example.docs.block.custom.VerticalSlabBlock;
+import com.example.docs.fluid.ModFluids;
 
 // :::1
 public class ModBlocks {
 	// :::1
+
+	// :::acid
+	public static final Block ACID = register(
+			"acid",
+			(props) -> new LiquidBlock(ModFluids.ACID_STILL, props),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.WATER),
+			false
+	);
+	// :::acid
 
 	// :::2
 	public static final Block CONDENSED_DIRT = register(
@@ -130,7 +142,7 @@ public class ModBlocks {
 	);
 
 	public static final Block DIRT_CHEST_BLOCK = register(
-					"dirt_chest", DirtChestBlock::new, BlockBehaviour.Properties.of(), true
+			"dirt_chest", DirtChestBlock::new, BlockBehaviour.Properties.of(), true
 	);
 
 	// :::1

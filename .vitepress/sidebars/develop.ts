@@ -137,6 +137,16 @@ export default [
     ],
   },
   {
+    text: "develop.fluids",
+    collapsed: true,
+    items: [
+      {
+        text: "develop.fluids.first_fluid",
+        link: "/develop/fluids/first-fluid",
+      },
+    ],
+  },
+  {
     text: "develop.entities",
     collapsed: true,
     items: [

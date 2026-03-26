@@ -18,6 +18,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.HoeItem;
@@ -42,6 +43,7 @@ import com.example.docs.ExampleMod;
 import com.example.docs.block.ModBlocks;
 import com.example.docs.component.ModComponents;
 import com.example.docs.entity.ModEntityTypes;
+import com.example.docs.fluid.ModFluids;
 import com.example.docs.item.armor.GuiditeArmorMaterial;
 import com.example.docs.item.custom.CounterItem;
 import com.example.docs.item.custom.LightningStick;
@@ -106,7 +108,9 @@ public class ModItems {
 	);
 	// :::_13
 	// :::9
-	public static final ResourceKey<CreativeModeTab> CUSTOM_CREATIVE_TAB_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "creative_tab"));
+	public static final ResourceKey<CreativeModeTab> CUSTOM_CREATIVE_TAB_KEY = ResourceKey.create(
+			BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "creative_tab")
+	);
 	public static final CreativeModeTab CUSTOM_CREATIVE_TAB = FabricItemGroup.builder()
 			.icon(() -> new ItemStack(ModItems.GUIDITE_SWORD))
 			.title(Component.translatable("itemGroup.example-mod"))
@@ -170,7 +174,7 @@ public class ModItems {
 	// :::custom_entity_spawn_egg
 	public static final Item MINI_GOLEM_SPAWN_EGG = register(
 			"mini_golem_spawn_egg",
-					SpawnEggItem::new,
+			SpawnEggItem::new,
 			new Item.Properties().spawnEgg(ModEntityTypes.MINI_GOLEM)
 	);
 	// :::custom_entity_spawn_egg
@@ -273,6 +277,17 @@ public class ModItems {
 		// :::3
 	}
 	// :::3
+
+	// :::acid_bucket
+	public static final Item ACID_BUCKET = register(
+			"acid_bucket",
+			props -> new BucketItem(ModFluids.ACID_STILL, props),
+			new Item.Properties()
+					.craftRemainder(Items.BUCKET)
+					.stacksTo(1)
+	);
+	// :::acid_bucket
+
 	// :::1
 }
 // :::1
