@@ -69,6 +69,7 @@ const getFileExtension = (path: string) =>
 div,
 h2 {
   margin-top: 20px;
+  margin-bottom: 8px;
   padding-top: 16px;
   border-top: 1px solid var(--vp-c-divider);
   font-size: 12px;
