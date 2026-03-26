@@ -7,7 +7,6 @@ authors:
   - JaaiDead
   - skycatminepokie
   - SzczurekYT
-authors-nogithub:
   - voidedaries
 resources:
   https://docs.neoforged.net/docs/entities/: Entities - NeoForge Docs
