@@ -33,6 +33,8 @@ authors:
 Access widening is a type of [class tweaking](../class-tweakers) used to loosen the access limits of classes, methods and fields and reflect that change in the decompiled source.
 This includes making them public, extendable and/or mutable.
 
+Access widener entries can be [transitive](../class-tweakers/index#transitive-entries) to make changes visible to mods depending on yours.
+
 To access fields or methods, it can be safer and simpler to use [accessor mixins](https://wiki.fabricmc.net/tutorial:mixin_accessors),
 but there are two situations where accessors are insufficient and access widening is necessary:
 
@@ -69,16 +71,6 @@ Making a method extendable also makes its class extendable.
 
 To make a private final field both accessible and mutable, you must make two separate entries in the file.
 
-### Transitive Directives {#transitive-directives}
-
-In order to expose certain access widener changes to mods depending on yours, you prefix the relevant directives with `transitive-*`:
-
-```txt:no-line-numbers
-transitive-accessible
-transitive-extendable
-transitive-mutable
-```
-
 ## Specifying Targets {#specifying-targets}
 
 For class tweaking, classes use their [internal names](../mixins/bytecode#class-names). For fields and methods you must specify their class name, their name, and their [bytecode descriptor](../mixins/bytecode#field-and-method-descriptors).
@@ -95,37 +87,37 @@ The names of targets need to correspond to your current mappings.
 
 Format:
 
-```txt:no-line-numbers
+```classtweaker:no-line-numbers
 <accessible / extendable>    class    <className>
 ```
 
 Example:
 
-@[code lang=txt:no-line-numbers transcludeWith=:::accesswidening-examples:classes:::](@/reference/latest/src/main/resources/example-mod.classtweaker)
+@[code lang=classtweaker:no-line-numbers transcludeWith=:::accesswidening-examples:classes:::](@/reference/latest/src/main/resources/example-mod.classtweaker)
 
 == Methods
 
 Format:
 
-```txt:no-line-numbers
+```classtweaker:no-line-numbers
 <accessible / extendable>    method    <className>    <methodName>    <methodDescriptor>
 ```
 
 Example:
 
-@[code lang=txt:no-line-numbers transcludeWith=:::accesswidening-examples:methods:::](@/reference/latest/src/main/resources/example-mod.classtweaker)
+@[code lang=classtweaker:no-line-numbers transcludeWith=:::accesswidening-examples:methods:::](@/reference/latest/src/main/resources/example-mod.classtweaker)
 
 == Fields
 
 Format:
 
-```txt:no-line-numbers
+```classtweaker:no-line-numbers
 <accessible / mutable>    field    <className>    <fieldName>    <fieldDescriptor>
 ```
 
 Example:
 
-@[code lang=txt:no-line-numbers transcludeWith=:::accesswidening-examples:fields:::](@/reference/latest/src/main/resources/example-mod.classtweaker)
+@[code lang=classtweaker:no-line-numbers transcludeWith=:::accesswidening-examples:fields:::](@/reference/latest/src/main/resources/example-mod.classtweaker)
 
 :::
 
