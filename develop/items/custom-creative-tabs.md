@@ -10,7 +10,7 @@ Creative Tabs, also known as Item Groups, are the tabs in the creative inventory
 
 ## Creating the Creative Tab {#creating-the-creative-tab}
 
-Adding a creative tab is pretty simple. Simply create a new static final field in your items class to store the creative tab and a resource key for it. You can then use `FabricItemGroup.builder` to create the tab and add items to it:
+Adding a creative tab is pretty simple. Simply create a new static final field in your items class to store the creative tab and a resource key for it. You can then use `FabricCreativeModeTab.builder` to create the tab and add items to it:
 
 @[code transcludeWith=:::9](@/reference/latest/src/main/java/com/example/docs/item/ModItems.java)
 
@@ -26,7 +26,7 @@ If you used `Component.translatable` for the `title` method of the creative tab 
 
 ```json
 {
-  "itemGroup.example-mod": "Example Mod"
+  "creativeTab.example-mod": "Example Mod"
 }
 ```
 

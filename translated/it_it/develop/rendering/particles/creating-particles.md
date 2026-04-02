@@ -27,7 +27,7 @@ In questo esempio, stiamo registrando la nostra particella dal lato client. Stia
 
 ::: tip
 
-Puoi trovare tutte le fabbriche di particelle consultando tutte le implementazioni dell'interfaccia `ParticleFactory`. Questo è utile se vuoi usare il comportamento di un'altra particella per la tua.
+Puoi trovare tutte le fabbriche di particelle consultando tutte le implementazioni dell'interfaccia `ParticleProvider`. Questo è utile se vuoi usare il comportamento di un'altra particella per la tua.
 
 - Scorciatoia su IntelliJ: <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>B</kbd>
 - Scorciatoia per Visual Studio Code: <kbd>Ctrl</kbd>+<kbd>F12</kbd>

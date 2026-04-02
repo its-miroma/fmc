@@ -7,7 +7,7 @@ authors:
 next: false
 ---
 
-This guide will walk you through installing Java 21 on macOS.
+This guide will walk you through installing Java 25 on macOS.
 
 The Minecraft Launcher comes with its own Java installation, so this section is only relevant if you want to use the Fabric `.jar` based installer, or if you want to use the Minecraft Server `.jar`.
 
@@ -16,34 +16,34 @@ The Minecraft Launcher comes with its own Java installation, so this section is 
 In Terminal (located in `/Applications/Utilities/Terminal.app`) type the following, and press <kbd>Enter</kbd>:
 
 ```sh
-$(/usr/libexec/java_home -v 21)/bin/java --version
+$(/usr/libexec/java_home -v 25)/bin/java --version
 ```
 
 You should see something like the following:
 
 ```text:no-line-numbers
-openjdk 21.0.9 2025-10-21 LTS
-OpenJDK Runtime Environment Temurin-21.0.9+10 (build 21.0.9+10-LTS)
-OpenJDK 64-Bit Server VM Temurin-21.0.9+10 (build 21.0.9+10-LTS, mixed mode, sharing)
+openjdk 25.0.2 2026-01-20 LTS
+OpenJDK Runtime Environment Temurin-25.0.2+10 (build 25.0.2+10-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.2+10 (build 25.0.2+10-LTS, mixed mode, sharing)
 ```
 
-Notice the version number: in the example above it is `21.0.9`.
+Notice the version number: in the example above it is `25.0.9`.
 
 ::: warning
 
-To use Minecraft 1.21.11, you'll need at least Java 21 installed.
+To use Minecraft 26.1, you'll need at least Java 25 installed.
 
-If this command displays any version lower than 21, you'll need to update your existing Java installation; keep reading this page.
+If this command displays any version lower than 25, you'll need to update your existing Java installation; keep reading this page.
 
 :::
 
-## 2. Downloading and Installing Java 21 {#2-downloading-and-installing-java}
+## 2. Downloading and Installing Java 25 {#2-downloading-and-installing-java}
 
-We recommend using [Adoptium's build of OpenJDK 21](https://adoptium.net/temurin/releases?version=21&os=mac&arch=any&mode=filter):
+We recommend using [Adoptium's build of OpenJDK 25](https://adoptium.net/temurin/releases?version=25&os=mac&arch=any&mode=filter):
 
 ![Temurin Java Download Page](/assets/players/installing-java/macos-download-java.png)
 
-Make sure to select version "21 - LTS", and choose the `.PKG` installer format.
+Make sure to select version "25 - LTS", and choose the `.PKG` installer format.
 You should also choose the correct architecture depending on your system's chip:
 
 - If you have an Apple M-series chip, choose `aarch64` (the default)
@@ -60,22 +60,22 @@ You will have to enter your administrator password to complete the installation:
 
 ### Using Homebrew {#using-homebrew}
 
-If you already have [Homebrew](https://brew.sh) installed, you can install Java 21 using `brew` instead:
+If you already have [Homebrew](https://brew.sh) installed, you can install Java 25 using `brew` instead:
 
 ```sh
-brew install --cask temurin@21
+brew install --cask temurin@25
 ```
 
-## 3. Verify That Java 21 Is Installed {#3-verify-that-java-is-installed}
+## 3. Verify That Java 25 Is Installed {#3-verify-that-java-is-installed}
 
-Once the installation is complete, you can verify that Java 21 is active by opening Terminal again and typing `$(/usr/libexec/java_home -v 21)/bin/java --version`.
+Once the installation is complete, you can verify that Java 25 is active by opening Terminal again and typing `$(/usr/libexec/java_home -v 25)/bin/java --version`.
 
 If the command succeeds, you should see something like this:
 
 ```text:no-line-numbers
-openjdk 21.0.9 2025-10-21 LTS
-OpenJDK Runtime Environment Temurin-21.0.9+10 (build 21.0.9+10-LTS)
-OpenJDK 64-Bit Server VM Temurin-21.0.9+10 (build 21.0.9+10-LTS, mixed mode, sharing)
+openjdk 25.0.2 2026-01-20 LTS
+OpenJDK Runtime Environment Temurin-25.0.2+10 (build 25.0.2+10-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.2+10 (build 25.0.2+10-LTS, mixed mode, sharing)
 ```
 
 If you encounter any issues, feel free to ask for help in the [Fabric Discord](https://discord.fabricmc.net/) in the `#player-support` channel.

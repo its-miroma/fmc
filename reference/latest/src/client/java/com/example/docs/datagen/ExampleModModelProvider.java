@@ -19,6 +19,7 @@ import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.properties.numeric.Count;
 import net.minecraft.client.renderer.item.properties.select.ContextDimension;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -27,7 +28,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 import com.example.docs.ExampleMod;
 import com.example.docs.block.ModBlocks;
@@ -36,7 +37,7 @@ import com.example.docs.item.ModItems;
 
 // :::provider
 public class ExampleModModelProvider extends FabricModelProvider {
-	public ExampleModModelProvider(FabricDataOutput output) {
+	public ExampleModModelProvider(FabricPackOutput output) {
 		super(output);
 	}
 
@@ -92,6 +93,9 @@ public class ExampleModModelProvider extends FabricModelProvider {
 	public void generateItemModels(ItemModelGenerators itemModelGenerator) {
 		// :::provider
 
+		itemModelGenerator.generateFlatItem(ModItems.ACID_BUCKET, ModelTemplates.FLAT_ITEM);
+		itemModelGenerator.generateFlatItem(ModItems.LIGHTNING_TATER, ModelTemplates.FLAT_HANDHELD_ITEM);
+
 		//:::generated
 		itemModelGenerator.generateFlatItem(ModItems.RUBY, ModelTemplates.FLAT_ITEM);
 		//:::generated
@@ -115,8 +119,8 @@ public class ExampleModModelProvider extends FabricModelProvider {
 		//:::condition
 
 		//:::composite
-		ItemModel.Unbaked hoe = ItemModelUtils.plainModel(itemModelGenerator.createFlatItemModel(ModItems.ENHANCED_HOE, ModelTemplates.FLAT_ITEM));
-		ItemModel.Unbaked hoePlus = ItemModelUtils.plainModel(itemModelGenerator.createFlatItemModel(ModItems.ENHANCED_HOE, "_plus", ModelTemplates.FLAT_ITEM));
+		ItemModel.Unbaked hoe = ItemModelUtils.plainModel(itemModelGenerator.createFlatItemModel(ModItems.ENHANCED_HOE, ModelTemplates.FLAT_HANDHELD_ITEM));
+		ItemModel.Unbaked hoePlus = ItemModelUtils.plainModel(itemModelGenerator.createFlatItemModel(ModItems.ENHANCED_HOE, "_plus", ModelTemplates.FLAT_HANDHELD_ITEM));
 
 		itemModelGenerator.itemModelOutput.accept(
 						ModItems.ENHANCED_HOE,
@@ -174,7 +178,7 @@ public class ExampleModModelProvider extends FabricModelProvider {
 
 		//:::custom-item-datagen-method
 		public static void registerScaled2x(Item item, ItemModelGenerators generator) {
-			Identifier itemModel = SCALED2X.create(item, TextureMapping.singleSlot(TextureSlot.LAYER0, ModelLocationUtils.getModelLocation(item)), generator.modelOutput);
+			Identifier itemModel = SCALED2X.create(item, TextureMapping.singleSlot(TextureSlot.LAYER0, new Material(ModelLocationUtils.getModelLocation(item))), generator.modelOutput);
 			generator.itemModelOutput.accept(item, ItemModelUtils.plainModel(itemModel));
 		}
 
@@ -212,9 +216,9 @@ public class ExampleModModelProvider extends FabricModelProvider {
 		// :::custom-texture-map
 		public static TextureMapping blockAndTopForEnds(Block block) {
 			return new TextureMapping()
-					.put(TextureSlot.TOP, ModelLocationUtils.getModelLocation(block, "_top"))
-					.put(TextureSlot.BOTTOM, ModelLocationUtils.getModelLocation(block, "_top"))
-					.put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(block));
+					.put(TextureSlot.TOP, new Material(ModelLocationUtils.getModelLocation(block, "_top")))
+					.put(TextureSlot.BOTTOM, new Material(ModelLocationUtils.getModelLocation(block, "_top")))
+					.put(TextureSlot.SIDE, new Material(ModelLocationUtils.getModelLocation(block)));
 		}
 
 		// :::custom-texture-map

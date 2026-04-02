@@ -26,7 +26,7 @@ authors:
 위 예시는 입자를 클라이언트측에 등록하는 방법입니다. 이제 엔드 막대기 입자 팩토리를 통해 입자에 움직임을 줘보겠습니다. 이렇게 하면 입자가 엔드 막대기 입자와 똑같이 움직이게 됩니다.
 
 ::: tip
-You can see all the particle factories by looking at all the implementations of the `ParticleFactory` interface. This is helpful if you want to use another particle's behaviour for your own particle.
+You can see all the particle factories by looking at all the implementations of the `ParticleProvider` interface. This is helpful if you want to use another particle's behaviour for your own particle.
 
 - IntelliJ 단축 키: Ctrl+Alt+B
 - VSCode 단축 키: Ctrl+F12

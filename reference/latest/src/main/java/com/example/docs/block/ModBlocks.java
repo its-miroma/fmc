@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 
 import com.example.docs.ExampleMod;
 import com.example.docs.block.custom.CounterBlock;
@@ -33,6 +33,7 @@ import com.example.docs.block.custom.DuplicatorBlock;
 import com.example.docs.block.custom.EngineBlock;
 import com.example.docs.block.custom.PrismarineLampBlock;
 import com.example.docs.block.custom.VerticalSlabBlock;
+import com.example.docs.damage.TaterBlock;
 import com.example.docs.fluid.ModFluids;
 
 // :::1
@@ -145,6 +146,22 @@ public class ModBlocks {
 			"dirt_chest", DirtChestBlock::new, BlockBehaviour.Properties.of(), true
 	);
 
+	public static final Block TATER_BLOCK = register(
+					"tater", TaterBlock::new, BlockBehaviour.Properties.of(), true
+	);
+
+	// :::waxcap-tinting
+	public static final Block WAXCAP = register(
+			"waxcap",
+			Block::new,
+			BlockBehaviour.Properties.of()
+					.noCollision()
+					.instabreak()
+					.offsetType(BlockBehaviour.OffsetType.XYZ),
+			true
+	);
+	// :::waxcap-tinting
+
 	// :::1
 	private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block
@@ -181,8 +198,8 @@ public class ModBlocks {
 
 	public static void setupItemGroups() {
 		// :::6
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register((itemGroup) -> {
-			itemGroup.accept(ModBlocks.CONDENSED_DIRT.asItem());
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register((creativeTab) -> {
+			creativeTab.accept(ModBlocks.CONDENSED_DIRT.asItem());
 		});
 		// :::6
 	}

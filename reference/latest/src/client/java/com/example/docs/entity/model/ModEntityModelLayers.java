@@ -3,7 +3,7 @@ package com.example.docs.entity.model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.Identifier;
 
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 
 import com.example.docs.ExampleMod;
 
@@ -16,7 +16,7 @@ public class ModEntityModelLayers {
 	}
 
 	public static void registerModelLayers() {
-		EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.MINI_GOLEM, MiniGolemEntityModel::getTexturedModelData);
+		ModelLayerRegistry.registerModelLayer(ModEntityModelLayers.MINI_GOLEM, MiniGolemEntityModel::getTexturedModelData);
 	}
 }
 //:::model_layer

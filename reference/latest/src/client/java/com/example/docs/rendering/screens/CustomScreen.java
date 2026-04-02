@@ -1,6 +1,6 @@
 package com.example.docs.rendering.screens;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
@@ -53,14 +53,14 @@ public class CustomScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(graphics, mouseX, mouseY, delta);
 
 		// Minecraft doesn't have a "label" widget, so we'll have to draw our own text.
 		// We'll subtract the font height from the Y position to make the text appear above the button.
 		// Subtracting an extra 10 pixels will give the text some padding.
-		// textRenderer, text, x, y, color, hasShadow
-		graphics.drawString(this.font, "Special Button", 40, 40 - this.font.lineHeight - 10, 0xFFFFFFFF, true);
+		// font, text, x, y, color, hasShadow
+		graphics.text(this.font, "Special Button", 40, 40 - this.font.lineHeight - 10, 0xFFFFFFFF, true);
 	}
 }
 // :::1

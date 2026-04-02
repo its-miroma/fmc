@@ -1,7 +1,7 @@
 package com.example.docs.rendering;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
@@ -18,10 +18,10 @@ public class HudRenderingEntrypoint implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		// Attach our rendering code to before the chat hud layer. Our layer will render right before the chat. The API will take care of z spacing.
-		HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "before_chat"), HudRenderingEntrypoint::render);
+		HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "before_chat"), HudRenderingEntrypoint::extract);
 	}
 
-	private static void render(GuiGraphics graphics, DeltaTracker tickCounter) {
+	private static void extract(GuiGraphicsExtractor graphics, DeltaTracker tickCounter) {
 		int color = 0xFFFF0000; // Red
 		int targetColor = 0xFF00FF00; // Green
 

@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
+import net.fabricmc.fabric.api.item.v1.ItemComponentTooltipProviderRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 
 import com.example.docs.component.ModComponents;
@@ -68,7 +68,10 @@ public class ExampleMod implements ModInitializer {
 		//#entrypoint
 
 		// #tooltip_provider
-		ComponentTooltipAppenderRegistry.addAfter(DataComponents.DAMAGE, ModComponents.COMPONENT_WITH_TOOLTIP);
+		ItemComponentTooltipProviderRegistry.addAfter(DataComponents.DAMAGE, ModComponents.COMPONENT_WITH_TOOLTIP);
 		// #tooltip_provider
+		// #advanced_tooltip_provider
+		ItemComponentTooltipProviderRegistry.addAfter(DataComponents.DAMAGE, ModComponents.ADVANCED_CUSTOM_COMPONENT);
+		// #advanced_tooltip_provider
 	}
 }

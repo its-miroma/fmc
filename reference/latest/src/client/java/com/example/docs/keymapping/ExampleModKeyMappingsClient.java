@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 
 import com.example.docs.ExampleMod;
 
@@ -21,7 +21,7 @@ public class ExampleModKeyMappingsClient implements ClientModInitializer {
 	// :::category
 
 	// :::key_mapping
-	KeyMapping sendToChatKey = KeyBindingHelper.registerKeyBinding(
+	KeyMapping sendToChatKey = KeyMappingHelper.registerKeyMapping(
 		new KeyMapping(
 			"key.example-mod.send_to_chat", // The translation key for the key mapping.
 			InputConstants.Type.KEYSYM, // // The type of the keybinding; KEYSYM for keyboard, MOUSE for mouse.
@@ -36,7 +36,7 @@ public class ExampleModKeyMappingsClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (sendToChatKey.consumeClick()) {
 				if (client.player != null) {
-					client.player.displayClientMessage(Component.literal("Key Pressed!"), false);
+					client.player.sendSystemMessage(Component.literal("Key Pressed!"));
 				}
 			}
 		});

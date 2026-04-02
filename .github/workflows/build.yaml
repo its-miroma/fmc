@@ -39,7 +39,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 25
       - run: ./gradlew build --stacktrace --warning-mode fail
         working-directory: ./reference
       - run: ./gradlew runDatagen --stacktrace --warning-mode fail
@@ -65,7 +65,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 25
       - run: ./gradlew runProductionClientGameTest
         # :::automatic-testing:game-test:3
         working-directory: ./reference

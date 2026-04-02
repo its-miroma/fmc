@@ -6,7 +6,7 @@ authors:
 next: false
 ---
 
-This guide will walk you through installing Java 21 on Linux.
+This guide will walk you through installing Java 25 on Linux.
 
 The Minecraft Launcher comes with its own Java installation, so this section is only relevant if you want to use the Fabric `.jar` based installer, or if you want to use the Minecraft Server `.jar`.
 
@@ -18,15 +18,15 @@ Open a terminal, type `java -version`, and press <kbd>Enter</kbd>.
 
 ::: warning
 
-To use Minecraft 1.21.11, you'll need at least Java 21 installed.
+To use Minecraft 26.1, you'll need at least Java 25 installed.
 
-If this command displays any version lower than 21, you'll need to update your existing Java installation; keep reading this page.
+If this command displays any version lower than 25, you'll need to update your existing Java installation; keep reading this page.
 
 :::
 
-## 2. Downloading and Installing Java 21 {#2-downloading-and-installing-java}
+## 2. Downloading and Installing Java 25 {#2-downloading-and-installing-java}
 
-We recommend using OpenJDK 21, which is available for most Linux distributions.
+We recommend using OpenJDK 25, which is available for most Linux distributions.
 
 ### Arch Linux {#arch-linux}
 
@@ -56,42 +56,42 @@ sudo pacman -S jdk-openjdk
 
 ### Debian/Ubuntu {#debian-ubuntu}
 
-You can install Java 21 using `apt` with the following commands:
+You can install Java 25 using `apt` with the following commands:
 
 ```sh
 sudo apt update
-sudo apt install openjdk-21-jdk
+sudo apt install openjdk-25-jdk
 ```
 
 ### Fedora {#fedora}
 
-You can install Java 21 using `dnf` with the following commands:
+You can install Java 25 using `dnf` with the following commands:
 
 ```sh
-sudo dnf install java-21-openjdk
+sudo dnf install java-25-openjdk
 ```
 
 If you don't need a graphical UI, you can install the headless version instead:
 
 ```sh
-sudo dnf install java-21-openjdk-headless
+sudo dnf install java-25-openjdk-headless
 ```
 
 If you plan to develop mods, you'll need the JDK instead:
 
 ```sh
-sudo dnf install java-21-openjdk-devel
+sudo dnf install java-25-openjdk-devel
 ```
 
 ### Other Linux Distributions {#other-linux-distributions}
 
-If your distribution isn't listed above, you can download the latest JRE from [Adoptium](https://adoptium.net/temurin/)
+If your distribution isn't listed above, you can download the latest JRE from [Adoptium](https://adoptium.net/installation/linux)
 
 You should refer to an alternative guide for your distribution if you plan to develop mods.
 
-## 3. Verify That Java 21 Is Installed {#3-verify-that-java-is-installed}
+## 3. Verify That Java 25 Is Installed {#3-verify-that-java-is-installed}
 
-Once the installation is complete, you can verify that Java 21 is installed by opening a terminal and typing `java -version`.
+Once the installation is complete, you can verify that Java 25 is installed by opening a terminal and typing `java -version`.
 
 If the command runs successfully, you will see something like shown before, where the Java version is displayed:
 

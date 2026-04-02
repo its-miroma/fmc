@@ -1,12 +1,12 @@
 package com.example.docs.rendering;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -29,8 +29,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 
 import com.example.docs.ExampleMod;
 
@@ -39,7 +39,7 @@ public class CustomRenderPipeline implements ClientModInitializer {
 	// :::custom-pipelines:define-pipeline
 	private static final RenderPipeline FILLED_THROUGH_WALLS = RenderPipelines.register(RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET)
 			.withLocation(Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "pipeline/debug_filled_box_through_walls"))
-			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+			.withDepthStencilState(Optional.empty())
 			.build()
 	);
 	// :::custom-pipelines:define-pipeline
@@ -62,18 +62,18 @@ public class CustomRenderPipeline implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		instance = this;
-		WorldRenderEvents.BEFORE_TRANSLUCENT.register(this::extractAndDrawWaypoint);
+		LevelRenderEvents.BEFORE_TRANSLUCENT_TERRAIN.register(this::extractAndDrawWaypoint);
 	}
 
-	private void extractAndDrawWaypoint(WorldRenderContext context) {
+	private void extractAndDrawWaypoint(LevelRenderContext context) {
 		renderWaypoint(context);
 		drawFilledThroughWalls(Minecraft.getInstance(), FILLED_THROUGH_WALLS);
 	}
 
 	// :::custom-pipelines:extraction-phase
-	private void renderWaypoint(WorldRenderContext context) {
-		PoseStack matrices = context.matrices();
-		Vec3 camera = context.worldState().cameraRenderState.pos;
+	private void renderWaypoint(LevelRenderContext context) {
+		PoseStack matrices = context.poseStack();
+		Vec3 camera = context.levelState().cameraRenderState.pos;
 
 		matrices.pushPose();
 		matrices.translate(-camera.x, -camera.y, -camera.z);

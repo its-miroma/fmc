@@ -61,7 +61,7 @@ public class UpgradingMenu extends AbstractContainerMenu {
 				Optional<RecipeHolder<UpgradingRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(ExampleModRecipes.UPGRADING_RECIPE_TYPE, recipeInput, serverLevel);
 
 				if (recipe.isPresent()) {
-					output.setItem(0, recipe.get().value().assemble(recipeInput, serverLevel.registryAccess()));
+					output.setItem(0, recipe.get().value().assemble(recipeInput));
 					output.setRecipeUsed(recipe.get());
 				} else {
 					output.clearContent();

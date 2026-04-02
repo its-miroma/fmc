@@ -70,7 +70,7 @@ public class TestItem extends Item {
 			itemStack.set(DataComponents.CUSTOM_NAME, newName);
 
 			if (user != null) {
-				user.displayClientMessage(Component.literal("Changed Item Name"), true);
+				user.sendOverlayMessage(Component.literal("Changed Item Name"));
 			}
 
 			return InteractionResult.SUCCESS;

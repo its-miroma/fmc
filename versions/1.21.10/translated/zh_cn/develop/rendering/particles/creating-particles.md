@@ -26,7 +26,7 @@ authors:
 在这个例子中，我们在客户端注册我们的粒子。 使用末地烛粒子的 factory，给予粒子一些移动。 这意味着，我们的粒子就会像末地烛那样移动。
 
 ::: tip
-You can see all the particle factories by looking at all the implementations of the `ParticleFactory` interface. This is helpful if you want to use another particle's behaviour for your own particle.
+You can see all the particle factories by looking at all the implementations of the `ParticleProvider` interface. This is helpful if you want to use another particle's behaviour for your own particle.
 
 - IntelliJ 的快捷键：Ctrl+Alt+B
 - Visual Studio Code 的快捷键：Ctrl+F12

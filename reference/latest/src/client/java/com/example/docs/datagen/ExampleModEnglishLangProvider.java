@@ -6,11 +6,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
 import com.example.docs.ExampleMod;
-import com.example.docs.appearance.ExampleModAppearance;
 import com.example.docs.block.ModBlocks;
 import com.example.docs.enchantment.ModEnchantments;
 import com.example.docs.entity.ModEntityTypes;
@@ -18,7 +17,7 @@ import com.example.docs.item.ModItems;
 
 // :::datagen-translations:provider
 public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
-	protected ExampleModEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+	protected ExampleModEnglishLangProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 		// Specifying en_us is optional, as it's the default language code
 		super(dataOutput, "en_us", registryLookup);
 	}
@@ -36,6 +35,15 @@ public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
 		translationBuilder.add(ModItems.GUIDITE_SWORD, "Guidite Sword");
 		translationBuilder.add(ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance");
 		translationBuilder.add(ModItems.MINI_GOLEM_SPAWN_EGG, "Mini Golem Spawn Egg");
+		translationBuilder.add(ModItems.ACID_BUCKET, "Acid Bucket");
+		translationBuilder.add(ModItems.RUBY, "Ruby");
+		translationBuilder.add(ModItems.GUIDITE_AXE, "Guidite Axe");
+		translationBuilder.add(ModItems.LEATHER_GLOVES, "Leather Gloves");
+		translationBuilder.add(ModItems.FLASHLIGHT, "Flashlight");
+		translationBuilder.add(ModItems.BALLOON, "Balloon");
+		translationBuilder.add(ModItems.ENHANCED_HOE, "Enhanced Hoe");
+		translationBuilder.add(ModItems.DIMENSIONAL_CRYSTAL, "Dimensional Crystal");
+		translationBuilder.add(ModItems.THROWING_KNIVES, "Throwing Knives");
 
 		translationBuilder.add(Util.makeDescriptionId("effect", Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "tater")), "Tater");
 
@@ -48,8 +56,10 @@ public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
 		translationBuilder.add("item.example-mod.lightning_stick", "Lightning Stick");
 		translationBuilder.add("item.example-mod.counter", "Counter");
 		translationBuilder.add("item.example-mod.counter.info", "Used %1$s times");
+		translationBuilder.add("item.example-mod.temperature.info", "Temperature: %1$s");
+		translationBuilder.add("item.example-mod.burnt.info", "Burnt: %1$s");
 		translationBuilder.add("itemTooltip.example-mod.lightning_stick", "This is an extremely powerful weapon that can summon lightning bolts.");
-		translationBuilder.add("itemGroup.example-mod", "Example Mod");
+		translationBuilder.add("creativeTab.example-mod", "Example Mod");
 		translationBuilder.addEnchantment(ModEnchantments.THUNDERING, "Thundering");
 		translationBuilder.addEnchantment(ModEnchantments.REPULSION_CURSE, "Curse of Repulsion");
 
@@ -71,8 +81,7 @@ public class ExampleModEnglishLangProvider extends FabricLanguageProvider {
 		translationBuilder.add(ModBlocks.RUBY_DOOR, "Ruby Door");
 		translationBuilder.add(ModBlocks.RUBY_TRAPDOOR, "Ruby Trapdoor");
 		translationBuilder.add(ModBlocks.VERTICAL_OAK_LOG_SLAB, "Vertical Oak Log Slab");
-		translationBuilder.add(ExampleModAppearance.WAXCAP_BLOCK, "Waxcap");
-		translationBuilder.add(ExampleModAppearance.WAXCAP_BLOCK_ITEM, "Waxcap");
+		translationBuilder.add(ModBlocks.WAXCAP, "Waxcap");
 		translationBuilder.add("key.category.example-mod.custom_category", "Example Mod Custom Category");
 		translationBuilder.add("key.example-mod.send_to_chat", "Send to Chat");
 

@@ -26,7 +26,7 @@ Nachdem du den Partikel in dem Mod-Initialisierer registriert hast, musst du den
 In diesem Beispiel registrieren wir unseren Partikel Client-seitig. Dann geben wir dem Partikel ein wenig Bewegung, indem wir die Factory des Endstabpartikels benutzen. Das bedeutet, dass sich unser Partikel genau wie ein Partikel eines Endstabs bewegt.
 
 ::: tip
-You can see all the particle factories by looking at all the implementations of the `ParticleFactory` interface. This is helpful if you want to use another particle's behaviour for your own particle.
+You can see all the particle factories by looking at all the implementations of the `ParticleProvider` interface. This is helpful if you want to use another particle's behaviour for your own particle.
 
 - IntelliJ's Tastaturkürzel: Strg+Alt+B
 - Visual Studio Codes Hotkey: Strg+F12

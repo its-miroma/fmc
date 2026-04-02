@@ -33,7 +33,7 @@ public class ExampleModGameRules implements ModInitializer {
 	private static void initializeBadVision() {
 		// :::badvision
 		// In your mod's onInitialize():
-		ServerTickEvents.END_WORLD_TICK.register(serverLevel -> {
+		ServerTickEvents.END_LEVEL_TICK.register(serverLevel -> {
 			// Runs every tick on the server
 			// :::badvision
 			// :::vanilla

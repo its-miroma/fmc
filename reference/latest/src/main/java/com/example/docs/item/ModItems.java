@@ -25,6 +25,7 @@ import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.Consumable;
@@ -34,19 +35,21 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
-import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.registry.CompostableRegistry;
+import net.fabricmc.fabric.api.registry.FuelValueEvents;
 
 import com.example.docs.ExampleMod;
 import com.example.docs.block.ModBlocks;
 import com.example.docs.component.ModComponents;
+import com.example.docs.debug.TestItem;
 import com.example.docs.entity.ModEntityTypes;
 import com.example.docs.fluid.ModFluids;
 import com.example.docs.item.armor.GuiditeArmorMaterial;
 import com.example.docs.item.custom.CounterItem;
 import com.example.docs.item.custom.LightningStick;
+import com.example.docs.networking.basic.LightningTaterItem;
 
 // :::1
 public class ModItems {
@@ -111,13 +114,17 @@ public class ModItems {
 	public static final ResourceKey<CreativeModeTab> CUSTOM_CREATIVE_TAB_KEY = ResourceKey.create(
 			BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "creative_tab")
 	);
-	public static final CreativeModeTab CUSTOM_CREATIVE_TAB = FabricItemGroup.builder()
+	public static final CreativeModeTab CUSTOM_CREATIVE_TAB = FabricCreativeModeTab.builder()
 			.icon(() -> new ItemStack(ModItems.GUIDITE_SWORD))
-			.title(Component.translatable("itemGroup.example-mod"))
+			.title(Component.translatable("creativeTab.example-mod"))
 			.displayItems((params, output) -> {
 				output.accept(ModItems.SUSPICIOUS_SUBSTANCE);
 				output.accept(ModItems.POISONOUS_APPLE);
 				// :::9
+				output.accept(ModItems.ACID_BUCKET);
+				output.accept(ModItems.COUNTER);
+				output.accept(ModItems.LIGHTNING_TATER);
+				output.accept(ModItems.TEST_ITEM);
 				output.accept(ModItems.GUIDITE_SWORD);
 				output.accept(ModItems.GUIDITE_HELMET);
 				output.accept(ModItems.GUIDITE_BOOTS);
@@ -127,9 +134,14 @@ public class ModItems {
 				// :::9
 
 				// The tab builder also accepts Blocks
+				output.accept(ModBlocks.CONDENSED_DIRT);
 				output.accept(ModBlocks.CONDENSED_OAK_LOG);
-				output.accept(ModBlocks.PRISMARINE_LAMP);
 				// :::9
+				output.accept(ModBlocks.PRISMARINE_LAMP);
+				output.accept(ModBlocks.STEEL_BLOCK);
+				output.accept(ModBlocks.PIPE_BLOCK);
+				output.accept(ModBlocks.DUPLICATOR_BLOCK);
+				output.accept(ModBlocks.DIRT_CHEST_BLOCK);
 				output.accept(ModBlocks.COUNTER_BLOCK);
 				output.accept(ModBlocks.ENGINE_BLOCK);
 				output.accept(ModBlocks.RUBY_BLOCK);
@@ -139,6 +151,8 @@ public class ModItems {
 				output.accept(ModBlocks.RUBY_DOOR);
 				output.accept(ModBlocks.RUBY_TRAPDOOR);
 				output.accept(ModBlocks.VERTICAL_OAK_LOG_SLAB);
+				output.accept(ModBlocks.WAXCAP);
+				output.accept(ModBlocks.TATER_BLOCK);
 				// :::9
 
 				// And custom ItemStacks
@@ -201,6 +215,10 @@ public class ModItems {
 
 	public static final Item THROWING_KNIVES = register("throwing_knives", Item::new, new Item.Properties().stacksTo(3));
 
+	public static final Item LIGHTNING_TATER = register("lightning_tater", LightningTaterItem::new, new Item.Properties());
+
+	public static final Item TEST_ITEM = register("test_item", TestItem::new, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).component(DataComponents.CUSTOM_NAME, Component.literal("[Use on Stone Block]")));
+
 	// :::1
 	public static <T extends Item> T register(String name, Function<Item.Properties, T> itemFactory, Item.Properties settings) {
 		// Create the item key.
@@ -223,21 +241,21 @@ public class ModItems {
 		// :::4
 		// Get the event for modifying entries in the ingredients group.
 		// And register an event handler that adds our suspicious item to the ingredients group.
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS)
-				.register((itemGroup) -> itemGroup.accept(ModItems.SUSPICIOUS_SUBSTANCE));
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS)
+				.register((creativeTab) -> creativeTab.accept(ModItems.SUSPICIOUS_SUBSTANCE));
 		// :::4
 
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
-				.register((itemGroup) -> {
-					itemGroup.accept(ModItems.GUIDITE_HELMET);
-					itemGroup.accept(ModItems.GUIDITE_BOOTS);
-					itemGroup.accept(ModItems.GUIDITE_LEGGINGS);
-					itemGroup.accept(ModItems.GUIDITE_CHESTPLATE);
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
+				.register((creativeTab) -> {
+					creativeTab.accept(ModItems.GUIDITE_HELMET);
+					creativeTab.accept(ModItems.GUIDITE_BOOTS);
+					creativeTab.accept(ModItems.GUIDITE_LEGGINGS);
+					creativeTab.accept(ModItems.GUIDITE_CHESTPLATE);
 				});
 
 		// :::8
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
-				.register((itemGroup) -> itemGroup.accept(ModItems.GUIDITE_SWORD));
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
+				.register((creativeTab) -> creativeTab.accept(ModItems.GUIDITE_SWORD));
 		// :::8
 
 		// :::_12
@@ -246,31 +264,31 @@ public class ModItems {
 		// :::_12
 
 		// :::spawn_egg_creative_tab
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register(itemGroup -> {
-			itemGroup.accept(ModItems.MINI_GOLEM_SPAWN_EGG);
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.SPAWN_EGGS).register(creativeTab -> {
+			creativeTab.accept(ModItems.MINI_GOLEM_SPAWN_EGG);
 		});
 		// :::spawn_egg_creative_tab
-		ItemGroupEvents.modifyEntriesEvent(CUSTOM_CREATIVE_TAB_KEY).register(itemGroup -> {
-			itemGroup.accept(ModItems.RUBY);
-			itemGroup.accept(ModItems.GUIDITE_AXE);
-			itemGroup.accept(ModItems.LEATHER_GLOVES);
-			itemGroup.accept(ModItems.FLASHLIGHT);
-			itemGroup.accept(ModItems.BALLOON);
-			itemGroup.accept(ModItems.ENHANCED_HOE);
-			itemGroup.accept(ModItems.DIMENSIONAL_CRYSTAL);
-			itemGroup.accept(ModItems.THROWING_KNIVES);
+		CreativeModeTabEvents.modifyOutputEvent(CUSTOM_CREATIVE_TAB_KEY).register(creativeTab -> {
+			creativeTab.accept(ModItems.RUBY);
+			creativeTab.accept(ModItems.GUIDITE_AXE);
+			creativeTab.accept(ModItems.LEATHER_GLOVES);
+			creativeTab.accept(ModItems.FLASHLIGHT);
+			creativeTab.accept(ModItems.BALLOON);
+			creativeTab.accept(ModItems.ENHANCED_HOE);
+			creativeTab.accept(ModItems.DIMENSIONAL_CRYSTAL);
+			creativeTab.accept(ModItems.THROWING_KNIVES);
 		});
 
 		// :::_10
 		// Add the suspicious substance to the composting registry with a 30% chance of increasing the composter's level.
-		CompostingChanceRegistry.INSTANCE.add(ModItems.SUSPICIOUS_SUBSTANCE, 0.3f);
+		CompostableRegistry.INSTANCE.add(ModItems.SUSPICIOUS_SUBSTANCE, 0.3f);
 		// :::_10
 
 		// :::_11
 		// Add the suspicious substance to the registry of fuels, with a burn time of 30 seconds.
 		// Remember, Minecraft deals with logical based-time using ticks.
 		// 20 ticks = 1 second.
-		FuelRegistryEvents.BUILD.register((builder, context) -> {
+		FuelValueEvents.BUILD.register((builder, context) -> {
 			builder.add(ModItems.SUSPICIOUS_SUBSTANCE, 30 * 20);
 		});
 		// :::_11

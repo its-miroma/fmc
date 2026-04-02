@@ -1,21 +1,21 @@
 ---
 title: Drawing to the GUI
-description: Learn how to use the GuiGraphics class to render various shapes, text and textures.
+description: Learn how to use the GuiGraphicsExtractor class to render various shapes, text and textures.
 authors:
   - IMB11
 ---
 
 This page assumes you've taken a look at the [Basic Rendering Concepts](./basic-concepts) page.
 
-The `GuiGraphics` class is the main class used for rendering in the game. It is used for rendering shapes, text and textures, and as previously seen, used to manipulate `PoseStack`s and use `BufferBuilder`s.
+The `GuiGraphicsExtractor` class is the main class used for rendering in the game. It is used for rendering shapes, text and textures, and as previously seen, used to manipulate `PoseStack`s and use `BufferBuilder`s.
 
 ## Drawing Shapes {#drawing-shapes}
 
-The `GuiGraphics` class can be used to easily draw **square-based** shapes. If you want to draw triangles, or any non-square based shape, you will need to use a `BufferBuilder`.
+The `GuiGraphicsExtractor` class can be used to easily draw **square-based** shapes. If you want to draw triangles, or any non-square based shape, you will need to use a `BufferBuilder`.
 
 ### Drawing Rectangles {#drawing-rectangles}
 
-You can use the `GuiGraphics.fill(...)` method to draw a filled rectangle.
+You can use the `GuiGraphicsExtractor.fill(...)` method to draw a filled rectangle.
 
 @[code lang=java transcludeWith=:::1](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
 
@@ -23,7 +23,7 @@ You can use the `GuiGraphics.fill(...)` method to draw a filled rectangle.
 
 ### Drawing Outlines/Borders {#drawing-outlines-borders}
 
-Let's say we want to outline the rectangle we just drew. We can use the `GuiGraphics.renderOutline(...)` method to draw an outline.
+Let's say we want to outline the rectangle we just drew. We can use the `GuiGraphicsExtractor.outline(...)` method to draw an outline.
 
 @[code lang=java transcludeWith=:::2](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
 
@@ -31,7 +31,7 @@ Let's say we want to outline the rectangle we just drew. We can use the `GuiGrap
 
 ### Drawing Individual Lines {#drawing-individual-lines}
 
-We can use the `GuiGraphics.hLine(...)` and `GuiGraphics.vLine(...)` methods to draw lines.
+We can use the `GuiGraphicsExtractor.horizontalLine(...)` and `GuiGraphicsExtractor.verticalLine(...)` methods to draw lines.
 
 @[code lang=java transcludeWith=:::3](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
 
@@ -39,7 +39,7 @@ We can use the `GuiGraphics.hLine(...)` and `GuiGraphics.vLine(...)` methods to 
 
 ## The Scissor Manager {#the-scissor-manager}
 
-The `GuiGraphics` class has a built-in scissor manager. This allows you to easily clip your rendering to a specific area. This is useful for rendering things like tooltips, or other elements that should not be rendered outside of a specific area.
+The `GuiGraphicsExtractor` class has a built-in scissor manager. This allows you to easily clip your rendering to a specific area. This is useful for rendering things like tooltips, or other elements that should not be rendered outside of a specific area.
 
 ### Using the Scissor Manager {#using-the-scissor-manager}
 
@@ -49,7 +49,7 @@ Scissor regions can be nested! But make sure that you disable the scissor manage
 
 :::
 
-To enable the scissor manager, simply use the `GuiGraphics.enableScissor(...)` method. Likewise, to disable the scissor manager, use the `GuiGraphics.disableScissor()` method.
+To enable the scissor manager, simply use the `GuiGraphicsExtractor.enableScissor(...)` method. Likewise, to disable the scissor manager, use the `GuiGraphicsExtractor.disableScissor()` method.
 
 @[code lang=java transcludeWith=:::4](@/reference/latest/src/client/java/com/example/docs/rendering/DrawContextExampleScreen.java)
 
@@ -63,7 +63,7 @@ There is no one "correct" way to draw textures onto a screen, as the `blit(...)`
 
 ### Drawing an Entire Texture {#drawing-an-entire-texture}
 
-Generally, it's recommended that you use the overload that specifies the `textureWidth` and `textureHeight` parameters. This is because the `GuiGraphics` class will assume these values if you don't provide them, which can sometimes be wrong.
+Generally, it's recommended that you use the overload that specifies the `textureWidth` and `textureHeight` parameters. This is because the `GuiGraphicsExtractor` class will assume these values if you don't provide them, which can sometimes be wrong.
 
 You will also need to specify which render pipeline which your texture will use. For basic textures, this will usually always be `RenderPipelines.GUI_TEXTURED`.
 
@@ -87,9 +87,9 @@ If we want to only draw a region that contains the magnifying glass, we can use 
 
 ## Drawing Text {#drawing-text}
 
-The `GuiGraphics` class has various self-explanatory text rendering methods - for the sake of brevity, they will not be covered here.
+The `GuiGraphicsExtractor` class has various self-explanatory text rendering methods - for the sake of brevity, they will not be covered here.
 
-Let's say we want to draw "Hello World" onto the screen. We can use the `GuiGraphics.drawString(...)` method to do this.
+Let's say we want to draw "Hello World" onto the screen. We can use the `GuiGraphicsExtractor.text(...)` method to do this.
 
 ::: info
 

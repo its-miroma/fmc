@@ -56,7 +56,7 @@ public class EngineBlockEntity extends BlockEntity implements DynamicSoundSource
 						engineBlockEntity.getFuel(),
 						String.format("%.02f", engineBlockEntity.getNormalizedStress())
 				);
-				player.displayClientMessage(Component.literal(engineState), true);
+				player.sendOverlayMessage(Component.literal(engineState));
 			});
 		}
 

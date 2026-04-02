@@ -11,9 +11,9 @@ authors:
 
 ::: warning
 
-Although Minecraft is built using OpenGL, as of version 1.17+ you cannot use legacy OpenGL methods to render your own things. Instead, you must use the new `BufferBuilder` system, which formats rendering data and uploads it to OpenGL to draw.
+Although Minecraft is currently built using OpenGL, as of version 1.17+ you cannot use legacy OpenGL methods to render your own things. Instead, you must use the new `BufferBuilder` system, which formats rendering data and uploads it to OpenGL to draw.
 
-To summarize, you have to use Minecraft's rendering system, or build your own that utilizes `GL.glDrawElements()`.
+To summarize, you have to use Minecraft's rendering system. Use of raw OpenGL will break even further when [Minecraft 26.2 releases with a Vulkan backend](https://www.minecraft.net/en-us/article/another-step-towards-vibrant-visuals-for-java-edition).
 
 :::
 
@@ -21,7 +21,7 @@ To summarize, you have to use Minecraft's rendering system, or build your own th
 
 Starting from 1.21.6, large changes are being implemented to the rendering pipeline, such as moving towards `RenderType`s and `RenderPipeline`s and more importantly, `RenderState`s, with the ultimate goal of being able to prepare the next frame while drawing the current frame. In the "preparation" phase, all game data used for rendering is extracted to `RenderState`s, so another thread can work on drawing that frame while the next frame is being extracted.
 
-For example, in 1.21.8 GUI rendering adopted this model, and `GuiGraphics` methods simply add to the render state. The actual uploading to the `BufferBuilder` happens at the end of the preparation phase, after all elements have been added to the `RenderState`. See `GuiRenderer#prepare`.
+For example, in 1.21.8 GUI rendering adopted this model, and `GuiGraphicsExtractor` methods simply add to the render state. The actual uploading to the `BufferBuilder` happens at the end of the preparation phase, after all elements have been added to the `RenderState`. See `GuiRenderer#prepare`.
 
 This article covers the basics of rendering and, while still somewhat relevant, most times there are higher levels of abstractions for better performance and compatibility. For more information, see [Rendering in the World](./world).
 
@@ -29,7 +29,7 @@ This article covers the basics of rendering and, while still somewhat relevant, 
 
 This page will cover the basics of rendering using the new system, going over key terminology and concepts.
 
-Although much of rendering in Minecraft is abstracted through the various `GuiGraphics` methods, and you'll likely not need to touch anything mentioned here, it's still important to understand the basics of how rendering works.
+Although much of rendering in Minecraft is abstracted through the various `GuiGraphicsExtractor` methods, and you'll likely not need to touch anything mentioned here, it's still important to understand the basics of how rendering works.
 
 ## The `Tesselator` {#the-tesselator}
 
@@ -98,7 +98,7 @@ A transformation matrix is a 4x4 matrix that is used to transform a vector. In M
 
 It's sometimes referred to as a position matrix, or a model matrix.
 
-It's usually obtained via the `Matrix3x2fStack` class, which can be obtained via the `GuiGraphics` object by calling the `GuiGraphics#pose()` method.
+It's usually obtained via the `Matrix3x2fStack` class, which can be obtained via the `GuiGraphicsExtractor` object by calling the `GuiGraphicsExtractor#pose()` method.
 
 #### Rendering a Triangle Strip {#rendering-a-triangle-strip}
 
@@ -123,7 +123,7 @@ Since we're drawing on the HUD in this example, we'll use the `HudElementRegistr
 
 Starting from 1.21.8, the matrix stack passed for HUD rendering has been changed from `PoseStack` to `Matrix3x2fStack`. Most methods are slightly different and no longer take a `z` parameter, but the concepts are the same.
 
-Additionally, the code below does not fully match the explanation above: you do not need to manually write to the `BufferBuilder`, because `GuiGraphics` methods automatically write to the HUD's `BufferBuilder` during preparation.
+Additionally, the code below does not fully match the explanation above: you do not need to manually write to the `BufferBuilder`, because `GuiGraphicsExtractor` methods automatically write to the HUD's `BufferBuilder` during preparation.
 
 Read the important update above for more information.
 

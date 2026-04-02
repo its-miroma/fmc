@@ -15,11 +15,11 @@ public class NetworkPayloads {
 	}
 
 	private static <T extends CustomPacketPayload> void registerS2C(CustomPacketPayload.Type<T> packetIdentifier, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
-		PayloadTypeRegistry.playS2C().register(packetIdentifier, codec);
+		PayloadTypeRegistry.clientboundPlay().register(packetIdentifier, codec);
 	}
 
 	private static <T extends CustomPacketPayload> void registerC2S(CustomPacketPayload.Type<T> packetIdentifier, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
-		PayloadTypeRegistry.playC2S().register(packetIdentifier, codec);
+		PayloadTypeRegistry.serverboundPlay().register(packetIdentifier, codec);
 	}
 
 	public static void initialize() {

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.server.Bootstrap;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 
 // :::automatic-testing:4
@@ -41,10 +41,10 @@ public class BeanTypeTest {
 	@Test
 	void testDiamondItemStack() {
 		// I know this isn't related to beans, but I need an example :)
-		ItemStack diamondStack = new ItemStack(Items.DIAMOND, 65);
+		ItemStackTemplate diamondStack = new ItemStackTemplate(Items.DIAMOND, 65);
 
 		Assertions.assertTrue(diamondStack.is(Items.DIAMOND));
-		Assertions.assertEquals(65, diamondStack.getCount());
+		Assertions.assertEquals(65, diamondStack.count());
 	}
 }
 // :::automatic-testing:4

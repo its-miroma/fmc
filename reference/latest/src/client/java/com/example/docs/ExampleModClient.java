@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 
 import com.example.docs.component.ModComponents;
 
@@ -17,7 +17,7 @@ public class ExampleModClient implements ClientModInitializer {
 
 		// #particle_register_client
 		// For this example, we will use the end rod particle behaviour.
-		ParticleFactoryRegistry.getInstance().register(ExampleMod.SPARKLE_PARTICLE, EndRodParticle.Provider::new);
+		ParticleProviderRegistry.getInstance().register(ExampleMod.SPARKLE_PARTICLE, EndRodParticle.Provider::new);
 		// #particle_register_client
 
 		// #tooltip_provider_client

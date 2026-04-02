@@ -1,6 +1,6 @@
 package com.example.docs.rendering.screens.inventory;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,7 @@ public class UpgradingScreen extends AbstractContainerScreen<UpgradingMenu> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j) {
+	public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float delta) {
 		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.screenTexture, this.leftPos, this.topPos, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 	}
 }

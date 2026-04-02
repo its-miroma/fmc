@@ -15,7 +15,6 @@
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "description": "Now make a house from it",
     "icon": {
-      "count": 1,
       "id": "minecraft:dirt"
     },
     "title": "Your First Dirt Block"

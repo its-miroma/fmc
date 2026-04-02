@@ -12,13 +12,14 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 public class ExampleModRecipeProvider extends FabricRecipeProvider {
-	public ExampleModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+	public ExampleModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
 
@@ -61,6 +62,7 @@ public class ExampleModRecipeProvider extends FabricRecipeProvider {
 				oreSmelting(
 						List.of(Items.BREAD, Items.COOKIE, Items.HAY_BLOCK), // Inputs
 						RecipeCategory.FOOD, // Category
+						CookingBookCategory.FOOD, // Category
 						Items.WHEAT, // Output
 						0.1f, // Experience
 						300, // Cooking time

@@ -10,7 +10,7 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
+import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 
 import com.example.docs.ExampleMod;
 import com.example.docs.effect.ExampleModEffects;
@@ -29,7 +29,7 @@ public class ExampleModPotions implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
+		FabricPotionBrewingBuilder.BUILD.register(builder -> {
 			builder.addMix(
 					// Input potion.
 					Potions.WATER,

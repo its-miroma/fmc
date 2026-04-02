@@ -2,10 +2,13 @@ package com.example.docs.saveddata;
 
 import com.mojang.serialization.Codec;
 
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
+
+import com.example.docs.ExampleMod;
 
 // :::class
 // :::basic_structure
@@ -21,7 +24,7 @@ public class SavedBlockData extends SavedData {
 	// :::codec
 	// :::type
 	private static final SavedDataType<SavedBlockData> TYPE = new SavedDataType<>(
-					"saved_block_data", // The unique name for this saved data.
+					Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "saved_block_data"), // The unique name for this saved data.
 					SavedBlockData::new, // If there's no 'SavedBlockData', yet create one and refresh fields.
 					CODEC, // The codec used for serialization/deserialization.
 					null // A data fixer, which is not needed here.

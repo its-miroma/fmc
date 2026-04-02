@@ -122,23 +122,19 @@ For this demo, we'll also add the acid fluid tag to the water fluid tag, `data/m
 
 <<< @/reference/latest/src/main/generated/data/minecraft/tags/fluid/water.json
 
-## Transparency and Textures {#transparency-and-textures}
+## Texturing Your Fluids {#textures}
 
 To texture your fluid, you should use Fabric API's `FluidRenderHandlerRegistry`.
 
 ::: tip
 
-For simplicity, this demo uses the water texture `Identifier`s provided by Fabric API, but you can replace those with an `Identifier` that points to your own texture in the format `minecraft:block/water_still`.
+For simplicity, this demo uses `BlockTintSources.constant` to apply a constant green tint to the vanilla water texture. For more details on `BlockTintSource`, see [Block Tinting](../blocks/block-tinting).
 
 :::
 
-Add the following lines to your `ClientModInitializer` to create a `SimpleFluidRenderHandler`, that takes in two `Identifier`s for the textures—one for the still source and one for the flowing fluid—and an integer for the color to tint it with.
+Add the following lines to your `ClientModInitializer` to create a `FluidModel.Unbaked`, that takes in two `Material`s for the textures—one for the still source and one for the flowing fluid—and a block tint source for the color to tint it with.
 
 @[code transcludeWith=:::fluid_texture](@/reference/latest/src/client/java/com/example/docs/appearance/ExampleModAppearanceClient.java)
-
-We'll also use the `BlockRenderLayerMap` to set the `ChunkSectionLayer` to transparent, so you can see through the fluid. For more information, see the docs on [Transparency and Tinting](../blocks/transparency-and-tinting).
-
-@[code transcludeWith=:::fluid_transparency](@/reference/latest/src/client/java/com/example/docs/appearance/ExampleModAppearanceClient.java)
 
 At this point, we have all we need to see the Acid in-game! You can use `setblock` or the Acid Bucket item to place acid in the world.
 

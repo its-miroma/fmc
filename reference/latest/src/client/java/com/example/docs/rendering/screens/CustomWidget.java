@@ -1,6 +1,6 @@
 package com.example.docs.rendering.screens;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
@@ -12,7 +12,7 @@ public class CustomWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
 		// We'll just draw a simple rectangle for now.
 		// x1, y1, x2, y2, startColor, endColor
 		int startColor = 0xFF00FF00; // Green

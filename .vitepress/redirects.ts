@@ -10,6 +10,10 @@ export default [
     dest: "",
   },
   {
+    from: new RegExp(`^1.21.10([/]|$)`),
+    dest: "1.21.11/",
+  },
+  {
     from: /develop[/]items[/]custom-item-groups$/,
     dest: "develop/items/custom-creative-tabs",
   },
@@ -28,5 +32,17 @@ export default [
   {
     from: /develop[/]porting[/](next|26[.]1)([/]|$)/,
     dest: "26.1/develop/porting/",
+  },
+  {
+    from: /develop[/]blocks[/]transparency-and-tinting$/,
+    dest: "develop/blocks/block-tinting",
+  },
+  {
+    from: /develop[/]blocks[/]block-tinting$/,
+    dest: "develop/blocks/transparency-and-tinting/",
+  },
+  {
+    from: /develop[/]porting[/]mappings([/].*)?$/,
+    dest: "1.21.11/develop/porting/mappings$1",
   },
 ] satisfies { from: RegExp; dest: string }[];

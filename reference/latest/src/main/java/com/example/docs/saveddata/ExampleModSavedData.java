@@ -21,7 +21,7 @@ public class ExampleModSavedData implements ModInitializer {
 			SavedBlockData savedData = SavedBlockData.getSavedBlockData(server);
 
 			savedData.incrementBlocksBroken(); // Increment the counter each time a block is broken.
-			player.displayClientMessage(Component.literal("Blocks broken: " + savedData.getBlocksBroken()), false);
+			player.sendSystemMessage(Component.literal("Blocks broken: " + savedData.getBlocksBroken()));
 		});
 		// :::event_registration
 	}

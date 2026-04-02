@@ -8,7 +8,7 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TexturedModel;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 import com.example.docs.block.ModBlocks;
 import com.example.docs.block.custom.PrismarineLampBlock;
@@ -19,7 +19,7 @@ import com.example.docs.item.ModItems;
  * Not for describing how to use the model provider.
  */
 public class ExampleModInternalModelProvider extends FabricModelProvider {
-	public ExampleModInternalModelProvider(FabricDataOutput output) {
+	public ExampleModInternalModelProvider(FabricPackOutput output) {
 		super(output);
 	}
 

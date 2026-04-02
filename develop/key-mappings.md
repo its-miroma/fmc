@@ -25,7 +25,7 @@ together in the settings menu.
 
 @[code lang=java transcludeWith=:::category](@/reference/latest/src/client/java/com/example/docs/keymapping/ExampleModKeyMappingsClient.java)
 
-Next, we can create a key mapping. We will be using Fabric API's `KeyBindingHelper` to register
+Next, we can create a key mapping. We will be using Fabric API's `KeyMappingHelper` to register
 our key mapping at the same time.
 
 @[code lang=java transcludeWith=:::key_mapping](@/reference/latest/src/client/java/com/example/docs/keymapping/ExampleModKeyMappingsClient.java)
@@ -40,7 +40,7 @@ This means that if you're using an AZERTY layout, pressing on <kbd>A</kbd> would
 
 :::
 
-Sticky keys can also be created with `KeyBindingHelper` by passing a `ToggleKeyMapping` instance
+Sticky keys can also be created with `KeyMappingHelper` by passing a `ToggleKeyMapping` instance
 instead of a `KeyMapping`.
 
 Once registered, you can find your key mappings in _Options_ > _Controls_ > _Key Binds_.

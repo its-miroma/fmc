@@ -9,7 +9,6 @@
     "description": "That's not a shovel (probably)",
     "frame": "goal",
     "icon": {
-      "count": 1,
       "id": "minecraft:diamond_shovel"
     },
     "title": "Not a Shovel"

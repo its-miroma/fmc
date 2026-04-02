@@ -27,7 +27,7 @@ authors:
 
 ::: tip
 
-你可以查看 `ParticleFactory` 接口的所有实现，从而查看所有的粒子 factory。 这有助于你为你自己的粒子使用其他粒子的行为。
+你可以查看 `ParticleProvider` 接口的所有实现，从而查看所有的粒子 factory。 这有助于你为你自己的粒子使用其他粒子的行为。
 
 - IntelliJ 的快捷键：<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>B</kbd>
 - Visual Studio Code 的快捷键：<kbd>Ctrl</kbd>+<kbd>F12</kbd>

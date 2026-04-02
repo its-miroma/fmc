@@ -9,7 +9,7 @@ public class ExampleModClientGameTest implements FabricClientGameTest {
 	@Override
 	public void runTest(ClientGameTestContext context) {
 		try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
-			singleplayer.getClientWorld().waitForChunksRender();
+			singleplayer.getClientLevel().waitForChunksRender();
 			context.takeScreenshot("example-mod-singleplayer-test");
 		}
 	}

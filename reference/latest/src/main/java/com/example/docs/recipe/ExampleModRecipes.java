@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
@@ -20,10 +21,10 @@ import com.example.docs.menu.custom.UpgradingMenu;
 
 public class ExampleModRecipes implements ModInitializer {
 	//:::registration
-	public static final UpgradingRecipeSerializer UPGRADING_RECIPE_SERIALIZER = Registry.register(
+	public static final RecipeSerializer<UpgradingRecipe> UPGRADING_RECIPE_SERIALIZER = Registry.register(
 					BuiltInRegistries.RECIPE_SERIALIZER,
 					Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "upgrading"),
-					new UpgradingRecipeSerializer()
+					new RecipeSerializer<>(UpgradingRecipe.CODEC, UpgradingRecipe.STREAM_CODEC)
 	);
 
 	public static final RecipeType<UpgradingRecipe> UPGRADING_RECIPE_TYPE = Registry.register(

@@ -1,6 +1,6 @@
 package com.example.docs.rendering;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -14,8 +14,8 @@ public class DrawContextExampleScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		super.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(graphics, mouseX, mouseY, delta);
 
 		// :::1
 		int rectangleX = 10;
@@ -28,13 +28,13 @@ public class DrawContextExampleScreen extends Screen {
 
 		// :::2
 		// x, y, width, height, color
-		graphics.renderOutline(rectangleX, rectangleY, rectangleWidth, rectangleHeight, 0xFFFF0000);
+		graphics.outline(rectangleX, rectangleY, rectangleWidth, rectangleHeight, 0xFFFF0000);
 		// :::2
 
 		// :::3
 		// Let's split the rectangle in half using a green line.
 		// x, y1, y2, color
-		graphics.vLine(rectangleX + rectangleWidth / 2, rectangleY, rectangleY + rectangleHeight, 0xFF00FF00);
+		graphics.verticalLine(rectangleX + rectangleWidth / 2, rectangleY, rectangleY + rectangleHeight, 0xFF00FF00);
 		// :::3
 
 		// :::4
@@ -71,8 +71,8 @@ public class DrawContextExampleScreen extends Screen {
 		// :::6
 
 		// :::7
-		// TextRenderer, text (string, or Text object), x, y, color, shadow
-		graphics.drawString(minecraft.font, "Hello, world!", 10, 200, 0xFFFFFFFF, false);
+		// Font, text (string, or Component object), x, y, color, shadow
+		graphics.text(minecraft.font, "Hello, world!", 10, 200, 0xFFFFFFFF, false);
 		// :::7
 	}
 }

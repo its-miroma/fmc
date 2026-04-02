@@ -28,7 +28,7 @@ After you have registered the particle in the `ModInitializer` entrypoint, you w
 In this example, we are registering our particle on the client-side. We are then giving the particle some movement using the end rod particle's factory. This means our particle will move exactly like an end rod particle.
 
 ::: tip
-You can see all the particle factories by looking at all the implementations of the `ParticleFactory` interface. This is helpful if you want to use another particle's behaviour for your own particle.
+You can see all the particle factories by looking at all the implementations of the `ParticleProvider` interface. This is helpful if you want to use another particle's behaviour for your own particle.
 
 - IntelliJ's hotkey: Ctrl+Alt+B
 - Visual Studio Code's hotkey: Ctrl+F12

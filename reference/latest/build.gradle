@@ -1,17 +1,17 @@
-def minecraftVersion = "1.21.11"
-def fabricApiVersion = "0.141.1+1.21.11"
+def minecraftVersion = "26.1"
+def fabricApiVersion = "0.144.3+26.1"
 
 // :::automatic-testing:game-test:2
 dependencies {
 // :::automatic-testing:game-test:2
   minecraft "com.mojang:minecraft:${minecraftVersion}"
-  mappings loom.officialMojangMappings()
-  modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+  implementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 
 // :::automatic-testing:game-test:2
   productionRuntimeMods "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 }
 
+// :::automatic-testing:game-test:2
 // :::classtweaker-setup:gradle:::
 loom {
 
@@ -20,7 +20,6 @@ loom {
 }
 // :::classtweaker-setup:gradle:::
 
-// :::automatic-testing:game-test:2
 // :::automatic-testing:2
 test {
 	useJUnitPlatform()
