@@ -34,13 +34,13 @@ If you're struggling to determine balanced values for any of the numerical param
 
 Using the same utility function as in the [Creating Your First Item](./first-item) guide, you can create your tool items:
 
-<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#7
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#guidite-sword
 
 The two float values (`1f, 1f`) refer to the attack damage of the tool and the attack speed of the tool respectively.
 
 Remember to add them to a creative tab if you want to access them from the creative inventory!
 
-<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#8
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#add-guidite-sword-to-create-tab
 
 You will also have to add a texture, item translation and item model. However, for the item model, you'll want to use the `item/handheld` model as your parent instead of the usual `item/generated`.
 

@@ -21,7 +21,7 @@ Just like items and blocks, potions need to be registered.
 Let's start by declaring a field to hold your `Potion` instance. We will be directly using a `ModInitializer`-implementing class to
 hold this. Note the use of `Registry.registerForHolder`, as, like mob effects, most vanilla methods that use potions prefer them as holders.
 
-@[code lang=java transclude={18-27}](@/reference/latest/src/main/java/com/example/docs/potion/ExampleModPotions.java)
+<<< @/reference/latest/src/main/java/com/example/docs/potion/ExampleModPotions.java#potion
 
 We pass an instance of `MobEffectInstance`, which takes 3 parameters:
 
@@ -40,7 +40,7 @@ To create your own potion effect, please see the [Effects](../entities/effects) 
 
 In our initializer, we will use the `FabricBrewingRecipeRegistryBuilder.BUILD` event to register our potion using the `BrewingRecipeRegistry.registerPotionRecipe` method.
 
-@[code lang=java transclude={29-40}](@/reference/latest/src/main/java/com/example/docs/potion/ExampleModPotions.java)
+<<< @/reference/latest/src/main/java/com/example/docs/potion/ExampleModPotions.java#register-potion
 
 `registerPotionRecipe` takes 3 parameters:
 

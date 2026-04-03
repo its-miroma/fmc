@@ -64,7 +64,7 @@ Unlike `ToolMaterial`, `ArmorMaterial` does not store any information about the 
 
 This is achieved by passing the `BASE_DURABILITY` constant we created previously into the `maxDamage` method in the `Item.Properties` class.
 
-<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#6
+<<< @/reference/latest/src/main/java/com/example/docs/item/ModItems.java#create-armor-items
 
 You will also need to [add the items to a creative tab](./custom-creative-tabs) if you want them to be accessible from the inventory.
 
