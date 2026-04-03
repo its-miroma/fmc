@@ -182,7 +182,7 @@ Make sure to push the matrix stack before you get a transformation matrix!
 
 :::
 
-<<< @/reference/latest/src/client/java/com/example/docs/rendering/RenderingConceptsEntrypoint.java#2
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/RenderingConceptsEntrypoint.java#scaling-square
 
 ![A video showing the diamond scaling up and down](/assets/develop/rendering/concepts-matrix-stack.webp)
 
@@ -204,7 +204,7 @@ It's highly unlikely you'll need to ever use a Quaternion class directly, since 
 
 Let's say we want to rotate our square around the z-axis. We can do this by using the `PoseStack` and the `rotateAround(quaternionfc, x, y, z)` method.
 
-<<< @/reference/latest/src/client/java/com/example/docs/rendering/RenderingConceptsEntrypoint.java#3
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/RenderingConceptsEntrypoint.java#rotating-square
 
 The result of this is the following:
 
