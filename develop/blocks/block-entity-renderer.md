@@ -28,7 +28,7 @@ Then we create a `BlockEntityRenderer` for our `CounterBlockEntity`.
 The new class has a constructor with `BlockEntityRendererProvider.Context` as a parameter. The `Context` has a few useful rendering utilities, like the `ItemRenderer` or `Font`.
 Also, by including a constructor like this, it becomes possible to use the constructor as the `BlockEntityRendererProvider` functional interface itself:
 
-<<< @/reference/latest/src/client/java/com/example/docs/ExampleModBlockEntityRenderer.java#1
+<<< @/reference/latest/src/client/java/com/example/docs/ExampleModBlockEntityRenderer.java#register-block-entity-renderer
 
 We will override a few methods to set up the render state along with the `submit` method where the rendering logic will be set up.
 

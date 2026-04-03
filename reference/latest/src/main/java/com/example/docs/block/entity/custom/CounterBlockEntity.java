@@ -11,72 +11,72 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import com.example.docs.block.entity.ModBlockEntities;
 
-// #region 1
+// #region block-entity
 public class CounterBlockEntity extends BlockEntity {
-	// #endregion 1
+	// #endregion block-entity
 
-	// #region 2
+	// #region clicks
 	private int clicks = 0;
-	// #endregion 2
+	// #endregion clicks
 
 	private int ticksSinceLast = 0;
 
-	// #region 1
+	// #region block-entity
 	public CounterBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.COUNTER_BLOCK_ENTITY, pos, state);
 	}
-	// #endregion 1
+	// #endregion block-entity
 
-	// #region 2
+	// #region clicks
 	public int getClicks() {
 		return clicks;
 	}
 
 	public void incrementClicks() {
-		// #endregion 2
+		// #endregion clicks
 
-		// #region 6
+		// #region ticks-since-last
 		if (ticksSinceLast < 10) return;
 		ticksSinceLast = 0;
-		// #endregion 6
+		// #endregion ticks-since-last
 
-		// #region 2
+		// #region clicks
 		clicks++;
 		setChanged();
 	}
-	// #endregion 2
+	// #endregion clicks
 
-	// #region 3
+	// #region saving
 	@Override
 	protected void saveAdditional(ValueOutput output) {
 		output.putInt("clicks", clicks);
 
 		super.saveAdditional(output);
 	}
-	// #endregion 3
+	// #endregion saving
 
-	// #region 4
+	// #region loading
 	@Override
 	protected void loadAdditional(ValueInput input) {
 		super.loadAdditional(input);
 
 		clicks = input.getIntOr("clicks", 0);
 	}
-	// #endregion 4
+	// #endregion loading
 
-	// #region 5
+	// #region tickers
 	public static void tick(Level level, BlockPos blockPos, BlockState blockState, CounterBlockEntity entity) {
 		entity.ticksSinceLast++;
 	}
-	// #endregion 5
+	// #endregion tickers
 
-	// #region 7
+	// #region get-update-tag
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
 		return saveWithoutMetadata(registryLookup);
 	}
-	// #endregion 7
+	// #endregion get-update-tag
 
-	// #region 1
+	// #region block-entity
 }
-// #endregion 1
+// #endregion block-entity

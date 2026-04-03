@@ -21,7 +21,7 @@ You should put this method in a class called `ModBlocks` (or whatever you want t
 
 Mojang does something extremely similar like this with vanilla blocks; you can refer to the `Blocks` class to see how they do it.
 
-<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#first-block
 
 Just like with items, you need to ensure that the class is loaded so that all static fields containing your block instances are initialized.
 
@@ -33,15 +33,9 @@ If you are unaware of what static initialization is, it is the process of initia
 
 :::
 
-```java
-public class ModBlocks {
-    // ...
+<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#static-initialization
 
-    public static void initialize() {}
-}
-```
-
-<<< @/reference/latest/src/main/java/com/example/docs/block/ExampleModBlocks.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/block/ExampleModBlocks.java#initialize
 
 ## Creating And Registering Your Block {#creating-and-registering-your-block}
 
@@ -60,7 +54,7 @@ You can also use `BlockBehavior.Properties.ofFullCopy(BlockBehavior block)` to c
 
 :::
 
-<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#2
+<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#condensed-dirt
 
 To automatically create the block item, we can pass `true` to the `shouldRegisterItem` parameter of the `register` method we created in the previous step.
 
@@ -70,7 +64,7 @@ Since the `BlockItem` is automatically created and registered, to add it to a cr
 
 For this example, we will add the block to the `BUILDING_BLOCKS` tab. To instead add the block to a custom creative tab, see [Custom Creative Tabs](../items/custom-creative-tabs).
 
-<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#6
+<<< @/reference/latest/src/main/java/com/example/docs/block/ModBlocks.java#add-to-creative-tab
 
 You should place this within the `initialize()` function of your class.
 
