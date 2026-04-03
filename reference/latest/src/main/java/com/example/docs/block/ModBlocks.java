@@ -32,29 +32,31 @@ import com.example.docs.block.custom.EngineBlock;
 import com.example.docs.block.custom.PrismarineLampBlock;
 import com.example.docs.block.custom.VerticalSlabBlock;
 
-// #region 1
+// #region first-block
+// #region static-initialization
 public class ModBlocks {
-	// #endregion 1
+	// #endregion static-initialization
+	// #endregion first-block
 
-	// #region 2
+	// #region condensed-dirt
 	public static final Block CONDENSED_DIRT = register(
 			"condensed_dirt",
 			Block::new,
 			BlockBehaviour.Properties.of().sound(SoundType.GRASS),
 			true
 	);
-	// #endregion 2
+	// #endregion condensed-dirt
 
-	// #region 3
+	// #region condensed-oak-log
 	public static final Block CONDENSED_OAK_LOG = register(
 			"condensed_oak_log",
 			RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD),
 			true
 	);
-	// #endregion 3
+	// #endregion condensed-oak-log
 
-	// #region 4
+	// #region prismarine-lamp
 	public static final Block PRISMARINE_LAMP = register(
 			"prismarine_lamp",
 			PrismarineLampBlock::new,
@@ -63,7 +65,7 @@ public class ModBlocks {
 					.lightLevel(PrismarineLampBlock::getLuminance),
 			true
 	);
-	// #endregion 4
+	// #endregion prismarine-lamp
 
 	public static final ResourceKey<Block> ENGINE_BLOCK_KEY = ResourceKey.create(
 			Registries.BLOCK,
@@ -76,14 +78,14 @@ public class ModBlocks {
 			true
 	);
 
-	// #region 5
+	// #region counter-block
 	public static final Block COUNTER_BLOCK = register(
 			"counter_block",
 			CounterBlock::new,
 			BlockBehaviour.Properties.of(),
 			true
 	);
-	// #endregion 5
+	// #endregion counter-block
 
 	public static final Block STEEL_BLOCK = register(
 			"steel_block", RotatedPillarBlock::new, BlockBehaviour.Properties.of(), true
@@ -133,7 +135,7 @@ public class ModBlocks {
 					"dirt_chest", DirtChestBlock::new, BlockBehaviour.Properties.of(), true
 	);
 
-	// #region 1
+	// #region first-block
 	private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {
 		// Create a registry key for the block
 		ResourceKey<Block> blockKey = keyOfBlock(name);
@@ -161,20 +163,28 @@ public class ModBlocks {
 	private static ResourceKey<Item> keyOfItem(String name) {
 		return ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, name));
 	}
-	// #endregion 1
+	// #endregion first-block
+
+	// #region static-initialization
+	// ...
 
 	public static void initialize() {
+		// #endregion static-initialization
 		setupItemGroups();
+		// #region static-initialization
 	}
+	// #endregion static-initialization
 
 	public static void setupItemGroups() {
-		// #region 6
+		// #region add-to-creative-tab
 		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS).register((itemGroup) -> {
 			itemGroup.accept(ModBlocks.CONDENSED_DIRT.asItem());
 		});
-		// #endregion 6
+		// #endregion add-to-creative-tab
 	}
 
-	// #region 1
+	// #region first-block
+	// #region static-initialization
 }
-// #endregion 1
+// #endregion static-initialization
+// #endregion first-block

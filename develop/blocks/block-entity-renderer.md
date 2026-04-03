@@ -21,22 +21,22 @@ First, we need to create a `BlockEntityRenderState` for our `CounterBlockEntity`
 
 Then we create a `BlockEntityRenderer` for our `CounterBlockEntity`.
 
-<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#1
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#new-renderer
 
 The new class has a constructor with `BlockEntityRendererProvider.Context` as a parameter. The `Context` has a few useful rendering utilities, like the `ItemRenderer` or `Font`.
 Also, by including a constructor like this, it becomes possible to use the constructor as the `BlockEntityRendererProvider` functional interface itself:
 
-<<< @/reference/latest/src/client/java/com/example/docs/ExampleModBlockEntityRenderer.java#1
+<<< @/reference/latest/src/client/java/com/example/docs/ExampleModBlockEntityRenderer.java#register-block-entity-renderer
 
 We will override a few methods to set up the render state along with the `submit` method where the rendering logic will be set up.
 
 `createRenderState` can be used to initialize the render state.
 
-@[code transclude={31-34}](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#create-render-state
 
 `extractRenderState` can be used to update the render state with entity data.
 
-@[code transclude={36-42}](@/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java)
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#extract-render-state
 
 You should register block entity renderers in your `ClientModInitializer` class.
 
@@ -69,9 +69,7 @@ So first we need to move the text halfway across the block on the X and Z axes, 
 
 This is done with a single `translate` call:
 
-```java
-matrices.translate(0.5, 1, 0.5);
-```
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#translate
 
 That's the _translation_ done, _rotation_ and _scale_ remain.
 
@@ -81,19 +79,15 @@ By default, the text is drawn on the XY plane, so we need to rotate it 90 degree
 
 The `PoseStack` does not have a `rotate` function, instead we need to use `mulPose` and `Axis.XP`:
 
-```java
-matrices.mulPose(Axis.XP.rotationDegrees(90));
-```
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#rotate
 
 Now the text is in the correct position, but it's too large. The `BlockEntityRenderer` maps the whole block to a `[-0.5, 0.5]` cube, while a `Font` uses Y coordinates of `[0, 9]`. As such, we need to scale it down by a factor of 18:
 
-```java
-matrices.scale(1/18f, 1/18f, 1/18f);
-```
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#scale
 
 Now, the whole transformation looks like this:
 
-<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#2
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#transformation
 
 ### Drawing Text {#drawing-text}
 
@@ -101,7 +95,7 @@ As mentioned earlier, the `Context` passed into the constructor of our renderer 
 
 To draw the text, we will be submitting the necessary data to the render queue. Since we're drawing some text, we can use the `submitText` method provided through the `SubmitNodeCollector` instance passed into the `submit` method.
 
-<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#3
+<<< @/reference/latest/src/client/java/com/example/docs/rendering/blockentity/CounterBlockEntityRenderer.java#draw-text
 
 The `submitText` method takes a lot of parameters, but the most important ones are:
 

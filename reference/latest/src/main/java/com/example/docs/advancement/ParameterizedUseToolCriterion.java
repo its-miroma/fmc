@@ -48,5 +48,5 @@ public class ParameterizedUseToolCriterion extends SimpleCriterionTrigger<Parame
 
 		// #endregion datagen-advancements--new-requirements-met
 	}
-		// #endregion datagen-advancements--new-parameter
+	// #endregion datagen-advancements--new-parameter
 }
