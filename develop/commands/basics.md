@@ -157,7 +157,7 @@ and `/command_two sub_command_two` will be valid.
 
 Similarly, Fabric API provides the `ClientCommandRegistrationCallback` event in `net.fabricmc.fabric.api.client.command.v2` package that can be used to register client-side commands, replacing the vanilla `Commands` class with the equivalent `ClientCommands`. The code should exist only in client-side code.
 
-<<< @/reference/latest/src/client/java/com/example/docs/client/command/ExampleModClientCommands.java#1
+<<< @/reference/latest/src/client/java/com/example/docs/client/command/ExampleModClientCommands.java#register-command
 
 ## Command Redirects {#command-redirects}
 
