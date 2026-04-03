@@ -45,7 +45,7 @@ of `DamageSource`.
 
 The `ResourceKey` can be obtained as follows:
 
-<<< @/reference/latest/src/main/java/com/example/docs/damage/ExampleModDamageTypes.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/damage/ExampleModDamageTypes.java#damage-type
 
 ### Using Damage Types {#using-damage-types}
 
