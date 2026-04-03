@@ -40,7 +40,7 @@ You will need to implement the `parse` method, which will parse the input string
 
 For example, you can create an argument type that parses a `BlockPos` from a string with the following format: `{x, y, z}`
 
-<<< @/reference/latest/src/main/java/com/example/docs/command/BlockPosArgumentType.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/command/BlockPosArgumentType.java#custom-argument-types
 
 ### Registering Custom Argument Types {#registering-custom-argument-types}
 

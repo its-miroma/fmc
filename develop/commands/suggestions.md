@@ -35,7 +35,7 @@ If a built-in provider doesn't satisfy your needs, you can create your own sugge
 
 For this example, we'll make a suggestion provider that suggests all the player usernames on the server.
 
-<<< @/reference/latest/src/main/java/com/example/docs/command/PlayerSuggestionProvider.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/command/PlayerSuggestionProvider.java#suggestion-provider
 
 To use this suggestion provider, you would simply pass an instance of it into the `.suggests` method on the argument builder.
 
