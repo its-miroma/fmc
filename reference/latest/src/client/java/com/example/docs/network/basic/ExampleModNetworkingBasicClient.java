@@ -29,13 +29,18 @@ public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 				return;
 			}
 
+			// #region payload-pos
 			BlockPos lightningPos = payload.pos();
+			// #endregion payload-pos
+
+			// #region lightning-bolt
 			LightningBolt entity = EntityType.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);
 
 			if (entity != null) {
 				entity.setPos(lightningPos.getX(), lightningPos.getY(), lightningPos.getZ());
 				level.addEntity(entity);
 			}
+			// #endregion lightning-bolt
 		});
 		// #endregion client-global-receiver
 
@@ -48,8 +53,13 @@ public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 			ItemStack usedItemStack = player.getItemInHand(hand);
 
 			if (entity instanceof LivingEntity && usedItemStack.is(Items.POISONOUS_POTATO) && hand == InteractionHand.MAIN_HAND) {
+				// #region payload
 				GiveGlowingEffectServerboundPayload payload = new GiveGlowingEffectServerboundPayload(hitResult.getEntity().getId());
+				// #endregion payload
+
+				// #region send
 				ClientPlayNetworking.send(payload);
+				// #endregion send
 
 				return InteractionResult.SUCCESS;
 			}
