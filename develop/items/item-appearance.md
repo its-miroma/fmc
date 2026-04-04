@@ -31,7 +31,7 @@ Let's register a custom tint source to color our Waxcap item, so that when it ra
 
 You'll first need to define a custom item tint source. This is done by implementing the `ItemTintSource` interface on a class or a record.
 
-@[code lang=java transcludeWith=:::tint_source](@/reference/latest/src/client/java/com/example/docs/appearance/RainTintSource.java)
+<<< @/reference/latest/src/client/java/com/example/docs/appearance/RainTintSource.java#tint-source
 
 As this is part of the client item definition, tint values can be changed with a resource pack. So you need to define a [Map Codec](../codecs#mapcodec) that's capable of reading your tint definition. In this case, the tint source will have an `int` value describing the color it will have when raining. We can use the built-in `ExtraCodecs.RGB_COLOR_CODEC` to compose our Codec.
 
@@ -47,11 +47,11 @@ Finally, we can provide an implementation for `calculate` that would decide what
 
 We then need to register our item tint source. This is done in the **client initializer** using the `ID_MAPPER` declared in `ItemTintSources`.
 
-@[code lang=java transcludeWith=:::item_tint_source](@/reference/latest/src/client/java/com/example/docs/appearance/ExampleModAppearanceClient.java)
+<<< @/reference/latest/src/client/java/com/example/docs/appearance/ExampleModAppearanceClient.java#item-tint-source
 
 Once this is done, we can use our item tint source in a client item definition.
 
-@[code lang=json transclude](@/reference/latest/src/main/generated/assets/example-mod/items/waxcap.json)
+<<< @/reference/latest/src/main/generated/assets/example-mod/items/waxcap.json
 
 You can observe the item color change in-game.
 

@@ -10,9 +10,9 @@ import net.fabricmc.api.ModInitializer;
 import com.example.docs.ExampleMod;
 
 public class ExampleModDamageTypes implements ModInitializer {
-	// :::1
+	// #region 1
 	public static final ResourceKey<DamageType> TATER_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(ExampleMod.MOD_ID, "tater"));
-	// :::1
+	// #endregion 1
 
 	@Override
 	public void onInitialize() {

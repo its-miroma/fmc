@@ -15,13 +15,13 @@ import net.minecraft.world.level.Level;
 
 import com.example.docs.component.ModComponents;
 
-//::1
+// #region 1
 public class CounterItem extends Item {
 	public CounterItem(Properties properties) {
 		super(properties);
 	}
 
-	//::1
+	// #endregion 1
 
 	@Override
 	//::2
@@ -42,15 +42,15 @@ public class CounterItem extends Item {
 	//::2
 
 	@Override
-	//::3
+	// #region 3
 	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
 		if (stack.has(ModComponents.CLICK_COUNT_COMPONENT)) {
 			int count = stack.get(ModComponents.CLICK_COUNT_COMPONENT);
 			textConsumer.accept(Component.translatable("item.example-mod.counter.info", count).withStyle(ChatFormatting.GOLD));
 		}
 	}
-	//::3
+	// #endregion 3
 
-	//::1
+	// #region 1
 }
-//::1
+// #endregion 1

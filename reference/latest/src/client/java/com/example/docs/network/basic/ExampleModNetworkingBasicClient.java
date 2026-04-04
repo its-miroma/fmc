@@ -21,7 +21,7 @@ import com.example.docs.networking.basic.GiveGlowingEffectServerboundPayload;
 public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// :::client_global_receiver
+		// #region client-global-receiver
 		ClientPlayNetworking.registerGlobalReceiver(ClientboundSummonLightningPayload.TYPE, (payload, context) -> {
 			ClientLevel level = context.client().level;
 
@@ -37,9 +37,9 @@ public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 				level.addEntity(entity);
 			}
 		});
-		// :::client_global_receiver
+		// #endregion client-global-receiver
 
-		// :::use_entity_callback
+		// #region use-entity-callback
 		UseEntityCallback.EVENT.register((player, level, hand, entity, hitResult) -> {
 			if (!level.isClientSide()) {
 				return InteractionResult.PASS;
@@ -56,6 +56,6 @@ public class ExampleModNetworkingBasicClient implements ClientModInitializer {
 
 			return InteractionResult.PASS;
 		});
-		// :::use_entity_callback
+		// #endregion use-entity-callback
 	}
 }

@@ -15,7 +15,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
  * - FAIL cancels further processing and does not shear the sheep.
  */
 
-// :::
+// #region TODO-give-me-a-name
 public interface SheepShearCallback {
 	Event<SheepShearCallback> EVENT = EventFactory.createArrayBacked(SheepShearCallback.class,
 			(listeners) -> (player, sheep) -> {
@@ -32,4 +32,4 @@ public interface SheepShearCallback {
 
 	InteractionResult interact(Player player, Sheep sheep);
 }
-// :::
+// #endregion TODO-give-me-a-name

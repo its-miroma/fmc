@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-// :::1
+// #region 1
 public class TaterBlock extends Block {
 	public TaterBlock(Properties settings) {
 		super(settings);
@@ -28,4 +28,4 @@ public class TaterBlock extends Block {
 		}
 	}
 }
-// :::1
+// #endregion 1
