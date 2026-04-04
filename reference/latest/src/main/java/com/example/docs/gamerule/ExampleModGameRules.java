@@ -31,17 +31,19 @@ public class ExampleModGameRules implements ModInitializer {
 	// #endregion double
 
 	private static void initializeBadVision() {
-		// #region badvision
+		// #region badvision-implement
 		// In your mod's onInitialize():
 		ServerTickEvents.END_LEVEL_TICK.register(serverLevel -> {
 			// Runs every tick on the server
-			// #endregion badvision
+			// #endregion badvision-implement
 			// #region vanilla
 			boolean doMobGriefing = serverLevel.getGameRules().get(GameRules.MOB_GRIEFING);
 			// #endregion vanilla
-			// #region badvision
+			// #region badvision-get
+			// #region badvision-implement
 			// Check for the state of the gamerule
 			boolean badVisionEnabled = serverLevel.getGameRules().get(ExampleModGameRules.BAD_VISION_BOOLEAN_GAMERULE);
+			// #endregion badvision-get
 
 			if (badVisionEnabled) {
 				// If the gamerule is true
@@ -58,7 +60,7 @@ public class ExampleModGameRules implements ModInitializer {
 				}
 			}
 		});
-		// #endregion badvision
+		// #endregion badvision-implement
 	}
 
 	@Override

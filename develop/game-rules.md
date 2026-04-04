@@ -37,7 +37,7 @@ Example of a game rule storing a double:
 
 Now that we have a game rule and its `Identifier`, you can access it anywhere with the `serverLevel.getGameRules().get(GAMERULE)` method, where the argument to the `.get()` is your game rule constant and not the game rule id.
 
-@[code lang=java transclude={44-44}](@/reference/latest/src/main/java/com/example/docs/gamerule/ExampleModGameRules.java)
+<<< @/reference/latest/src/main/java/com/example/docs/gamerule/ExampleModGameRules.java#badvision-get
 
 You can also use this to access the values of vanilla game rules:
 
@@ -45,7 +45,7 @@ You can also use this to access the values of vanilla game rules:
 
 For example, for a rule that applies blindness to every player when true, the implementation would be:
 
-<<< @/reference/latest/src/main/java/com/example/docs/gamerule/ExampleModGameRules.java#badvision
+<<< @/reference/latest/src/main/java/com/example/docs/gamerule/ExampleModGameRules.java#badvision-implement
 
 ## Translations {#translations}
 
