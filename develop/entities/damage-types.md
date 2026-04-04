@@ -56,15 +56,15 @@ You can override `stepOn` to inflict this damage.
 
 We start by creating a `DamageSource` of our custom damage type.
 
-@[code lang=java transclude={22-26}](@/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java#create-damage-source
 
-Then, we call `entity.damage()` with our `DamageSource` and an amount.
+Then, we call `entity.hurtServer()` with the current level, our `DamageSource`, and an amount.
 
-@[code lang=java transclude={27-27}](@/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java)
+<<< @/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java#hurt-entity
 
 The complete block implementation:
 
-<<< @/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/damage/TaterBlock.java#complete-block
 
 Now whenever a living entity steps on our custom block, it'll take 5 damage (2.5 hearts) using our custom damage type.
 
