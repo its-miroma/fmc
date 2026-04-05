@@ -8,7 +8,7 @@ import net.minecraft.util.Mth;
 
 import com.example.docs.sound.instance.SoundInstanceCallback;
 
-// #region 1
+// #region class-fields
 public abstract class AbstractDynamicSoundInstance extends AbstractTickableSoundInstance {
 	protected final DynamicSoundSource soundSource;                 // Entities, BlockEntities, ...
 	protected TransitionState transitionState;                      // current TransitionState of the SoundInstance
@@ -25,9 +25,9 @@ public abstract class AbstractDynamicSoundInstance extends AbstractTickableSound
 	protected final SoundInstanceCallback callback;                 // callback for soundInstance states
 
 	// ...
-	// #endregion 1
+	// #endregion class-fields
 
-	// #region 2
+	// #region constructor
 	// ...
 
 	// set up default settings of the SoundInstance in this constructor
@@ -56,18 +56,18 @@ public abstract class AbstractDynamicSoundInstance extends AbstractTickableSound
 	}
 
 	// ...
-	// #endregion 2
+	// #endregion constructor
 
-	// #region 3
+	// #region can-start
 	@Override
 	public boolean canStartSilent() {
 		// override to true, so that the SoundInstance can start
 		// or add your own condition to the SoundInstance, if necessary
 		return true;
 	}
-	// #endregion 3
+	// #endregion can-start
 
-	// #region 4
+	// #region tick
 	@Override
 	public void tick() {
 		// handle states where sound might be actually stopped instantly
@@ -103,9 +103,9 @@ public abstract class AbstractDynamicSoundInstance extends AbstractTickableSound
 		// apply volume and pitch modulation here,
 		// if you use a normal SoundInstance class
 	}
-	// #endregion 4
+	// #endregion tick
 
-	// #region 5
+	// #region modulation
 	// increase or decrease volume and pitch based on the current phase of the sound
 	protected void modulateSoundForTransition() {
 		float normalizedTick = switch (transitionState) {
@@ -121,9 +121,9 @@ public abstract class AbstractDynamicSoundInstance extends AbstractTickableSound
 	protected void modulateSoundForStress() {
 		this.pitch = Mth.lerp(this.soundSource.getNormalizedStress(), this.minPitch, this.maxPitch);
 	}
-	// #endregion 5
+	// #endregion modulation
 
-	// #region 6
+	// #region other
 	// moves the sound instance position to the sound source's position
 	protected void setPositionToEntity() {
 		this.x = soundSource.getPosition().x();
@@ -136,7 +136,7 @@ public abstract class AbstractDynamicSoundInstance extends AbstractTickableSound
 	public void end() {
 		this.transitionState = TransitionState.ENDING;
 	}
-	// #endregion 6
-	// #region 1
+	// #endregion other
+	// #region class-fields
 }
-// #endregion 1
+// #endregion class-fields
