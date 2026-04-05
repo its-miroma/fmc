@@ -13,11 +13,11 @@ Make sure to execute the `playSound()` method on the logical server side when us
 
 In this example, the `interactLivingEntity()` and `useOn()` methods for a custom interactive item are used to play a "placing copper block" and a pillager sound.
 
-<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CustomSoundItem.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CustomSoundItem.java#interact
 
 The `playSound()` method is used with the `LivingEntity` object. Only the SoundEvent, the volume and the pitch need to be specified. You can also use the `playSound()` method from the level instance to have a higher level of control.
 
-<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CustomSoundItem.java#2
+<<< @/reference/latest/src/main/java/com/example/docs/item/custom/CustomSoundItem.java#use-on
 
 ### SoundEvent and SoundCategory {#soundevent-and-soundcategory}
 
