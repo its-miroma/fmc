@@ -10,7 +10,6 @@ import net.minecraft.world.level.saveddata.SavedDataType;
 
 import com.example.docs.ExampleMod;
 
-// :::class
 // #region basic-structure
 public class SavedBlockData extends SavedData {
 	private int blocksBroken = 0;
@@ -74,4 +73,3 @@ public class SavedBlockData extends SavedData {
 	// #region basic-structure
 }
 // #endregion basic-structure
-// :::class
