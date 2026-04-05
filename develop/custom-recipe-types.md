@@ -90,6 +90,10 @@ To detect when the user takes the result out, we create an anonymous subclass of
 
 To prevent deleting items, it is important to drop the inputs back when the screen is closed, as shown in the `removed` method.
 
+You also need to add the menu to the registry:
+
+<<< @/reference/latest/src/main/java/com/example/docs/recipe/ExampleModRecipes.java#upgrading-menu-registration
+
 ## Recipe Synchronization {#recipe-synchronization}
 
 ::: info
