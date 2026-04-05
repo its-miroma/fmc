@@ -89,7 +89,7 @@ public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisp
 
 As of 1.21.5, `appendHoverText` has been deprecated. It is now recommended to implement `TooltipProvider` as such. This will require the [creation of a custom component class](#advanced-data-components).
 
-<<< @/reference/latest/src/main/java/com/example/docs/component/ComponentWithTooltip.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/component/ComponentWithTooltip.java#component-with-tooltip
 
 Then, you can register the `TooltipProvider` via `ItemComponentTooltipProviderRegistry`. This is called in `onInitialize` in the `ModInitializer`.
 
@@ -300,7 +300,7 @@ Now you can store custom data on an `ItemStack`. Use responsibly!
 
 Since we have a custom component class, we're able to implement `TooltipProvider` as such and avoid the deprecated `appendHoverText method.`
 
-<<< @/reference/latest/src/main/java/com/example/docs/component/AdvancedCustomComponent.java#1
+<<< @/reference/latest/src/main/java/com/example/docs/component/AdvancedCustomComponent.java#advanced-custom-component
 
 Then, you can register the `TooltipProvider` via `ItemComponentTooltipProviderRegistry`. This is called in `onInitialize` in the `ModInitializer`.
 
