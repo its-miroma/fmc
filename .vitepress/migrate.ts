@@ -1,15 +1,32 @@
+import * as crossSpawn from "cross-spawn";
 import * as fs from "node:fs";
 import * as process from "node:process";
 import * as tinyglobby from "tinyglobby";
 
-const warn = (...args: [string, ...string[]]) =>
-  console.warn(
-    args
-      .map((a) =>
-        a.replace(/^reference[/]latest[/]src/, "@src").replace("/com/example/docs/", "/.../")
-      )
-      .join("\n  ")
-  );
+const v = process.argv[2];
+const DO_IT = Boolean(process.argv[3]);
+
+if (!(/^[0-9.]+$/.test(v) && fs.existsSync(`versions/${v}/`) && fs.existsSync(`reference/${v}/`))) {
+  console.error(`WRONG VERSION: ${v}`);
+  console.log("usage: npx tsx .vitepress/migrate.ts VERSION [DO_IT]");
+  process.exit(1);
+}
+
+const warn = (...args: [string, ...string[]]) => console.warn(args.join("\n  "));
+
+const git = (...args: string[]) => {
+  const res = crossSpawn.sync("git", args, { encoding: "utf8" });
+  if (res.error) {
+    console.error(`Failed to run 'git ${args.join(" ")}'!\n  ${res.error}`);
+    process.exit(1);
+  }
+  return res;
+};
+
+if (git("status", "--porcelain").stdout.toString().trim().length > 0) {
+  console.error("Working directory must be clean!");
+  process.exit(1);
+}
 
 const PRIORITY = [
   "index.md",
@@ -45,7 +62,7 @@ const sorter = (a: string, b: string) => {
 
 const pathToContentMap = Object.fromEntries(
   tinyglobby
-    .globSync(["contributing.md", "develop/**/*.md", "players/**/*.md"])
+    .globSync([`versions/${v}/develop/**/*.md`, `versions/${v}/players/**/*.md`])
     .sort(sorter)
     .map((f) => [f, fs.readFileSync(f, "utf-8")] as const)
     .filter(([_, c]) => c.split("@[").length !== 1)
@@ -68,9 +85,7 @@ for (const f of Object.keys(pathToContentMap)) {
       const includedPath = (args[1] as string).replace(/^@\//, "");
 
       if ("transclude" in config) {
-        if (process.env.VERBOSE) {
-          warn("LINE TRANSCLUSION DETECTED", f, includedPath);
-        }
+        warn("LINE TRANSCLUSION DETECTED", f, includedPath);
 
         return old;
       }
@@ -130,13 +145,32 @@ for (const f of Object.keys(pathToContentMap)) {
     }
   );
 
-  if (process.env.DO_IT) {
+  if (DO_IT) {
     fs.writeFileSync(f, newContent);
   }
 }
 
-if (process.env.DO_IT) {
+if (DO_IT) {
   for (const f of Object.keys(javaToNewMap)) {
     fs.writeFileSync(f, javaToNewMap[f]);
   }
+}
+
+git("add", ".");
+git("commit", "--message=npx tsx .vitepress/migrate.ts");
+
+const startCommit = git("stem", "--reverse", "--pretty=%H", "main...migration")
+  .stdout.split("\n")[2]
+  .trim();
+
+const patch = git("diff", "--unified=1", `${startCommit}...migration`)
+  .stdout.replace(/( [ab])[/](?!reference[/])/gm, `\$1/versions/${v}/`)
+  .replace(/([ab@][/]reference)[/]latest[/]/gm, `\$1/${v}/`)
+  .replace(/^(rename [^ ]+ reference)[/]latest[/]/gm, `\$1/${v}/`);
+
+if (DO_IT) {
+  fs.writeFileSync(`${v}.patch`, patch);
+  git("apply", "--reject", `${v}.patch`);
+  fs.rmSync(`${v}.patch`);
+  git("add", ".", ":!**/*.rej");
 }
