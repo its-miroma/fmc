@@ -34,6 +34,7 @@ public class ParameterizedUseToolCriterion extends SimpleCriterionTrigger<Parame
 				ContextAwarePredicate.CODEC.optionalFieldOf("player").forGetter(Conditions::player),
 				Codec.INT.fieldOf("requiredTimes").forGetter(Conditions::requiredTimes)
 		).apply(instance, Conditions::new));
+		// :::datagen-advancements:new-codec
 		// :::datagen-advancements:new-parameter
 		@Override
 		public Optional<ContextAwarePredicate> player() {
@@ -44,7 +45,7 @@ public class ParameterizedUseToolCriterion extends SimpleCriterionTrigger<Parame
 		public boolean requirementsMet(int totalTimes) {
 			return totalTimes > requiredTimes; // AbstractCriterion#trigger helpfully checks the playerPredicate for us.
 		}
-
 		// :::datagen-advancements:new-requirements-met
 	}
+	// :::datagen-advancements:new-parameter
 }

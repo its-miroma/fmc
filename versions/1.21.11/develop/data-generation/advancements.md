@@ -113,7 +113,7 @@ Now that we've got a criterion and its conditions, we need a way to trigger it. 
 
 Almost there! Next, we need an instance of our criterion to work with. Let's put it in a new class, called `ModCriteria`.
 
-@[code lang=java transcludeWith=:::datagen-advancements:mod-criteria](@/reference/1.21.11/src/main/java/com/example/docs/advancement/ModCriteria.java)
+@[code lang=java transcludeWith=:::datagen-advancements:mod-criteria:](@/reference/1.21.11/src/main/java/com/example/docs/advancement/ModCriteria.java)
 
 To make sure that our criteria are initialized at the right time, add a blank `init` method:
 

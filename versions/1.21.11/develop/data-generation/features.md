@@ -121,7 +121,7 @@ In your placed features class, define the key for your placed feature.
 
 Next, we need to define our Placement Modifiers, which are attributes that you set when spawning the feature. These can be anything: from the spawn frequency, to the starting `y` level. You can have as few or as many modifiers as you like.
 
-@[code lang=java transcludeWith=:::datagen-world:placement-modifier](@/reference/1.21.11/src/main/java/com/example/docs/worldgen/ExampleModWorldPlacedFeatures.java)
+@[code lang=java transcludeWith=:::datagen-world:placement-modifiers](@/reference/1.21.11/src/main/java/com/example/docs/worldgen/ExampleModWorldPlacedFeatures.java)
 
 The function of each modifier listed is as follows:
 
