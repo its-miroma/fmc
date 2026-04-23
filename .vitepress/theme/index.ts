@@ -1,10 +1,8 @@
 import mediumZoom from "medium-zoom";
-import { type HeadConfig, inBrowser, type Theme, useData, useRouter } from "vitepress";
+import { inBrowser, type Theme, useData, useRoute } from "vitepress";
 import { enhanceAppWithTabs } from "vitepress-plugin-tabs/client";
 import DefaultTheme from "vitepress/theme";
-import { h, nextTick, onMounted, watch } from "vue";
-
-import redirects from "../redirects";
+import { h, nextTick, watch } from "vue";
 import AuthorsComponent from "./components/AuthorsComponent.vue";
 import BannerComponent from "./components/BannerComponent.vue";
 import ChoiceComponent from "./components/ChoiceComponent.vue";
@@ -15,7 +13,6 @@ import References from "./components/References.vue";
 import VersionReminder from "./components/VersionReminder.vue";
 import VersionSwitcher from "./components/VersionSwitcher.vue";
 import VideoPlayer from "./components/VideoPlayer.vue";
-
 import "./style.css";
 
 export default {
@@ -55,38 +52,15 @@ export default {
     return h(DefaultTheme.Layout, null, children);
   },
   setup: () => {
-    const data = useData();
-    const router = useRouter();
-
-    const initZoom = () => mediumZoom(".main img", { background: "var(--vp-c-bg)" });
-    onMounted(() => initZoom());
-    watch(
-      () => router.route.path,
-      () => nextTick(() => initZoom())
-    );
+    const route = useRoute();
 
     watch(
-      () => data.page.value.isNotFound,
-      (isNotFound) => {
-        if (!isNotFound || !inBrowser) return;
-
-        const split = router.route.path.toLowerCase().split("/").slice(1);
-        const locale = /^..[-_]..$/.test(split[0]) ? split.shift()!.replace("-", "_") : undefined;
-
-        let theRest = split.join("/");
-        for (const r of redirects) {
-          theRest = theRest.replace(r.from, r.dest);
-        }
-
-        const newPath = ["", locale, theRest].filter((s) => s !== undefined).join("/");
-        if (router.route.path !== newPath) {
-          const newUrl = `${location.origin}${newPath}`;
-          ((data.frontmatter.value.head ??= []) as HeadConfig[]).push(
-            ["link", { rel: "canonical", href: newUrl }],
-            ["meta", { "http-equiv": "refresh", "content": `0; url=${newUrl}` }]
-          );
-        }
-      },
+      () => route.path,
+      () =>
+        nextTick(() => {
+          if (!inBrowser) return;
+          mediumZoom(".main img", { background: "var(--vp-c-bg)" });
+        }),
       { immediate: true }
     );
   },
