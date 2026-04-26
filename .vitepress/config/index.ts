@@ -2,12 +2,13 @@ import snippetPlugin from "markdown-it-vuepress-code-snippet-enhanced";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as process from "node:process";
+import { SiteConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import defineVersionedConfig from "vitepress-versioning-plugin";
 import { transformFile, transformFilesPlugin } from "../plugins/transformFiles";
 import { Fabric } from "../types.d";
+import { transformHead } from "./head";
 import { getLocales } from "./i18n";
-import { transformHead, transformItems } from "./transform";
 
 const latestVersion = fs
   .readFileSync(
@@ -98,7 +99,13 @@ export default defineVersionedConfig(
 
     sitemap: {
       hostname,
-      transformItems,
+      transformItems: (items) => {
+        const config = (globalThis as any).VITEPRESS_CONFIG as SiteConfig;
+        return items.filter((i) => {
+          const relativePath = i.url.replace(hostname, "");
+          return !config.rewrites.inv[relativePath]?.startsWith("versions/");
+        });
+      },
     },
 
     srcExclude: ["README.md", "versions/1.21.10", ...(typeof env === "number" ? ["versions"] : [])],
