@@ -7,7 +7,7 @@ import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import defineVersionedConfig from "vitepress-versioning-plugin";
 import { transformFile, transformFilesPlugin } from "../plugins/transformFiles";
 import { Fabric } from "../types.d";
-import { transformHead } from "./head";
+import { getTransformHead } from "./head";
 import { getLocales } from "./i18n";
 
 const latestVersion = fs
@@ -42,14 +42,6 @@ export default defineVersionedConfig(
   {
     // Removes .html from the end of URLs.
     cleanUrls: true,
-
-    // Static head tags
-    head: [
-      ["link", { rel: "icon", sizes: "32x32", href: "/favicon.png" }],
-      ["link", { rel: "license", href: "https://github.com/FabricMC/fabric-docs/blob/-/LICENSE" }],
-      ["meta", { name: "theme-color", content: "#2275da" }],
-      ["meta", { name: "twitter:card", content: "summary" }], // haha still twitter
-    ],
 
     // Ignore dead links under translated/. Allows builds with incomplete translations
     ignoreDeadLinks: [
@@ -128,8 +120,8 @@ export default defineVersionedConfig(
       },
     } as Fabric.ThemeConfig,
 
-    // Dynamic head tags
-    transformHead,
+    // Head tags: metadata, Open Graph, favicon...
+    transformHead: getTransformHead(latestVersion),
 
     // Versioning plugin configuration.
     versioning: {

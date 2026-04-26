@@ -1,93 +1,137 @@
-import { HeadConfig, SiteConfig } from "vitepress";
+import { HeadConfig } from "vitepress";
+import { Fabric } from "../types";
 
 const getRedirects = (latestVersion: string): { from: RegExp; dest: string }[] => [
-    {
+  {
     from: /[/]{2,}/g,
-      dest: "/",
-    },
-    {
+    dest: "/",
+  },
+  {
     from: /((?<=^|[/])index)?[.](html|md)$/,
-      dest: "",
-    },
-    {
+    dest: "",
+  },
+  {
     from: new RegExp(`^${latestVersion.replaceAll(".", "[.]")}([/]|$)`),
-      dest: "",
-    },
-    {
+    dest: "",
+  },
+  {
     from: /^1[.]21[.]10([/]|$)/,
-      dest: "1.21.11/",
-    },
-    {
-      from: /develop[/]items[/]custom-item-groups$/,
-      dest: "develop/items/custom-creative-tabs",
-    },
-    {
-      from: /develop[/]rendering[/]draw-context$/,
-      dest: "develop/rendering/gui-graphics",
-    },
-    {
-      from: /develop[/]migrating-mappings([/]|$)/,
-      dest: "develop/porting/mappings/",
-    },
-    {
-      from: /develop[/]porting[/]current$/,
-      dest: "develop/porting/",
-    },
-    {
-      from: /develop[/]porting[/](next|26[.]1)([/]|$)/,
-      dest: "26.1/develop/porting/",
-    },
-    {
-      from: /develop[/]blocks[/]transparency-and-tinting$/,
-      dest: "develop/blocks/block-tinting",
-    },
+    dest: "1.21.11/",
+  },
+  {
+    from: /develop[/]items[/]custom-item-groups$/,
+    dest: "develop/items/custom-creative-tabs",
+  },
+  {
+    from: /develop[/]rendering[/]draw-context$/,
+    dest: "develop/rendering/gui-graphics",
+  },
+  {
+    from: /develop[/]migrating-mappings([/]|$)/,
+    dest: "develop/porting/mappings/",
+  },
+  {
+    from: /develop[/]porting[/]current$/,
+    dest: "develop/porting/",
+  },
+  {
+    from: /develop[/]porting[/](next|26[.]1)([/]|$)/,
+    dest: "26.1/develop/porting/",
+  },
+  {
+    from: /develop[/]blocks[/]transparency-and-tinting$/,
+    dest: "develop/blocks/block-tinting",
+  },
   // TODO: review if this works, at 404 and 200
-    {
-      from: /develop[/]blocks[/]block-tinting$/,
-      dest: "develop/blocks/transparency-and-tinting/",
-    },
-    {
-      from: /^(?:[0-9.]+[/])?develop[/]porting[/]mappings([/].*)?$/,
-      dest: "1.21.11/develop/porting/mappings$1",
-    },
+  {
+    from: /develop[/]blocks[/]block-tinting$/,
+    dest: "develop/blocks/transparency-and-tinting/",
+  },
+  {
+    from: /^(?:[0-9.]+[/])?develop[/]porting[/]mappings([/].*)?$/,
+    dest: "1.21.11/develop/porting/mappings$1",
+  },
 ];
 
-export const transformHead: SiteConfig["transformHead"] = (context) => {
-  const returned: HeadConfig[] = [];
+export const getTransformHead =
+  (latestVersion: string): NonNullable<Fabric.Config["transformHead"]> =>
+  (context) => {
+    const returned: HeadConfig[] = [];
+    const localeConfig = context.siteConfig.userConfig.locales![context.siteData.localeIndex!];
+    const origin = context.siteConfig.sitemap!.hostname;
 
-  // Don't index the page if it's a versioned page.
-  if (context.pageData.filePath.startsWith("versions/")) {
-    returned.push(["meta", { name: "robots", content: "none" }]);
-  }
+    if (context.pageData.isNotFound) {
+      const serializedRedirects = JSON.stringify(getRedirects(latestVersion), (_, v) =>
+        v instanceof RegExp ? { r: v.source, f: v.flags } : v
+      );
 
-  if (context.pageData.isNotFound) return returned;
+      const script = (serializedRedirects: { from: { r: string; f: string }; dest: string }[]) => {
+        const l = window.location;
+        const split = decodeURIComponent(l.pathname).toLowerCase().replace(/^\/+/, "").split("/");
+        const locale = /^..[_-]..$/.test(split[0]) ? `/${split.shift()!.replace("-", "_")}/` : "/";
+        const newPath = serializedRedirects
+          .map(({ from: { r, f }, dest }) => ({ from: new RegExp(r, f), dest }))
+          .reduce((p, r) => p.replace(r.from, r.dest), split.join("/"));
 
-  const split = context.pageData.filePath.split("/");
-  if (split[0] === "versions") split.splice(0, 2);
-  const locale = split[0] === "translated" ? split[1] : "en_us";
+        if (newPath !== split.join("/")) {
+          l.replace(`${locale}${newPath}${l.search}${l.hash}`);
+        } else {
+          const href = `${l.origin}${locale}${newPath}`;
+          const head: HeadConfig[] = [
+            ["link", { rel: "canonical", href }],
+            ["meta", { property: "og:url", content: href }],
+            ["meta", { name: "robots", content: "none" }],
+          ];
 
-  const hostName = context.siteConfig.sitemap!.hostname;
-  const siteName =
-    context.siteConfig.userConfig.locales![locale]?.title!
-    || context.siteConfig.userConfig.locales!.root!.title!;
-  const href = `${hostName}${context.pageData.relativePath.replace(/((?<=^|[/])index)?[.]md$/, "")}`;
+          for (const h of head) {
+            const el = document.createElement(h[0]);
+            for (const [k, v] of Object.entries(h[1])) el.setAttribute(k, v);
+            if (h[2]) el.innerHTML = h[2];
+            document.head.appendChild(el);
+          }
+        }
+      };
 
-  // https://ogp.me/
-  const og: [string, string][] = [
-    ["og:site_name", siteName],
-    ["og:title", context.pageData.title],
-    ["og:description", context.pageData.description],
-    ["og:url", href],
-    ["og:image", `${hostName}logo.png`],
-    ["og:type", "article"],
-    ["og:locale", locale.replace(/_..$/, (m) => m.toUpperCase().replace("_", "-"))],
-  ];
-  if ((context.pageData.lastUpdated ?? 0) > 0) {
-    og.push(["article:modified_time", String(context.pageData.lastUpdated)]);
-  }
+      returned.push(["script", {}, `(${script.toString()})(${serializedRedirects})`]);
+    } else {
+      const path = getRedirects(latestVersion).reduce(
+        (p, r) => p.replace(r.from, r.dest),
+        context.pageData.relativePath.toLowerCase().replace(localeConfig.link!.slice(1), "")
+      );
+      const href = `${origin}${localeConfig.link!.slice(1)}${path}`;
 
-  returned.push(...og.map(([property, content]) => ["meta", { property, content }] as HeadConfig));
-  returned.push(["link", { rel: "canonical", href }]);
+      returned.push(["link", { rel: "canonical", href }]);
+      returned.push(["meta", { property: "og:url", content: href }]);
 
-  return returned;
-};
+      if (context.pageData.filePath.startsWith("versions/")) {
+        returned.push(["meta", { name: "robots", content: "none" }]);
+      }
+    }
+
+    const ogLocale = context.siteData
+      .localeIndex!.replace("root", "en_us")
+      .replace(/..$/, (m) => m.toUpperCase());
+    returned.push(
+      ["meta", { property: "og:site_name", content: localeConfig.title! }],
+      ["meta", { property: "og:title", content: context.title }],
+      ["meta", { property: "og:description", content: context.description }],
+      ["meta", { property: "og:image", content: `${origin}logo.png` }],
+      ["meta", { property: "og:type", content: "article" }],
+      ["meta", { property: "og:locale", content: ogLocale }]
+    );
+
+    const lastUpdated = context.pageData.lastUpdated ?? 0;
+    if (lastUpdated > 0) {
+      const ogLastUpdated = new Date(lastUpdated).toISOString();
+      returned.push(["meta", { property: "article:modified_time", content: ogLastUpdated }]);
+    }
+
+    returned.push(
+      ["link", { rel: "icon", sizes: "32x32", href: "/favicon.png" }],
+      ["link", { rel: "license", href: "https://github.com/FabricMC/fabric-docs/blob/-/LICENSE" }],
+      ["meta", { name: "theme-color", content: "#2275da" }],
+      ["meta", { name: "twitter:card", content: "summary" }] // haha still twitter
+    );
+
+    return returned;
+  };
