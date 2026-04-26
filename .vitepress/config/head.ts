@@ -1,21 +1,20 @@
 import { HeadConfig, SiteConfig } from "vitepress";
 
-const getRedirects = (latestVersion: string) =>
-  [
+const getRedirects = (latestVersion: string): { from: RegExp; dest: string }[] => [
     {
-      from: /[/]{2,}/,
+    from: /[/]{2,}/g,
       dest: "/",
     },
     {
-      from: /((?<=^|[/])index)?[.]html$/,
+    from: /((?<=^|[/])index)?[.](html|md)$/,
       dest: "",
     },
     {
-      from: new RegExp(`^${latestVersion}([/]|$)`),
+    from: new RegExp(`^${latestVersion.replaceAll(".", "[.]")}([/]|$)`),
       dest: "",
     },
     {
-      from: new RegExp(`^1.21.10([/]|$)`),
+    from: /^1[.]21[.]10([/]|$)/,
       dest: "1.21.11/",
     },
     {
@@ -42,6 +41,7 @@ const getRedirects = (latestVersion: string) =>
       from: /develop[/]blocks[/]transparency-and-tinting$/,
       dest: "develop/blocks/block-tinting",
     },
+  // TODO: review if this works, at 404 and 200
     {
       from: /develop[/]blocks[/]block-tinting$/,
       dest: "develop/blocks/transparency-and-tinting/",
@@ -50,7 +50,7 @@ const getRedirects = (latestVersion: string) =>
       from: /^(?:[0-9.]+[/])?develop[/]porting[/]mappings([/].*)?$/,
       dest: "1.21.11/develop/porting/mappings$1",
     },
-  ] satisfies { from: RegExp; dest: string }[];
+];
 
 export const transformHead: SiteConfig["transformHead"] = (context) => {
   const returned: HeadConfig[] = [];
