@@ -52,6 +52,10 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
 
   const redirects: { from: RegExp; dest: string }[] = [
     {
+      from: /develop[/]custom-recipe-types(?=[/]|$)/,
+      dest: "develop/recipes/custom-recipe-types",
+    },
+    {
       from: /develop[/]items[/]custom-item-groups(?=[/]|$)/,
       dest: "develop/items/custom-creative-tabs",
     },
