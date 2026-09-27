@@ -71,7 +71,7 @@ This section assumes that you are using the standard GitHub Action workflow incl
 
 Your tests will now run on every build, including those by CI providers such as GitHub Actions. But what if a build fails? We need to upload the logs as an artifact so we can view the test reports.
 
-Add this to your `.github/workflows/build.yml` file, below the `./gradlew build` step.
+Add this to your `.github/workflows/build.yaml` file, below the `./gradlew build` step.
 
 ```yaml
 - name: Store reports
@@ -133,4 +133,4 @@ Server game tests will be run automatically with the `build` Gradle task. You ca
 Existing GitHub Action workflows using `build` will run server game tests automatically. To run client game tests with GitHub Actions, add the following snippet to your `build.gradle` and the following job to your workflow. The gradle snippet will run client game tests using [Loom's production run tasks](./loom/production-run-tasks), and the job will execute the production run task in the CI.
 
 @[code lang=groovy transcludeWith=:::automatic-testing:game-test:2](@/reference/1.21.8/build.gradle)
-@[code lang=yaml transcludeWith=:::automatic-testing:game-test:3](@/.github/workflows/build.yml)
+@[code lang=yaml transcludeWith=:::automatic-testing:game-test:3](@/.github/workflows/build.yaml)
