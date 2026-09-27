@@ -68,7 +68,7 @@ if (!isMergeOnly) {
 
 const getOutDir = (version: string) => path.join(tempDir, version);
 
-for (const version of builtVersions) {
+for (const version of builtVersions.reverse()) {
   if (isMergeOnly) {
     break;
   }
@@ -95,7 +95,7 @@ for (const version of builtVersions) {
   );
 
   if (buildProcess.error || buildProcess.status !== 0) {
-    console.error(`Building ${version} failed!`);
+    console.error(`building ${version} failed!`);
 
     process.exit(buildProcess.status || 1);
   }
