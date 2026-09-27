@@ -23,9 +23,11 @@ export const LATEST_VERSION =
     .readFileSync(path.join(AT, "reference", "latest", "build.gradle"), "utf-8")
     .match(/def minecraftVersion = "([^"]+)"/)?.[1] || "";
 
+const collator = new Intl.Collator(undefined, { numeric: true });
 export const OLD_VERSIONS = tinyglobby
   .globSync("*", { cwd: path.join(AT, "versions"), onlyDirectories: true })
-  .map((v) => path.basename(v));
+  .map((v) => path.basename(v))
+  .toSorted(collator.compare);
 
 export const EXCLUDED_OLD_VERSIONS =
   {
