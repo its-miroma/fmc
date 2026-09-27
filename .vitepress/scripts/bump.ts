@@ -6,18 +6,22 @@ import { getLocales, getSidebar } from "../config/i18n.ts";
 import { AT, VERSION_RE } from "../constants.ts";
 
 const git = (...args: string[]) => {
-  const res = crossSpawn.sync("git", args, { encoding: "utf8" });
-  if (res.error) {
-    console.error(`Failed to run 'git ${args.join(" ")}'!\n  ${res.error}`);
+  const returned = crossSpawn.sync("git", args, { encoding: "utf8" });
+
+  if (returned.error) {
+    console.error(`Failed to run 'git ${args.join(" ")}'!\n  ${returned.error}`);
+
     process.exit(1);
   }
-  return res;
+
+  return returned;
 };
 
 process.chdir(AT);
 
 if (git("status", "--porcelain").stdout.toString().trim().length > 0) {
   console.error("Working directory must be clean!");
+
   process.exit(1);
 }
 
@@ -30,24 +34,31 @@ const launcherVersions: any = await (await fetch(launcherMetaUrl)).json();
 const newVersion = process.argv[2] || launcherVersions?.latest?.release;
 if (!newVersion) {
   console.error("Couldn't obtain a valid Minecraft version!");
+
   process.exit(1);
-} else if (newVersion === oldVersion || fs.existsSync(`./reference/${newVersion}`)) {
+}
+if (newVersion === oldVersion || fs.existsSync(`./reference/${newVersion}`)) {
   console.error(`'Minecraft ${newVersion}' already exists!`);
+
   process.exit(1);
-} else if (!VERSION_RE.test(newVersion)) {
+}
+if (!VERSION_RE.test(newVersion)) {
   console.error(`'${newVersion}' does not look like a stable Minecraft version!`);
+
   process.exit(1);
 }
 console.log(`New version: 'Minecraft ${newVersion}'`);
 
 if (git("rev-parse", "--verify", `refs/heads/port/${newVersion}`).status === 0) {
   console.error(`Branch 'port/${newVersion}' already exists!`);
+
   process.exit(1);
 }
 
 console.log(`Switching to new branch 'port/${newVersion}'...`);
 if (git("switch", "-c", `port/${newVersion}`).status !== 0) {
   console.error(`Couldn't switch to branch 'port/${newVersion}'!`);
+
   process.exit(1);
 }
 
@@ -56,6 +67,7 @@ const fabricApiVersions: any[] = await (await fetch(fabricApiUrl)).json();
 const fabricApiVersion = fabricApiVersions[0]?.version_number;
 if (!fabricApiVersion) {
   console.error(`No Fabric API version found for Minecraft ${newVersion}!`);
+
   process.exit(1);
 }
 console.log(`Found Fabric API version '${fabricApiVersion}'`);
@@ -112,6 +124,7 @@ if (
   || git("commit", "-m", `chore: bump to ${newVersion}`).status !== 0
 ) {
   console.error(`Couldn't commit as 'chore: bump to ${newVersion}'!`);
+
   process.exit(1);
 }
 

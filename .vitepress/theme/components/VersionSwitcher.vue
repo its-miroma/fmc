@@ -21,15 +21,23 @@ const icon = useIconSpan("material-icon-theme:minecraft");
 const options = computed(() => data.theme.value.version);
 
 const currentV = computed(() => {
-  if (data.frontmatter.value.version) return data.frontmatter.value.version as string;
+  if (data.frontmatter.value.version) {
+    return data.frontmatter.value.version as string;
+  }
 
   const split = data.page.value.relativePath.split("/");
-  if (/^.._..$/.test(split[0])) split.splice(0, 1);
-  if (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0])) return split[0];
+  if (/^.._..$/.test(split[0])) {
+    split.splice(0, 1);
+  }
+
+  if (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0])) {
+    return split[0];
+  }
+
   return props.versioningPlugin.latestVersion;
 });
 
-// TODO(not-for-llm): add future versions to the supported pages
+// TODO: add future versions to the supported pages
 const collator = new Intl.Collator(undefined, { numeric: true });
 const versions = computed(() => [
   props.versioningPlugin.latestVersion,
@@ -46,7 +54,9 @@ route format: `/[locale/][version/]path/to/[file-name]`
 - `[file-name]` is not added for index.md files
 */
 const getRoute = (v: string) => {
-  if (v === data.frontmatter.value.version) return route.hash || "#";
+  if (v === data.frontmatter.value.version) {
+    return route.hash || "#";
+  }
 
   return `/${[
     data.localeIndex.value !== "root" && data.localeIndex.value,

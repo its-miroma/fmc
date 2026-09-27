@@ -26,7 +26,9 @@ const isWrapped = ref(false);
 const isCopied = ref(false);
 
 const loadCodeBlock = async (originalCodeBlock: HTMLDivElement) => {
-  if (!dialog.value) return;
+  if (!dialog.value) {
+    return;
+  }
 
   originalCopyButton.value =
     originalCodeBlock.querySelector<HTMLButtonElement>("button.copy") || undefined;
@@ -42,14 +44,17 @@ const loadCodeBlock = async (originalCodeBlock: HTMLDivElement) => {
     dialog.value?.querySelector<HTMLDivElement>("div.slot")?.replaceChildren(clonedCodeBlock);
   };
 
-  if (prefersReducedMotion.value === "reduce" || !document.startViewTransition)
+  if (prefersReducedMotion.value === "reduce" || !document.startViewTransition) {
     return onViewTransition();
+  }
 
   await document.startViewTransition(onViewTransition).ready;
 };
 
 const handleEnterFullscreen = async (originalCodeBlock: HTMLDivElement) => {
-  if (!dialog.value) return;
+  if (!dialog.value) {
+    return;
+  }
 
   const originalCodeGroup = originalCodeBlock.closest<HTMLDivElement>("div.vp-code-group");
   if (originalCodeGroup) {
@@ -63,11 +68,15 @@ const handleEnterFullscreen = async (originalCodeBlock: HTMLDivElement) => {
 
   await loadCodeBlock(originalCodeBlock);
   dialog.value.showModal();
-  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
 };
 
 const handleTabChange = (index: number) => {
-  if (!originalTabs.value[index] || !originalCodeBlocks.value[index]) return;
+  if (!originalTabs.value[index] || !originalCodeBlocks.value[index]) {
+    return;
+  }
 
   originalTabs.value[index].click();
   loadCodeBlock(originalCodeBlocks.value[index]);
@@ -75,20 +84,28 @@ const handleTabChange = (index: number) => {
 
 const handleCopy = () => {
   originalCopyButton.value?.click();
-  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
   isCopied.value = true;
   setTimeout(() => (isCopied.value = false), 2000);
 };
 
 const handleWrap = () => {
-  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
   isWrapped.value = !isWrapped.value;
 };
 
 const handleExitFullscreen = () => {
-  if (!dialog.value?.open) return;
+  if (!dialog.value?.open) {
+    return;
+  }
 
-  if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
   isClosing.value = true;
 
   const onAnimationend = () => {
@@ -101,14 +118,18 @@ const handleExitFullscreen = () => {
     dialog.value?.querySelector<HTMLDivElement>("div.slot")?.replaceChildren();
   };
 
-  if (prefersReducedMotion.value === "reduce") return onAnimationend();
+  if (prefersReducedMotion.value === "reduce") {
+    return onAnimationend();
+  }
 
   dialog.value.addEventListener("animationend", onAnimationend, { once: true });
 };
 
 onContentUpdated(() =>
   nextTick(async () => {
-    if (!dialog.value) return;
+    if (!dialog.value) {
+      return;
+    }
 
     handleExitFullscreen();
 
@@ -117,7 +138,9 @@ onContentUpdated(() =>
 
     for (const codeBlock of codeBlocks) {
       const originalCopyButton = codeBlock.querySelector<HTMLButtonElement>("button.copy");
-      if (!originalCopyButton) continue;
+      if (!originalCopyButton) {
+        continue;
+      }
 
       const enterFullscreenButton =
         codeBlock.querySelector<HTMLButtonElement>("button.fullscreen")
@@ -127,12 +150,16 @@ onContentUpdated(() =>
       enterFullscreenButton.className = "fullscreen";
       enterFullscreenButton.innerHTML = icon;
       enterFullscreenButton.onclick = (event) => {
-        if (!(event.currentTarget instanceof HTMLButtonElement)) return;
+        if (!(event.currentTarget instanceof HTMLButtonElement)) {
+          return;
+        }
 
         event.currentTarget.blur();
 
         const codeBlock = event.currentTarget.closest<HTMLDivElement>("div[class*='language-']");
-        if (!codeBlock) return;
+        if (!codeBlock) {
+          return;
+        }
 
         handleEnterFullscreen(codeBlock);
       };
@@ -155,15 +182,15 @@ onUnmounted(() => dialog.value?.close());
   >
     <div class="toolbar">
       <div v-if="originalTabs.length" class="tabs">
-        <template v-for="(tab, i) in originalTabs" :key="i">
+        <template v-for="(t, i) of originalTabs" :key="i">
           <input
             type="radio"
-            :name="`dialog-fullscreen-${tab.name}`"
-            :id="`dialog-fullscreen-${tab.id}`"
-            :checked="tab.checked"
+            :name="`dialog-fullscreen-${t.name}`"
+            :id="`dialog-fullscreen-${t.id}`"
+            :checked="t.checked"
             @change="handleTabChange(i)"
           />
-          <label :for="`dialog-fullscreen-${tab.id}`">{{ tab.labels?.[0]?.textContent }}</label>
+          <label :for="`dialog-fullscreen-${t.id}`">{{ t.labels?.[0]?.textContent }}</label>
         </template>
       </div>
       <button

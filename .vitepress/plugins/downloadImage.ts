@@ -36,7 +36,7 @@ export const downloadImagePlugin = (md: MarkdownRenderer) => {
     const expectedParent = `/assets/${env.frontmatter.purePath}/`;
     const relativeSrc = path.posix.relative(expectedParent, src);
     if (/^[.][.]([/]|$)/.test(relativeSrc) || path.isAbsolute(relativeSrc)) {
-      // TODO(not-for-llm): console.warn(`${env.relativePath}: expected assets under ${expectedParent}, got ${src}`);
+      // TODO(debug): console.warn(`${env.relativePath}: expected assets under ${expectedParent}, got ${src}`);
     }
 
     if (src !== src.toLowerCase()) {
@@ -93,7 +93,9 @@ export const downloadImagePlugin = (md: MarkdownRenderer) => {
 };
 
 export const createDownloadZips = async (siteConfig: SiteConfig) => {
-  if (directoriesToBeZipped.size === 0) return;
+  if (directoriesToBeZipped.size === 0) {
+    return;
+  }
 
   const limit = pLimit(5);
 
@@ -101,7 +103,9 @@ export const createDownloadZips = async (siteConfig: SiteConfig) => {
     limit(async () => {
       const d = path.join(siteConfig.outDir, relativeD);
       const stat = await fs.promises.stat(d, { throwIfNoEntry: false });
-      if (!stat?.isDirectory()) return;
+      if (!stat?.isDirectory()) {
+        return;
+      }
 
       const z = `${d}.zip`;
       if (fs.existsSync(z)) {

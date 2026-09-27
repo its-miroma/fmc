@@ -103,25 +103,31 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
     versionMap[split[0]]
     || versionMap[`${split[0]}.0`]
     || (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? "" : split[0]);
-  if (!split[0] || split[0] === context.latestVersion) split.shift();
+  if (!split[0] || split[0] === context.latestVersion) {
+    split.shift();
+  }
 
+  // TODO: this appears to fail on /1.20.4/develop/blocks/block-tinting
   const seenPaths = new Set([split.join("/")]);
   const newPath = redirects.reduce((currentPath, rule) => {
     const nextPath = currentPath.replace(rule.from, rule.dest);
 
     // skip the redirection rule if it causes a loop
-    if (seenPaths.has(nextPath)) return currentPath;
+    if (seenPaths.has(nextPath)) {
+      return currentPath;
+    }
 
     seenPaths.add(nextPath);
+
     return nextPath;
   }, split.join("/"));
 
   if (localeIndex.includes("-") || `/${oldPath}` !== `${localeIndex}${newPath}`) {
     if (context.isNotFound) {
       return `${localeIndex.replace("-", "_")}${newPath}${context.search}${context.hash}`;
-    } else {
-      console.warn(`${oldPath}: unexpected redirection to '${localeIndex.slice(1)}${newPath}'`);
     }
+
+    console.warn(`${oldPath}: unexpected redirection to '${localeIndex.slice(1)}${newPath}'`);
   }
 
   const href = `${context.origin}${localeIndex}${newPath}`;
@@ -177,6 +183,7 @@ export const getClientTransformHead = () => {
 
     if (typeof headData === "string") {
       window.location.replace(headData);
+
       return;
     }
 
@@ -186,7 +193,9 @@ export const getClientTransformHead = () => {
       const el = document.createElement(tag);
 
       attributes["data-gen"] = "";
-      for (const [k, v] of Object.entries(attributes)) el.setAttribute(k, v);
+      for (const [k, v] of Object.entries(attributes)) {
+        el.setAttribute(k, v);
+      }
 
       document.head.appendChild(el);
     }
@@ -210,5 +219,7 @@ export const getBuildTransformHead = (): Config["transformHead"] => (context) =>
     lastUpdated: context.pageData.lastUpdated,
   });
 
-  if (typeof returned !== "string") return returned;
+  if (typeof returned !== "string") {
+    return returned;
+  }
 };

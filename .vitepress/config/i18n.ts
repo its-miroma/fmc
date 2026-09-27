@@ -76,23 +76,23 @@ export const getSidebar = (locale: string) => {
 
   const normalizeSidebar = (sidebar: SidebarItem[], base = "") => {
     const returned = (JSON.parse(JSON.stringify(sidebar)) as SidebarItem[]) //
-      .map((item) => (typeof item === "string" ? { link: item } : item));
+      .map((i) => (typeof i === "string" ? { link: i } : i));
 
-    for (const item of returned) {
-      const k = item.text || `${item.base || base}${item.link || ""}`;
+    for (const i of returned) {
+      const k = i.text || `${i.base || base}${i.link || ""}`;
 
       // @ts-expect-error
-      item.text = resolver(k) || (item.link && k.endsWith("/") ? resolver("introduction") : "");
+      i.text = resolver(k) || (i.link && k.endsWith("/") ? resolver("introduction") : "");
 
-      if (locale === "en_us" && !item.text) {
+      if (locale === "en_us" && !i.text) {
         console.warn(`${file}: missing translation for key '${k}'`);
       }
 
-      if (item.items) {
-        item.items = normalizeSidebar(item.items, item.base || base);
+      if (i.items) {
+        i.items = normalizeSidebar(i.items, i.base || base);
       }
 
-      item.base = `${localePrefix}${item.base || base}`;
+      i.base = `${localePrefix}${i.base || base}`;
     }
 
     return returned;
@@ -122,11 +122,10 @@ export const getLocaleConfig = () => {
     zh_tw: "zh-TW",
   };
 
-  for (const locale of getLocales()) {
+  for (const l of getLocales()) {
     const intlLocale =
-      intlLocaleOverrides[locale]
-      || locale.replace(/..$/, (m) => m.toUpperCase()).replace("_", "-");
-    const crowdinLocale = crowdinLocaleOverrides[locale] ?? locale.split("_")[0];
+      intlLocaleOverrides[l] || l.replace(/..$/, (m) => m.toUpperCase()).replace("_", "-");
+    const crowdinLocale = crowdinLocaleOverrides[l] ?? l.split("_")[0];
 
     const label = new Intl.DisplayNames(intlLocale, {
       languageDisplay: "standard",
@@ -136,9 +135,9 @@ export const getLocaleConfig = () => {
       .of(intlLocale)!
       .replace(/^\p{CWU}/u, (firstChar) => firstChar.toLocaleUpperCase(intlLocale));
 
-    const resolver = getWebsiteResolver(locale);
+    const resolver = getWebsiteResolver(l);
 
-    returned[locale === "en_us" ? "root" : locale] = {
+    returned[l === "en_us" ? "root" : l] = {
       lang: intlLocale,
       label,
 
@@ -203,7 +202,7 @@ export const getLocaleConfig = () => {
         },
 
         editLink:
-          locale === "en_us"
+          l === "en_us"
             ? {
                 pattern: "https://github.com/FabricMC/fabric-docs/edit/main/:path",
                 text: resolver("edit_github"),
@@ -242,7 +241,7 @@ export const getLocaleConfig = () => {
           },
           {
             text: resolver("nav.contribute"),
-            link: `${locale === "en_us" ? "" : `/${locale}`}/contributing`,
+            link: `${l === "en_us" ? "" : `/${l}`}/contributing`,
           },
           {
             text: resolver("nav.repo"),
@@ -323,7 +322,7 @@ export const getLocaleConfig = () => {
           },
         },
 
-        sidebar: getSidebar(locale),
+        sidebar: getSidebar(l),
 
         sidebarMenuLabel: resolver("sidebar_menu"),
 
