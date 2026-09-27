@@ -110,32 +110,34 @@ body {
     }
   }
 
-  .VPSidebar .VPSidebarItem {
-    transition:
-      color 0.25s,
-      background-color 0.25s;
-
-    &.level-0:not(.collapsible) h2 {
-      margin-block: 1.25rem;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid var(--vp-c-divider);
-
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05rem;
+  .VPSidebar .VPSidebarItem.level-0 {
+    &.collapsible.has-active * {
+      color: var(--vp-c-text-1);
     }
 
-    &.level-1 {
-      margin-bottom: 0.5rem;
-
+    &:not(.collapsible) {
       > .item .text {
-        padding-inline: 0.5rem;
-        font-weight: bold;
-        color: var(--vp-c-text-1);
+        margin-block: 1.25rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid var(--vp-c-divider);
+
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
       }
 
-      &.has-active * {
-        color: var(--vp-c-text-1);
+      .level-1 {
+        margin-bottom: 0.5rem;
+
+        > .item .text {
+          padding-inline: 0.5rem;
+          font-weight: bold;
+          color: var(--vp-c-text-1);
+        }
+
+        &.has-active * {
+          color: var(--vp-c-text-1);
+        }
       }
     }
   }
