@@ -26,6 +26,7 @@ const strings = computed(() => {
 
     default: {
       const split = options.value.pr.text.split("%s").filter(Boolean);
+
       return [split[0], String(env.value), split.slice(1).join("%s")];
     }
   }

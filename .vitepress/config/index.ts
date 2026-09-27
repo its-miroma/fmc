@@ -1,5 +1,5 @@
 // @ts-expect-error
-import snippetPlugin from "markdown-it-vuepress-code-snippet-enhanced";
+import transclusionsPlugin from "markdown-it-vuepress-code-snippet-enhanced";
 import * as path from "node:path";
 import * as process from "node:process";
 import bytecode from "syntax-java-bytecode/java-bytecode.tmLanguage.json" with { type: "json" };
@@ -18,7 +18,10 @@ import { excludedLocales, getLocaleConfig } from "./i18n.ts";
 // https://www.npmjs.com/package/vitepress-versioning-plugin
 export default defineVersionedConfig(
   {
-    // Removes .html from the end of URLs.
+    buildEnd: (siteConfig) => {
+      createDownloadZips(siteConfig);
+    },
+
     cleanUrls: true,
 
     // Set head tags on the client side
@@ -26,34 +29,34 @@ export default defineVersionedConfig(
 
     icons: { include: ["lucide:download"] },
 
-    // Ignore dead links under translated/. Allows builds with incomplete translations
+    // Allow builds with incomplete translations
     ignoreDeadLinks: [
       (_, filePath) => {
         const split = path.relative(AT, filePath).split("/");
-        if (split[0] === "versions") return true; // split.splice(0, 2);
+        if (split[0] === "versions") {
+          return true; // TODO(debug): split.splice(0, 2);
+        }
+
         return split[0] === "translated";
       },
     ],
 
-    // Adds a "Last Updated" block to the footer of pages, uses git to determine the last time a page's file was modified.
+    // Add a "Last Updated" date to the footer of pages using git
     lastUpdated: true,
 
     locales: getLocaleConfig(),
 
     markdown: {
       config: (md) => {
-        // Use the snippet plugin for transclusions
-        md.use(snippetPlugin);
-        // Use the tabs plugin for... having tabs?
+        md.use(transclusionsPlugin);
         md.use(tabsMarkdownPlugin);
-        // {download} on an image links a downloadable counterpart
         md.use(downloadImagePlugin);
       },
       container: {
-        // TODO(not-for-llm): acknowledge ::: caution and ::: note
-        // TODO(not-for-llm): review all ::: containers with unnecessary title, except ::: details
-        // TODO(not-for-llm): migrate ::: info PREREQUISITES
-        // TODO(not-for-llm): migrate ::: warning IMPORTANT
+        // TODO: acknowledge ::: caution and ::: note
+        // TODO: review all ::: containers with unnecessary title, except ::: details
+        // TODO: migrate ::: info PREREQUISITES
+        // TODO: migrate ::: warning IMPORTANT
         customContainers: {
           prerequisites: "PREREQUISITES",
         },
@@ -70,7 +73,7 @@ export default defineVersionedConfig(
       shikiSetup: async (shiki) => {
         await shiki.loadTheme("github-light", "github-dark");
       },
-      // TODO(not-for-llm): drop silent: true after the errors are fixed in translated/ and versions/
+      // TODO(debug): drop silent: true after the errors are fixed in translated/ and versions/
       snippet: { stripRegionMarkers: "all", silent: true },
       toc: false,
     },
@@ -112,6 +115,7 @@ export default defineVersionedConfig(
           _render: async (src, env, md) => {
             src = transformFile(src, env.path);
             const html = await md.renderAsync(src, env);
+
             return env.frontmatter?.search === false ? "" : html;
           },
         },
@@ -122,7 +126,6 @@ export default defineVersionedConfig(
     // Set head tags at build time
     transformHead: getBuildTransformHead(),
 
-    // Versioning plugin configuration.
     versioning: {
       latestVersion: LATEST_VERSION,
       rewrites: { localePrefix: "translated" },
@@ -132,7 +135,10 @@ export default defineVersionedConfig(
             Object.entries(s).map(([k, v]) => [
               (() => {
                 const split = k.split("/").filter(Boolean);
-                if (split[0] === split[2]) split.splice(2, 1);
+                if (split[0] === split[2]) {
+                  split.splice(2, 1);
+                }
+
                 return `/${split.join("/")}/`;
               })(),
               v,
@@ -141,10 +147,6 @@ export default defineVersionedConfig(
         sidebarUrlProcessor: (url, version) =>
           url.startsWith("/") ? `/${version}${/^[/].._..[/]/.test(url) ? url.slice(6) : url}` : url,
       },
-    },
-
-    buildEnd: (siteConfig) => {
-      createDownloadZips(siteConfig);
     },
 
     vite: {

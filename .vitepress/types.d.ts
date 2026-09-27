@@ -1,7 +1,7 @@
 import { UserConfig } from "vitepress";
 import { Versioned } from "vitepress-versioning-plugin";
 
-// TODO(not-for-llm): worth exploration: Is there a way to use a .ts file instead of website_translations.json?
+// TODO: is there a way to use a .ts file instead of website_translations.json?
 // with this we would reduce the duplication stemming from @default here + values in .json
 // the only question is whether Crowdin supports translating .ts files, or
 // whether we shall generate the files in CI before pushing - trivial with fs.writeFileSync(JSON.stringify(...)).
@@ -77,7 +77,9 @@ export interface ThemeConfig extends Versioned.ThemeConfig {
     wrap: string;
   };
 
-  /** @deprecated TODO(not-for-llm): remove */
+  /**
+   * @deprecated TODO: remove
+   */
   download: unknown;
 
   env: typeof import("./constants.ts").ENV;
@@ -91,43 +93,31 @@ export interface ThemeConfig extends Versioned.ThemeConfig {
     code: string;
 
     /**
-     * Set aria label for Crowdin link.
-     *
      * @default "Open the Crowdin editor"
      */
     crowdinLinkLabel: string;
 
     /**
-     * Set custom Crowdin link text.
-     *
      * @default "Localize on Crowdin"
      */
     crowdinLinkText: string;
 
     /**
-     * Set aria label for English link.
-     *
      * @default "Open the English version"
      */
     englishLinkLabel: string;
 
     /**
-     * Set custom English link text.
-     *
      * @default "Read in English"
      */
     englishLinkText: string;
 
     /**
-     * Set aria label for home link.
-     *
      * @default "Go to the home page"
      */
     linkLabel: string;
 
     /**
-     * Set custom home link text.
-     *
      * @default "Take Me Home"
      */
     linkText: string;
@@ -138,15 +128,11 @@ export interface ThemeConfig extends Versioned.ThemeConfig {
     quotes: string[];
 
     /**
-     * Set custom not found message.
-     *
      * @default "Page not found"
      */
     title: string;
 
     /**
-     * Special not found message.
-     *
      * @default "Page knot found"
      */
     pooh: string;

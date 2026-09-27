@@ -21,7 +21,9 @@ const authors = computed<Author[]>(() =>
 );
 
 const getImageSrc = (author: Author) => {
-  if (author.noGitHub) return "/assets/avatater.png";
+  if (author.noGitHub) {
+    return "/assets/avatater.png";
+  }
 
   const url = new URL("https://wsrv.nl/");
   url.searchParams.set("af", "");
@@ -30,6 +32,7 @@ const getImageSrc = (author: Author) => {
   url.searchParams.set("maxage", "7d");
   url.searchParams.set("url", `https://github.com/${author.name}.png?size=32`);
   url.searchParams.set("default", "https://docs.fabricmc.net/assets/avatater.png");
+
   return url.toString();
 };
 </script>
@@ -37,7 +40,7 @@ const getImageSrc = (author: Author) => {
 <template>
   <h2 v-if="authors.length">{{ options.heading }}</h2>
   <ul v-if="authors.length">
-    <li v-for="a in authors" :key="a.noGitHub ? `${a.name}!` : a.name">
+    <li v-for="a of authors" :key="a.noGitHub ? `${a.name}!` : a.name">
       <VPLink :href="a.noGitHub ? undefined : `https://github.com/${a.name}`" no-icon>
         <img
           :title="a.noGitHub ? options.noGitHub.replace('%s', a.name) : a.name"

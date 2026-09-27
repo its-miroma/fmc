@@ -13,23 +13,28 @@ const options = computed(() => data.theme.value.references);
 const resources = computed(() =>
   Object.entries(data.frontmatter.value.resources || {}).map(([href, title]) => {
     const newHref = new URL(href, "https://a.com").href.replace("https://a.com", "");
-    return [newHref, (title as string) || newHref] as const;
+
+    return [newHref, title] as const;
   })
 );
 
 const files = computed(() => (data.frontmatter.value.files || []) as string[]);
 
 const shortestUniquePaths = computed(() =>
-  files.value.map((file, i) => {
-    const parts = file.split("/");
+  files.value.map((f, i) => {
+    const parts = f.split("/");
     for (let len = 1; len <= parts.length; len++) {
       const current = parts.slice(-len).join("/");
       const isUnique = files.value.every(
         (other, j) => i === j || other.split("/").slice(-len).join("/") !== current
       );
-      if (isUnique) return current;
+
+      if (isUnique) {
+        return current;
+      }
     }
-    return file;
+
+    return f;
   })
 );
 
@@ -54,10 +59,10 @@ const getFileExtension = (filePath: string) =>
   <template v-if="resources.length">
     <h2>{{ options.resources }}</h2>
     <ul>
-      <li v-for="[href, title] in resources" :key="href">
+      <li v-for="[href, title] of resources" :key="href">
         <VPLink :href>
           <img :src="getImageSrc(href)" alt="" width="16" height="16" />
-          <span>{{ title }}</span>
+          <span>{{ title || href }}</span>
         </VPLink>
       </li>
     </ul>
@@ -66,11 +71,11 @@ const getFileExtension = (filePath: string) =>
   <template v-if="files.length">
     <h2>{{ options.files }}</h2>
     <ul>
-      <li v-for="(f, i) in files" :key="f">
+      <li v-for="(f, i) of files" :key="f">
         <VPLink :href="getFileHref(f)" :title="getFileTitle(f)" no-icon>
           <VPIcon :icon="`material-icon-theme:${getFileExtension(f)}`" />
           <code>
-            <template v-for="(seg, j) in shortestUniquePaths[i].split('/')" :key="j">
+            <template v-for="(seg, j) of shortestUniquePaths[i].split('/')" :key="j">
               <template v-if="j !== 0">/<wbr /></template>{{ seg }}
             </template>
           </code>

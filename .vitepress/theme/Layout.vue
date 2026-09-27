@@ -12,10 +12,12 @@ import References from "./layout/References.vue";
 
 const router = useRouter();
 
-// Replace data-gen head script, which updates head tags.
+// Replace data-gen head script, which updates head tags
 router.onAfterRouteChange = () => {
   const oldScript = document.querySelector("script[data-gen]");
-  if (!oldScript) return;
+  if (!oldScript) {
+    return;
+  }
 
   const newScript = document.createElement("script");
   newScript.innerHTML = oldScript.innerHTML;
@@ -25,16 +27,25 @@ router.onAfterRouteChange = () => {
 
 let zoom: Zoom;
 const attachZoom = () => {
-  if (!inBrowser) return;
-  (zoom ||= mediumZoom({ background: "var(--vp-c-bg)" })).attach(".vp-doc img");
+  if (!inBrowser) {
+    return;
+  }
+
+  zoom ||= mediumZoom({ background: "var(--vp-c-bg)" });
+  zoom.attach(".vp-doc img");
 };
 
 onContentUpdated(attachZoom);
 
 useEventListener("click", (event) => {
-  if (!(event.target instanceof HTMLElement)) return;
+  if (!(event.target instanceof HTMLElement)) {
+    return;
+  }
 
-  if (event.target.closest(".plugin-tabs--tab")) nextTick(attachZoom);
+  // TODO: reuse this for FabricMC/fabric-docs#663
+  if (event.target.closest(".plugin-tabs--tab")) {
+    nextTick(attachZoom);
+  }
 });
 </script>
 

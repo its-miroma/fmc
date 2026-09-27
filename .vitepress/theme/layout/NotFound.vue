@@ -69,7 +69,10 @@ const drawBall = (b: HTMLCanvasElement) => {
   for (let x = 0; x < TEXTURE.length; x++) {
     for (let y = 0; y < TEXTURE[x].length; y++) {
       const color = COLORS[TEXTURE[y][x]];
-      if (!color) continue;
+      if (!color) {
+        continue;
+      }
+
       context.fillStyle = color;
       context.fillRect(x, y, 1, 1);
     }
@@ -77,7 +80,9 @@ const drawBall = (b: HTMLCanvasElement) => {
 };
 
 const createThreadPattern = () => {
-  if (tPattern) return;
+  if (tPattern) {
+    return;
+  }
 
   const pattern = document.createElement("canvas");
   pattern.width = TEXTURE.length;
@@ -140,6 +145,7 @@ const start = () => {
   if (prefersReducedMotion.value === "reduce") {
     showContent.value = true;
     isAnimating.value = false;
+
     return;
   }
 
@@ -157,7 +163,9 @@ const start = () => {
 const handleResize = useDebounceFn(() => {
   values = getValues();
   // even after the animation, thread must fill the width
-  if (!isAnimating.value) drawThread(thread.value!);
+  if (!isAnimating.value) {
+    drawThread(thread.value!);
+  }
 }, 100);
 useResizeObserver([root, content], handleResize);
 
@@ -168,7 +176,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => handleResize.cancel());
 
-// extracted from https://github.com/FabricMC/community/blob/57106dcfe85da0f9209b327d19f4e206abd10d76/media/unascribed/png/yarn.png
+// https://github.com/FabricMC/community/blob/57106dcfe85da0f9209b327d19f4e206abd10d76/media/unascribed/png/yarn.png
 
 // prettier-ignore
 const COLORS = [null, "#051842", "#2A6CD9", "#388BF6", "#337FEC", "#235DC0", "#2666CA", "#2764CF", "#1A49A6", "#041439", "#2059BB", "#1847A9", "#1D51B2", "#15409E", "#235CC1", "#123789", "#2A6CD3", "#2E76DD", "#1C4EAE", "#04153C", "#3D95FF", "#1844A0", "#1C4FB1", "#1947A7", "#143C94", "#031133"] as const;

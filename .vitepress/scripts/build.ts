@@ -7,6 +7,7 @@ import * as process from "node:process";
 import * as tinyglobby from "tinyglobby";
 import { AT, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
 
+// TODO: improve DX with the logged messages
 const start = perfHooks.performance.now();
 process.chdir(AT);
 
@@ -23,6 +24,7 @@ const tempDir = path.join(AT, ".vitepress", ".versions");
 
 if (isMergeOnly && !fs.statSync(tempDir, { throwIfNoEntry: false })?.isDirectory()) {
   console.error(`couldn't find built versions directory`);
+
   process.exit(1);
 }
 
@@ -50,6 +52,7 @@ const builtVersions = [...includedVersions, LATEST_VERSION];
 
 if (isListOnly) {
   console.log(JSON.stringify(builtVersions));
+
   process.exit(0);
 }
 
@@ -66,7 +69,9 @@ if (!isMergeOnly) {
 const getOutDir = (version: string) => path.join(tempDir, version);
 
 for (const version of builtVersions) {
-  if (isMergeOnly) break;
+  if (isMergeOnly) {
+    break;
+  }
 
   console.log(`building ${version}...`);
 
@@ -91,6 +96,7 @@ for (const version of builtVersions) {
 
   if (buildProcess.error || buildProcess.status !== 0) {
     console.error(`Building ${version} failed!`);
+
     process.exit(buildProcess.status || 1);
   }
 }
@@ -118,8 +124,10 @@ for (const version of builtVersions) {
     .split(";")
     .map((s) => s.trim())
     .filter(Boolean);
+
   if (split.length !== 2) {
     console.error(`too many assignments in ${metadataFile}`);
+
     process.exit(1);
   }
 
@@ -127,12 +135,14 @@ for (const version of builtVersions) {
 
   if (!split[0].startsWith(`window.__VP_HASH_MAP__=JSON.parse`)) {
     console.error(`failed to parse hash map in ${metadataFile}`);
+
     process.exit(1);
   }
   const versionHashMap = window.__VP_HASH_MAP__;
 
   if (!split[1].startsWith(`window.__VP_SITE_DATA__=JSON.parse`)) {
     console.error(`failed to parse site data in ${metadataFile}`);
+
     process.exit(1);
   }
 

@@ -8,6 +8,7 @@ const href = computed(() => {
   const url = new URL("https://dexman545.github.io/outlet-database/floaderValidator");
   url.searchParams.set("mode", "minecraft");
   url.searchParams.set("p", props.r);
+
   return url.toString();
 });
 </script>

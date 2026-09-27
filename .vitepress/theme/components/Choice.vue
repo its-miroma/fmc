@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VPIcon, VPLink } from "vitepress/theme";
 
-/* TODO(not-for-llm): I am tempted to drop this component altogether, and instead adopt a simpler system by reusing existing features:
+/* TODO: drop this component altogether, and instead adopt a simpler system by reusing existing features:
 
 ::: tabs
 
@@ -34,7 +34,7 @@ defineProps<{
 
 <template>
   <ul :style="{ '--grid-columns': Math.min(choices.length, 3) }">
-    <li v-for="(c, key) in choices" :key>
+    <li v-for="(c, key) of choices" :key>
       <VPLink :href="c.href" :style="{ '--color': c.color }">
         <VPIcon v-if="c.icon" :icon="c.icon" />
         {{ c.name }}
