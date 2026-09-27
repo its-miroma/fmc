@@ -80,10 +80,6 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
       dest: "develop/blocks/block-tinting",
     },
     {
-      from: /develop[/]blocks[/]block-tinting(?=[/]|$)/,
-      dest: "develop/blocks/transparency-and-tinting",
-    },
-    {
       from: /develop[/](codecs|data-attachments|saved-data)(?=[/]|$)/,
       dest: "develop/serialization/$1",
     },
@@ -111,7 +107,6 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
     split.shift();
   }
 
-  // TODO: this appears to fail on /1.20.4/develop/blocks/block-tinting
   const seenPaths = new Set([split.join("/")]);
   const newPath = redirects.reduce((currentPath, rule) => {
     const nextPath = currentPath.replace(rule.from, rule.dest);
