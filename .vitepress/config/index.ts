@@ -73,8 +73,7 @@ export default defineVersionedConfig(
       shikiSetup: async (shiki) => {
         await shiki.loadTheme("github-light", "github-dark");
       },
-      // TODO(debug): drop silent: true after the errors are fixed in translated/ and versions/
-      snippet: { stripRegionMarkers: "all", silent: true },
+      snippet: { stripRegionMarkers: "all" },
       toc: false,
     },
 
