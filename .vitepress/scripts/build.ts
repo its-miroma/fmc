@@ -1,4 +1,4 @@
-import * as crossSpawn from "cross-spawn";
+import * as childProcess from "node:child_process";
 import * as crypto from "node:crypto";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -81,9 +81,13 @@ for (const [i, version] of sortedVersions.entries()) {
   const outDir = getOutDir(version);
   fs.mkdirSync(outDir, { recursive: true });
 
-  const buildProcess = crossSpawn.sync(
-    "pnpm",
-    ["exec", "vitepress", "build", `--outDir=${outDir}`],
+  const buildProcess = childProcess.spawnSync(
+    process.execPath,
+    [
+      path.join(AT, "node_modules", "vitepress", "bin", "vitepress.js"),
+      "build",
+      `--outDir=${outDir}`,
+    ],
     {
       stdio: "inherit",
       env: {
