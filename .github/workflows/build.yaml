@@ -21,7 +21,7 @@ jobs:
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b
       - id: versions
         run: |
-          VERSIONS="$(pnpm run build --list-only)"
+          VERSIONS="$(pnpm run build --list)"
           echo versions="${VERSIONS}" >>"${GITHUB_OUTPUT}"
 
           LATEST="$(echo "${VERSIONS}" | jq -r ".[-1]")"
@@ -64,7 +64,7 @@ jobs:
         with:
           path: .vitepress/.versions/
           pattern: "*"
-      - run: pnpm run build --merge-only
+      - run: pnpm run build --skip-build
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

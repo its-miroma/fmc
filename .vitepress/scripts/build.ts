@@ -1,104 +1,92 @@
-import * as crossSpawn from "cross-spawn";
 import * as crypto from "node:crypto";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as perfHooks from "node:perf_hooks";
 import * as process from "node:process";
+import * as util from "node:util";
 import * as tinyglobby from "tinyglobby";
+import * as vitepress from "vitepress";
 import { AT, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
 
-// TODO: improve DX with the logged messages
 const start = perfHooks.performance.now();
 process.chdir(AT);
 
-const argv = process.argv.slice(2);
-const args = argv.filter((a) => !a.startsWith("--"));
-const flags = new Set(argv.filter((a) => a.startsWith("--")));
-
-const isLatestOnly =
-  flags.has("--latest-only") || (args.length === 1 && args[0] === LATEST_VERSION);
-const isListOnly = flags.has("--list-only");
-const isMergeOnly = flags.has("--merge-only");
-
 const tempDir = path.join(AT, ".vitepress", ".versions");
 
-if (isMergeOnly && !fs.statSync(tempDir, { throwIfNoEntry: false })?.isDirectory()) {
-  console.error(`couldn't find built versions directory`);
+const args = util.parseArgs({
+  options: { "list": { type: "boolean" }, "skip-build": { type: "boolean" } },
+  allowPositionals: true,
+});
 
-  process.exit(1);
-}
-
-const includedVersions = new Set(
-  args.map((v) => path.basename(v)).filter((v) => OLD_VERSIONS.includes(v))
+const versions = new Set(
+  args.positionals.map((a) => path.basename(a)).map((a) => (a === "latest" ? LATEST_VERSION : a))
 );
 
-if (includedVersions.size < 1) {
-  const detectedVersions = isMergeOnly
-    ? tinyglobby
-        .globSync("*", { cwd: tempDir, onlyDirectories: true, ignore: LATEST_VERSION })
-        .map((v) => path.basename(v))
-    : OLD_VERSIONS;
+const isList = Boolean(args.values["list"]);
+const isMerge = Boolean(args.values["skip-build"]);
 
-  for (const v of detectedVersions) {
-    includedVersions.add(v);
+if (isMerge) {
+  if (isList || versions.size) {
+    throw new Error("--merge is not compatible with other options");
+  }
+
+  if (!fs.statSync(tempDir, { throwIfNoEntry: false })?.isDirectory()) {
+    throw new Error("couldn't find .versions directory");
   }
 }
 
-if (isLatestOnly) {
-  includedVersions.clear();
+for (const v of versions) {
+  if (v !== LATEST_VERSION && !OLD_VERSIONS.includes(v)) {
+    throw new Error(`unrecognized version: '${v}'`);
+  }
 }
 
-const builtVersions = [...includedVersions, LATEST_VERSION];
+if (versions.size === 0) {
+  const detectedVersions = isMerge
+    ? tinyglobby.globSync("*", { cwd: tempDir, onlyDirectories: true }).map((v) => path.basename(v))
+    : OLD_VERSIONS;
 
-if (isListOnly) {
-  console.log(JSON.stringify(builtVersions));
+  for (const v of detectedVersions) {
+    versions.add(v);
+  }
+}
+
+versions.add(LATEST_VERSION);
+
+const collator = new Intl.Collator(undefined, { numeric: true });
+const sortedVersions = [...versions].toSorted(collator.compare).toReversed();
+
+if (isList) {
+  console.log(JSON.stringify(sortedVersions));
 
   process.exit(0);
 }
 
-if (builtVersions.length > 1) {
-  console.log(`building ${builtVersions.length} versions...`);
-}
-
 console.warn("PLEASE DO NOT TOUCH ANY FILE DURING BUILD\n");
 
-if (!isMergeOnly) {
+if (!isMerge) {
   fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
 const getOutDir = (version: string) => path.join(tempDir, version);
 
-for (const version of builtVersions.reverse()) {
-  if (isMergeOnly) {
+for (const [i, version] of sortedVersions.entries()) {
+  if (isMerge) {
     break;
   }
 
-  console.log(`building ${version}...`);
+  console.log(`building ${version} (${i + 1}/${sortedVersions.length})...`);
 
   const outDir = getOutDir(version);
   fs.mkdirSync(outDir, { recursive: true });
 
-  const otherVersions = OLD_VERSIONS.filter((v) => v !== version);
+  Object.assign(process.env, {
+    CI: "1",
+    SHOW_ALL_VERSIONS: "1",
+    EXCLUDED_VERSIONS: OLD_VERSIONS.filter((v) => v !== version).join(","),
+  });
 
-  const buildProcess = crossSpawn.sync(
-    "pnpm",
-    ["exec", "vitepress", "build", `--outDir=${outDir}`],
-    {
-      stdio: "inherit",
-      env: {
-        ...process.env,
-        CI: "1",
-        SHOW_ALL_VERSIONS: "1",
-        EXCLUDED_VERSIONS: otherVersions.join(","),
-      },
-    }
-  );
-
-  if (buildProcess.error || buildProcess.status !== 0) {
-    console.error(`building ${version} failed!`);
-
-    process.exit(buildProcess.status || 1);
-  }
+  await vitepress.build(AT, { outDir });
 }
 
 console.log(`merging metadata...`);
@@ -108,7 +96,7 @@ const hashes: string[] = [];
 const hashMap: Record<string, string> = {};
 let siteData: unknown;
 
-for (const version of builtVersions) {
+for (const version of sortedVersions) {
   const window = ((globalThis as any).window = {} as any);
   const outDir = getOutDir(version);
 
@@ -126,24 +114,18 @@ for (const version of builtVersions) {
     .filter(Boolean);
 
   if (split.length !== 2) {
-    console.error(`too many assignments in ${metadataFile}`);
-
-    process.exit(1);
+    throw new Error(`too many assignments in ${metadataFile}`);
   }
 
   await import(metadataFile);
 
   if (!split[0].startsWith(`window.__VP_HASH_MAP__=JSON.parse`)) {
-    console.error(`failed to parse hash map in ${metadataFile}`);
-
-    process.exit(1);
+    throw new Error(`failed to parse hash map in ${metadataFile}`);
   }
   const versionHashMap = window.__VP_HASH_MAP__;
 
   if (!split[1].startsWith(`window.__VP_SITE_DATA__=JSON.parse`)) {
-    console.error(`failed to parse site data in ${metadataFile}`);
-
-    process.exit(1);
+    throw new Error(`failed to parse site data in ${metadataFile}`);
   }
 
   if (version === LATEST_VERSION) {
@@ -169,7 +151,7 @@ fs.writeFileSync(newMetadataPath, newMetadataContent, "utf-8");
 fs.writeFileSync(newHashmapJsonPath, JSON.stringify(hashMap), "utf-8");
 
 console.log(`merging pages...`);
-for (const version of builtVersions) {
+for (const version of sortedVersions) {
   const outDir = getOutDir(version);
   const files = tinyglobby.globSync("**/*", {
     cwd: outDir,
@@ -199,4 +181,4 @@ for (const version of builtVersions) {
 }
 
 const finish = perfHooks.performance.now();
-console.log(`built ${builtVersions.length} versions in ${((finish - start) / 1000).toFixed(2)}s`);
+console.log(`built ${sortedVersions.length} versions in ${((finish - start) / 1000).toFixed(2)}s`);
