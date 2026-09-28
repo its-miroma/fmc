@@ -166,7 +166,7 @@ modifications.
 
 ::: tip
 
-If modifications do not appear, you can try [validating the file](../class-tweakers/index#validating-the-file) and checking if any errors appear.
+If modifications do not appear, you can try [validating the file](./#validating-the-file) and checking if any errors appear.
 
 :::
 
