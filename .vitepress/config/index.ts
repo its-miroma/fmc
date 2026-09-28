@@ -41,7 +41,6 @@ export default defineVersionedConfig(
       },
     ],
 
-    // Add a "Last Updated" date to the footer of pages using git
     lastUpdated: true,
 
     locales: getLocaleConfig(),
@@ -99,7 +98,7 @@ export default defineVersionedConfig(
 
     srcExclude: [
       "README.md",
-      ...excludedLocales.map((l) => `translated/${l}`),
+      ...excludedLocales.flatMap((l) => [`translated/${l}`, `versions/*/translated/${l}`]),
       ...EXCLUDED_OLD_VERSIONS.map((v) => `versions/${v}`),
     ],
 
