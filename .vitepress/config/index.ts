@@ -32,8 +32,7 @@ export default defineVersionedConfig(
     // Allow builds with incomplete translations
     ignoreDeadLinks: [
       (link, filePath) => {
-        // TODO: fix /contributing links
-        if (link.endsWith("/contributing") || link.startsWith("/assets/")) return true;
+        if (link.startsWith("/assets/")) return true;
 
         const split = path.relative(AT, filePath).split("/");
         if (split[0] === "versions") {
