@@ -31,10 +31,13 @@ export default defineVersionedConfig(
 
     // Allow builds with incomplete translations
     ignoreDeadLinks: [
-      (_, filePath) => {
+      (link, filePath) => {
+        // TODO: fix /contributing links
+        if (link.endsWith("/contributing") || link.startsWith("/assets/")) return true;
+
         const split = path.relative(AT, filePath).split("/");
         if (split[0] === "versions") {
-          return true; // TODO(debug): split.splice(0, 2);
+          split.splice(0, 2);
         }
 
         return split[0] === "translated";

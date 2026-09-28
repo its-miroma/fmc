@@ -25,7 +25,7 @@ This tutorial will walk you through the process of creating a custom _Mini Golem
 
 The first step in creating a custom entity is defining its class and registering it with the game.
 
-We'll create the class `MiniGolemEntity` for our entity, and start by giving it attributes. [Attributes](attributes) decide various things including the maximum health, movement speed, and tempt range of the entity.
+We'll create the class `MiniGolemEntity` for our entity, and start by giving it attributes. [Attributes](./attributes) decide various things including the maximum health, movement speed, and tempt range of the entity.
 
 <<< @/reference/latest/src/main/java/com/example/docs/entity/MiniGolemEntity.java#registerclass
 
