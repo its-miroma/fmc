@@ -7,7 +7,7 @@ import mcfunction from "syntax-mcfunction/mcfunction.tmLanguage.json" with { typ
 import type { SiteConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import defineVersionedConfig from "vitepress-versioning-plugin";
-import { AT, ENV, EXCLUDED_OLD_VERSIONS, LATEST_VERSION } from "../constants.ts";
+import { AT, ENV, EXCLUDED_VERSIONS, LATEST_VERSION } from "../constants.ts";
 import { createDownloadZips, downloadImagePlugin } from "../plugins/downloadImage.ts";
 import { transformFile, transformFilesPlugin } from "../plugins/transformFiles.ts";
 import type { Config } from "../types.d.ts";
@@ -101,12 +101,11 @@ export default defineVersionedConfig(
     srcExclude: [
       "README.md",
       ...excludedLocales.flatMap((l) => [`translated/${l}`, `versions/*/translated/${l}`]),
-      ...EXCLUDED_OLD_VERSIONS.map((v) => `versions/${v}`),
+      ...EXCLUDED_VERSIONS.map((v) => `versions/${v}`),
     ],
 
     themeConfig: {
       env: ENV,
-      excludedVersions: process.env.SHOW_ALL_VERSIONS ? [] : EXCLUDED_OLD_VERSIONS,
       externalLinkIcon: true,
       logo: "/logo.png",
       outline: { level: "deep" },

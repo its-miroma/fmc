@@ -39,12 +39,11 @@ const currentV = computed(() => {
 
 // TODO: add future versions to the supported pages
 const collator = new Intl.Collator(undefined, { numeric: true });
+// PR previews (numeric env) only build latest
+const isPreview = computed(() => typeof data.theme.value.env === "number");
 const versions = computed(() => [
   props.versioningPlugin.latestVersion,
-  ...props.versioningPlugin.versions
-    .filter((v) => !data.theme.value.excludedVersions.includes(v))
-    .toSorted(collator.compare)
-    .reverse(),
+  ...(isPreview.value ? [] : props.versioningPlugin.versions.toSorted(collator.compare).reverse()),
 ]);
 
 /**
@@ -75,7 +74,7 @@ const item = computed(() => ({
       link: getRoute(v),
       activeMatch: v === currentV.value ? "(?=)" : "(?!)",
     })),
-    versions.value.length <= 1 && {
+    isPreview.value && {
       text: options.value.noOtherVersions,
       link: "",
     },

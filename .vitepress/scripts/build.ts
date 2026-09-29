@@ -12,6 +12,7 @@ import { AT, ENV, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
 if (!workerThreads.isMainThread) {
   const vitepress = await import("vitepress");
   await vitepress.build(AT, workerThreads.workerData);
+
   process.exit(0);
 }
 
@@ -25,7 +26,7 @@ const args = util.parseArgs({
   allowPositionals: true,
 });
 
-const versions = new Set(
+const versionsSet = new Set(
   args.positionals.map((a) => path.basename(a)).map((a) => (a === "latest" ? LATEST_VERSION : a))
 );
 
@@ -33,7 +34,7 @@ const isList = Boolean(args.values["list"]);
 const skipBuild = Boolean(args.values["skip-build"]);
 
 if (skipBuild) {
-  if (versions.size) {
+  if (versionsSet.size) {
     throw new Error("--skip-build does not accept versions");
   }
 
@@ -42,59 +43,56 @@ if (skipBuild) {
   }
 }
 
-for (const v of versions) {
+for (const v of versionsSet) {
   if (v !== LATEST_VERSION && !OLD_VERSIONS.includes(v)) {
     throw new Error(`unrecognized version: '${v}'`);
   }
 }
 
-if (versions.size === 0) {
+if (versionsSet.size === 0) {
   const detectedVersions = skipBuild
     ? tinyglobby.globSync("*", { cwd: tempDir, onlyDirectories: true }).map((v) => path.basename(v))
     : OLD_VERSIONS;
 
   for (const v of detectedVersions) {
-    versions.add(v);
+    versionsSet.add(v);
   }
 }
 
-versions.add(LATEST_VERSION);
+versionsSet.add(LATEST_VERSION);
 
-if (!skipBuild && versions.size === 2) {
-  versions.delete(LATEST_VERSION);
+if (!skipBuild && versionsSet.size === 2) {
+  // this means it's one old version and latest.
+  // the old version build already includes latest,
+  // so a separate build for latest, and then merging, is redundant
+  versionsSet.delete(LATEST_VERSION);
 }
 
 const collator = new Intl.Collator(undefined, { numeric: true });
-const sortedVersions = [...versions].toSorted(collator.compare).toReversed();
+const versions = [...versionsSet].toSorted(collator.compare).toReversed();
 
 if (isList) {
-  console.log(JSON.stringify(sortedVersions));
+  console.log(JSON.stringify(versions));
 
   process.exit(0);
 }
 
 console.warn("PLEASE DO NOT TOUCH ANY FILE DURING BUILD\n");
 
-for (const [i, version] of sortedVersions.entries()) {
+for (const [i, version] of versions.entries()) {
   if (skipBuild) {
     break;
   }
 
   console.log(
-    `${ENV === "github" ? "::group::" : ""}building ${version} (${i + 1}/${sortedVersions.length})...`
+    `${ENV === "github" ? "::group::" : ""}building ${version} (${i + 1}/${versions.length})...`
   );
 
-  const outDir = path.join(tempDir, version);
-  // TODO: are these two steps already handled by vitepress.build()?
-  fs.rmSync(outDir, { recursive: true, force: true });
-  fs.mkdirSync(outDir, { recursive: true });
-
   const worker = new workerThreads.Worker(import.meta.filename, {
-    workerData: { outDir },
+    workerData: { outDir: path.join(tempDir, version) },
     env: {
       ...process.env,
       CI: "1",
-      SHOW_ALL_VERSIONS: "1",
       EXCLUDED_VERSIONS: OLD_VERSIONS.filter((v) => v !== version).join(","),
     },
   });
@@ -109,8 +107,8 @@ for (const [i, version] of sortedVersions.entries()) {
 const targetDir = path.join(AT, ".vitepress", "dist");
 fs.rmSync(targetDir, { recursive: true, force: true });
 
-if (sortedVersions.length === 1) {
-  fs.cpSync(path.join(tempDir, sortedVersions[0]), targetDir, { recursive: true });
+if (versions.length === 1) {
+  fs.cpSync(path.join(tempDir, versions[0]), targetDir, { recursive: true });
 
   process.exit(0);
 }
@@ -122,7 +120,7 @@ const hashes: string[] = [];
 const hashMap: Record<string, string> = {};
 let siteData: unknown;
 
-for (const version of sortedVersions) {
+for (const version of versions) {
   const window = ((globalThis as any).window = {} as any);
 
   const metadataFile = tinyglobby.globSync("metadata.*.js", {
@@ -139,6 +137,7 @@ for (const version of sortedVersions) {
     .filter(Boolean);
 
   if (split.length !== 2) {
+    // deserializeFunctions is unsupported
     throw new Error(`too many assignments in ${metadataFile}`);
   }
 
@@ -176,7 +175,8 @@ fs.writeFileSync(newMetadataPath, newMetadataContent, "utf-8");
 fs.writeFileSync(newHashmapJsonPath, JSON.stringify(hashMap), "utf-8");
 
 console.log(`merging pages...`);
-for (const version of sortedVersions) {
+// assume every build has identical copies of latest's pages
+for (const version of versions) {
   const outDir = path.join(tempDir, version);
   const files = tinyglobby.globSync("**/*", {
     cwd: outDir,
@@ -207,7 +207,7 @@ for (const version of sortedVersions) {
 
 const elapsed = ((perfHooks.performance.now() - start) / 1000).toFixed(2);
 if (skipBuild) {
-  console.log(`all ${sortedVersions.length} builds merged in ${elapsed}s`);
+  console.log(`all ${versions.length} builds merged in ${elapsed}s`);
 } else {
-  console.log(`all ${sortedVersions.length} builds complete in ${elapsed}s`);
+  console.log(`all ${versions.length} builds complete in ${elapsed}s`);
 }
