@@ -7,7 +7,7 @@ import * as process from "node:process";
 import * as util from "node:util";
 import * as workerThreads from "node:worker_threads";
 import * as tinyglobby from "tinyglobby";
-import { AT, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
+import { AT, ENV, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
 
 if (!workerThreads.isMainThread) {
   const vitepress = await import("vitepress");
@@ -82,7 +82,9 @@ for (const [i, version] of sortedVersions.entries()) {
     break;
   }
 
-  console.log(`building ${version} (${i + 1}/${sortedVersions.length})...`);
+  console.log(
+    `${ENV === "github" ? "::group::" : ""}building ${version} (${i + 1}/${sortedVersions.length})...`
+  );
 
   const outDir = getOutDir(version);
   fs.mkdirSync(outDir, { recursive: true });
@@ -98,6 +100,8 @@ for (const [i, version] of sortedVersions.entries()) {
   });
 
   const [code] = await events.once(worker, "exit");
+
+  if (ENV === "github") console.log("::endgroup::");
 
   if (code !== 0) throw new Error(`building ${version} failed with exit code ${code}!`);
 }
