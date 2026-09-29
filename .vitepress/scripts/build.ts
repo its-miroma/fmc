@@ -87,14 +87,16 @@ for (const [i, version] of sortedVersions.entries()) {
   const outDir = getOutDir(version);
   fs.mkdirSync(outDir, { recursive: true });
 
-  const env = {
-    ...process.env,
-    CI: "1",
-    SHOW_ALL_VERSIONS: "1",
-    EXCLUDED_VERSIONS: OLD_VERSIONS.filter((v) => v !== version).join(","),
-  };
+  const worker = new workerThreads.Worker(import.meta.filename, {
+    workerData: { outDir },
+    env: {
+      ...process.env,
+      CI: "1",
+      SHOW_ALL_VERSIONS: "1",
+      EXCLUDED_VERSIONS: OLD_VERSIONS.filter((v) => v !== version).join(","),
+    },
+  });
 
-  const worker = new workerThreads.Worker(import.meta.url, { workerData: { outDir }, env });
   const [code] = await events.once(worker, "exit");
 
   if (code !== 0) throw new Error(`building ${version} failed with exit code ${code}!`);
