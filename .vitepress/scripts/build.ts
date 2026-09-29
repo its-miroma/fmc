@@ -1,13 +1,19 @@
-import * as childProcess from "node:child_process";
 import * as crypto from "node:crypto";
+import * as events from "node:events";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as perfHooks from "node:perf_hooks";
 import * as process from "node:process";
 import * as util from "node:util";
+import * as workerThreads from "node:worker_threads";
 import * as tinyglobby from "tinyglobby";
-import * as vitepress from "vitepress";
 import { AT, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
+
+if (!workerThreads.isMainThread) {
+  const vitepress = await import("vitepress");
+  await vitepress.build(AT, workerThreads.workerData);
+  process.exit(0);
+}
 
 const start = perfHooks.performance.now();
 process.chdir(AT);
@@ -81,40 +87,17 @@ for (const [i, version] of sortedVersions.entries()) {
   const outDir = getOutDir(version);
   fs.mkdirSync(outDir, { recursive: true });
 
-  const buildProcess = childProcess.spawnSync(
-    process.execPath,
-    [
-      path.join(AT, "node_modules", "vitepress", "bin", "vitepress.js"),
-      "build",
-      `--outDir=${outDir}`,
-    ],
-    {
-      stdio: "inherit",
-      env: {
-        ...process.env,
-        CI: "1",
-        SHOW_ALL_VERSIONS: "1",
-        EXCLUDED_VERSIONS: OLD_VERSIONS.filter((v) => v !== version).join(","),
-      },
-    }
-  );
-
-  if (buildProcess.error || buildProcess.status !== 0) {
-    throw new Error(`building ${version} failed!`);
-  }
-
-  continue;
-  // TODO: Ideally, the code below would replace buildProcess, because it's more pragmatic and direct.
-  // It also should allow for dropping process.env.CI - that is used to avoid pnpm exec vitepress build to clear the screen, but I think vitepress.build doesn't anyway.
-  // However, this does not currently work - it fails at "rendering pages..." because somehow useData breaks.
-
-  Object.assign(process.env, {
+  const env = {
+    ...process.env,
     CI: "1",
     SHOW_ALL_VERSIONS: "1",
     EXCLUDED_VERSIONS: OLD_VERSIONS.filter((v) => v !== version).join(","),
-  });
+  };
 
-  await vitepress.build(AT, { outDir });
+  const worker = new workerThreads.Worker(import.meta.url, { workerData: { outDir }, env });
+  const [code] = await events.once(worker, "exit");
+
+  if (code !== 0) throw new Error(`building ${version} failed with exit code ${code}!`);
 }
 
 console.log(`merging metadata...`);
