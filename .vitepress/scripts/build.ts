@@ -33,11 +33,11 @@ const isList = Boolean(args.values["list"]);
 const skipBuild = Boolean(args.values["skip-build"]);
 
 if (skipBuild) {
-  if (isList || versions.size) {
-    throw new Error("--skip-build is not compatible with other options");
+  if (versions.size) {
+    throw new Error("--skip-build does not accept versions");
   }
 
-  if (!fs.statSync(tempDir, { throwIfNoEntry: false })?.isDirectory()) {
+  if (!fs.statSync(path.join(tempDir, LATEST_VERSION), { throwIfNoEntry: false })?.isDirectory()) {
     throw new Error("couldn't find .versions directory");
   }
 }
@@ -60,6 +60,10 @@ if (versions.size === 0) {
 
 versions.add(LATEST_VERSION);
 
+if (!skipBuild && versions.size === 2) {
+  versions.delete(LATEST_VERSION);
+}
+
 const collator = new Intl.Collator(undefined, { numeric: true });
 const sortedVersions = [...versions].toSorted(collator.compare).toReversed();
 
@@ -71,12 +75,6 @@ if (isList) {
 
 console.warn("PLEASE DO NOT TOUCH ANY FILE DURING BUILD\n");
 
-if (!skipBuild) {
-  fs.rmSync(tempDir, { recursive: true, force: true });
-}
-
-const getOutDir = (version: string) => path.join(tempDir, version);
-
 for (const [i, version] of sortedVersions.entries()) {
   if (skipBuild) {
     break;
@@ -86,7 +84,9 @@ for (const [i, version] of sortedVersions.entries()) {
     `${ENV === "github" ? "::group::" : ""}building ${version} (${i + 1}/${sortedVersions.length})...`
   );
 
-  const outDir = getOutDir(version);
+  const outDir = path.join(tempDir, version);
+  // TODO: are these two steps already handled by vitepress.build()?
+  fs.rmSync(outDir, { recursive: true, force: true });
   fs.mkdirSync(outDir, { recursive: true });
 
   const worker = new workerThreads.Worker(import.meta.filename, {
@@ -106,6 +106,15 @@ for (const [i, version] of sortedVersions.entries()) {
   if (code !== 0) throw new Error(`building ${version} failed with exit code ${code}!`);
 }
 
+const targetDir = path.join(AT, ".vitepress", "dist");
+fs.rmSync(targetDir, { recursive: true, force: true });
+
+if (sortedVersions.length === 1) {
+  fs.cpSync(path.join(tempDir, sortedVersions[0]), targetDir, { recursive: true });
+
+  process.exit(0);
+}
+
 console.log(`merging metadata...`);
 const getNewHash = (content: string) => crypto.hash("sha256", content, "hex").slice(0, 8);
 
@@ -115,10 +124,9 @@ let siteData: unknown;
 
 for (const version of sortedVersions) {
   const window = ((globalThis as any).window = {} as any);
-  const outDir = getOutDir(version);
 
   const metadataFile = tinyglobby.globSync("metadata.*.js", {
-    cwd: path.join(outDir, "assets", "chunks"),
+    cwd: path.join(tempDir, version, "assets", "chunks"),
     absolute: true,
   })[0];
 
@@ -144,18 +152,18 @@ for (const version of sortedVersions) {
   if (!split[1].startsWith(`window.__VP_SITE_DATA__=JSON.parse`)) {
     throw new Error(`failed to parse site data in ${metadataFile}`);
   }
+  const versionSiteData = window.__VP_SITE_DATA__;
 
   if (version === LATEST_VERSION) {
-    siteData = window.__VP_SITE_DATA__;
+    siteData = versionSiteData;
+  } else if (!util.isDeepStrictEqual(siteData, versionSiteData)) {
+    throw new Error(`site data for ${version} differs from ${LATEST_VERSION} (latest)!`);
   }
 
   (globalThis as any).window = undefined;
 
   Object.assign(hashMap, versionHashMap);
 }
-
-const targetDir = path.join(AT, ".vitepress", "dist");
-fs.rmSync(targetDir, { recursive: true, force: true });
 
 const newMetadataContent = `window.__VP_HASH_MAP__=JSON.parse(${JSON.stringify(JSON.stringify(hashMap))});window.__VP_SITE_DATA__=JSON.parse(${JSON.stringify(JSON.stringify(siteData))});`;
 const newHash = getNewHash(newMetadataContent);
@@ -169,7 +177,7 @@ fs.writeFileSync(newHashmapJsonPath, JSON.stringify(hashMap), "utf-8");
 
 console.log(`merging pages...`);
 for (const version of sortedVersions) {
-  const outDir = getOutDir(version);
+  const outDir = path.join(tempDir, version);
   const files = tinyglobby.globSync("**/*", {
     cwd: outDir,
     ignore: ["hashmap.json", "assets/chunks/metadata.*.js"],
@@ -197,5 +205,9 @@ for (const version of sortedVersions) {
   }
 }
 
-const finish = perfHooks.performance.now();
-console.log(`built ${sortedVersions.length} versions in ${((finish - start) / 1000).toFixed(2)}s`);
+const elapsed = ((perfHooks.performance.now() - start) / 1000).toFixed(2);
+if (skipBuild) {
+  console.log(`all ${sortedVersions.length} builds merged in ${elapsed}s`);
+} else {
+  console.log(`all ${sortedVersions.length} builds complete in ${elapsed}s`);
+}
