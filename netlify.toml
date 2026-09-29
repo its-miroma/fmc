@@ -2,3 +2,6 @@
   for = "/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+
+[context.deploy-preview]
+  command = "pnpm run build latest"

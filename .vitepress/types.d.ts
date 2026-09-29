@@ -84,8 +84,6 @@ export interface ThemeConfig extends Versioned.ThemeConfig {
 
   env: typeof import("./constants.ts").ENV;
 
-  excludedVersions: string[];
-
   notFound: {
     /**
      * @default "404"

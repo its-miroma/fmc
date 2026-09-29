@@ -27,24 +27,4 @@ export const OLD_VERSIONS = tinyglobby
   .globSync("*", { cwd: path.join(AT, "versions"), onlyDirectories: true })
   .map((v) => path.basename(v));
 
-export const EXCLUDED_OLD_VERSIONS =
-  {
-    auto: typeof ENV === "number" ? OLD_VERSIONS : [],
-    all: OLD_VERSIONS,
-  }[process.env.EXCLUDED_VERSIONS || "auto"]
-  || [
-    ...new Set(
-      process.env
-        .EXCLUDED_VERSIONS! //
-        .split(/[,; ]/)
-        .filter(Boolean)
-    ),
-  ].filter((v) => {
-    const returned = OLD_VERSIONS.includes(v);
-
-    if (!returned) {
-      console.warn(`EXCLUDED_VERSIONS: unrecognized version '${v}'`);
-    }
-
-    return returned;
-  });
+export const EXCLUDED_VERSIONS = (process.env.EXCLUDED_VERSIONS || "").split(",").filter(Boolean);
