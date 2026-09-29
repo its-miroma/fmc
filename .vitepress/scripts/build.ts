@@ -30,11 +30,11 @@ const versions = new Set(
 );
 
 const isList = Boolean(args.values["list"]);
-const isMerge = Boolean(args.values["skip-build"]);
+const skipBuild = Boolean(args.values["skip-build"]);
 
-if (isMerge) {
+if (skipBuild) {
   if (isList || versions.size) {
-    throw new Error("--merge is not compatible with other options");
+    throw new Error("--skip-build is not compatible with other options");
   }
 
   if (!fs.statSync(tempDir, { throwIfNoEntry: false })?.isDirectory()) {
@@ -49,7 +49,7 @@ for (const v of versions) {
 }
 
 if (versions.size === 0) {
-  const detectedVersions = isMerge
+  const detectedVersions = skipBuild
     ? tinyglobby.globSync("*", { cwd: tempDir, onlyDirectories: true }).map((v) => path.basename(v))
     : OLD_VERSIONS;
 
@@ -71,14 +71,14 @@ if (isList) {
 
 console.warn("PLEASE DO NOT TOUCH ANY FILE DURING BUILD\n");
 
-if (!isMerge) {
+if (!skipBuild) {
   fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
 const getOutDir = (version: string) => path.join(tempDir, version);
 
 for (const [i, version] of sortedVersions.entries()) {
-  if (isMerge) {
+  if (skipBuild) {
     break;
   }
 
