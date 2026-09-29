@@ -24,7 +24,7 @@ jobs:
           versions="$(pnpm run build --list)"
           echo versions="${versions}" >>"${GITHUB_OUTPUT}"
 
-          latest="$(echo "${versions}" | jq -r ".[-1]")"
+          latest="$(echo "${versions}" | jq -r ".[0]")"
           echo latest="${latest}" >>"${GITHUB_OUTPUT}"
 
   docs:
