@@ -121,7 +121,7 @@ const hashMap: Record<string, string> = {};
 let siteData: unknown;
 
 for (const version of versions) {
-  const window = ((globalThis as any).window = {} as any);
+  (globalThis as any).window = {};
 
   const metadataFile = tinyglobby.globSync("metadata.*.js", {
     cwd: path.join(tempDir, version, "assets", "chunks"),
@@ -159,9 +159,9 @@ for (const version of versions) {
     throw new Error(`site data for ${version} differs from ${LATEST_VERSION} (latest)!`);
   }
 
-  (globalThis as any).window = undefined;
-
   Object.assign(hashMap, versionHashMap);
+
+  (globalThis as any).window = undefined;
 }
 
 const newMetadataContent = `window.__VP_HASH_MAP__=JSON.parse(${JSON.stringify(JSON.stringify(hashMap))});window.__VP_SITE_DATA__=JSON.parse(${JSON.stringify(JSON.stringify(siteData))});`;
