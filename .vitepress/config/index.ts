@@ -4,7 +4,6 @@ import * as path from "node:path";
 import * as process from "node:process";
 import bytecode from "syntax-java-bytecode/java-bytecode.tmLanguage.json" with { type: "json" };
 import mcfunction from "syntax-mcfunction/mcfunction.tmLanguage.json" with { type: "json" };
-import type { SiteConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import defineVersionedConfig from "vitepress-versioning-plugin";
 import { AT, ENV, EXCLUDED_VERSIONS, LATEST_VERSION } from "../constants.ts";
@@ -89,13 +88,18 @@ export default defineVersionedConfig(
           netlify: "https://fabric-docs.netlify.app/",
         }[ENV] || process.env.DEPLOY_PRIME_URL!,
       transformItems: (items) => {
-        const config = (globalThis as any).VITEPRESS_CONFIG as SiteConfig;
         const getFilePath = (url: string) => `${url.replace(/[/]$/, "/index")}.md`;
 
         return items.filter(
-          (i) => !config.rewrites.inv[getFilePath(i.url)]?.startsWith("versions/")
+          (i) => !VITEPRESS_CONFIG.rewrites.inv[getFilePath(i.url)]?.startsWith("versions/")
         );
       },
+    },
+
+    transformPageData: (pageData) => {
+      if (/[^a-z0-9_-]|^_/.test(pageData.relativePath)) {
+        throw new Error(`invalid file name: '${pageData.relativePath}'`);
+      }
     },
 
     srcExclude: [

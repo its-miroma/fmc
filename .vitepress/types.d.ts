@@ -1,4 +1,4 @@
-import { UserConfig } from "vitepress";
+import { SiteConfig, SiteData, UserConfig } from "vitepress";
 import { Versioned } from "vitepress-versioning-plugin";
 
 // TODO: is there a way to use a .ts file instead of website_translations.json?
@@ -186,3 +186,12 @@ export interface ThemeConfig extends Versioned.ThemeConfig {
 }
 
 export type Config = UserConfig<ThemeConfig> & Versioned.Config;
+
+declare global {
+  var VITEPRESS_CONFIG: SiteConfig<ThemeConfig>;
+
+  interface Window {
+    __VP_HASH_MAP__?: Record<string, string>;
+    __VP_SITE_DATA__?: SiteData<ThemeConfig>;
+  }
+}
