@@ -113,7 +113,7 @@ const item = computed(() => ({
   letter-spacing: 0;
 
   &:deep(.button) {
-    height: auto;
+    height: 1.75rem;
     padding-inline: 0.5rem;
 
     .text {
@@ -122,7 +122,7 @@ const item = computed(() => ({
   }
 
   &:deep(.menu) {
-    top: 2.5rem;
+    top: 1.75rem;
     right: revert;
 
     ul {
