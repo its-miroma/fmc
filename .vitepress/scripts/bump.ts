@@ -5,11 +5,13 @@ import * as tinyglobby from "tinyglobby";
 import { getLocales, getSidebar } from "../config/i18n.ts";
 import { AT, VERSION_RE } from "../constants.ts";
 
+// TODO: update head.ts versionMap
+
 const git = (...args: string[]) => {
   const returned = childProcess.spawnSync("git", args, { encoding: "utf8" });
 
   if (returned.error) {
-    throw new Error(`Failed to run 'git ${args.join(" ")}'!\n  ${returned.error}`);
+    throw new Error(`Failed to run 'git ${args.join(" ")}'!`, { cause: returned.error });
   }
 
   return returned;
