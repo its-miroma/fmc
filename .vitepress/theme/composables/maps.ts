@@ -6,8 +6,8 @@ const purePathToVersionsMap = new Map<string, Set<string>>();
 export const useMaps = () => {
   const returned = { versionToPurePathsMap, purePathToVersionsMap };
 
-  if (inBrowser && versionToPurePathsMap.size === 0) {
-    for (const k of Object.keys(window.__VP_HASH_MAP__!)) {
+  if (inBrowser && window.__VP_HASH_MAP__ && versionToPurePathsMap.size === 0) {
+    for (const k of Object.keys(window.__VP_HASH_MAP__)) {
       if (/^.._.._/.test(k)) {
         continue;
       }

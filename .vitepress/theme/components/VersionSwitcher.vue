@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type DefaultTheme, useData, useRoute } from "vitepress";
+import { type DefaultTheme, inBrowser, useData, useRoute } from "vitepress";
 import VPNavMenuGroup from "vitepress/dist/client/theme-default/components/VPNavMenuGroup.vue";
 import { computed } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
@@ -61,22 +61,22 @@ const getRoute = (v: string) => {
 };
 
 const versions = computed(() =>
-  [
-    ...(maps.purePathToVersionsMap.get(data.frontmatter.value.purePath)
-      || props.versioningPlugin.versions.concat(props.versioningPlugin.latestVersion)),
-  ]
-    .toSorted(collator.compare)
-    .toReversed()
+  inBrowser
+    ? [...(maps.purePathToVersionsMap.get(data.frontmatter.value.purePath) || [])]
+    : props.versioningPlugin.versions.concat(props.versioningPlugin.latestVersion)
 );
 
 const item = computed(() => ({
   text: `${icon} ${!props.h1 && props.screenMenu === false ? options.value.switcherTitle : currentV.value}`,
   items: [
-    ...versions.value.map((v) => ({
-      text: options.value.switcherLabel.replace("%s", v),
-      link: getRoute(v),
-      activeMatch: v === currentV.value ? "(?=)" : "(?!)",
-    })),
+    ...versions.value
+      .toSorted(collator.compare)
+      .toReversed()
+      .map((v) => ({
+        text: options.value.switcherLabel.replace("%s", v),
+        link: getRoute(v),
+        activeMatch: v === currentV.value ? "(?=)" : "(?!)",
+      })),
     versions.value.length <= 1 && {
       text: options.value.noOtherVersions,
       link: "",
