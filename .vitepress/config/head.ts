@@ -1,3 +1,4 @@
+import { HeadConfig } from "vitepress";
 import { LATEST_VERSION } from "../constants.ts";
 import type { Config } from "../types.d.ts";
 
@@ -15,7 +16,7 @@ type NewHeadContext = {
   siteName: string;
 };
 
-const _getNewHead = (context: NewHeadContext): string | [string, Record<string, string>][] => {
+const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
   const versionMap: Record<string, string> = {
     "26.1.2": "26.1.2",
     "26.1.1": "26.1.2",
