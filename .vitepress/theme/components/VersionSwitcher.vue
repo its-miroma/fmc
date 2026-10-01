@@ -47,7 +47,7 @@ route format: `/[locale/][version/]path/to/[file-name]`
 - `[file-name]` is not added for index.md files
 */
 const getRoute = (v: string) => {
-  if (v === data.frontmatter.value.version) {
+  if (v === currentV.value) {
     return route.hash || "#";
   }
 

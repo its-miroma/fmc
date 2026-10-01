@@ -98,8 +98,8 @@ export default defineVersionedConfig(
 
     srcExclude: [
       "README.md",
-      ...excludedLocales.flatMap((l) => [`translated/${l}`, `versions/*/translated/${l}`]),
       ...EXCLUDED_VERSIONS.map((v) => `versions/${v}`),
+      ...excludedLocales.map((l) => `**/translated/${l}`),
     ],
 
     themeConfig: {
@@ -122,12 +122,6 @@ export default defineVersionedConfig(
 
     // Set head tags at build time
     transformHead: getBuildTransformHead(),
-
-    transformPageData: (pageData) => {
-      if (pageData.frontmatter.localeIndex === "root" && /[^a-z0-9-]/.test(pageData.relativePath)) {
-        throw new Error(`invalid file name: '${pageData.relativePath}'`);
-      }
-    },
 
     versioning: {
       latestVersion: LATEST_VERSION,

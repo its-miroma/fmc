@@ -10,15 +10,11 @@ const VERSION_SWITCHER = `<VersionSwitcher h1 :versioningPlugin='${JSON.stringif
 
 export const transformFile = (src: string, id: string) => {
   const { data, content } = matter(src, {});
-  const split = path.relative(AT, id).split("/");
-
-  data.versionType = "latest";
-  data.version = LATEST_VERSION;
-  data.localeIndex = "root";
+  const relativePath = path.relative(AT, id);
+  const split = relativePath.split("/");
 
   if (split[0] === "versions") {
     // versions/version/[translated/locale/]path/to/file-name.md
-    data.versionType = "old";
     data.version = split[1];
     data.editLink = false;
     data.search = false;
@@ -27,25 +23,34 @@ export const transformFile = (src: string, id: string) => {
   }
 
   // [translated/locale/][version/]path/to/file-name.md
-  if (split[0] === "translated") {
-    data.localeIndex = split[1];
+  const locale = split[0] === "translated" ? split[1] : "en_us";
+  if (locale !== "en_us") {
     split.splice(0, 2);
   }
 
-  if (data.version === LATEST_VERSION && VERSION_RE.test(split[0])) {
-    data.versionType = "future";
+  if (VERSION_RE.test(split[0])) {
     data.version = split[0];
     split.splice(0, 1);
   }
 
-  data.purePath = split.join("/").replace(/((?<=^|[/])index)?[.]md$/, "");
+  data.version ||= LATEST_VERSION;
 
-  const locale = data.localeIndex === "root" ? "en_us" : data.localeIndex;
+  data.purePath = split.join("/").replace(/((?<=^|[/])index)?[.]md$/, "");
+  if (/[^/a-z-0-9.]/.test(data.purePath)) {
+    throw new Error(`invalid file path: '${relativePath}'`);
+  }
+
+  const versionType =
+    data.version === LATEST_VERSION
+      ? "latest"
+      : OLD_VERSIONS.includes(data.version)
+        ? "old"
+        : "future";
   const resolver = getWebsiteResolver(locale);
   const newContent: string[] = [];
 
   if (data.layout === "home") {
-    if (data.versionType === "old") {
+    if (versionType === "old") {
       newContent.push(
         "::: warning",
         resolver("version.reminder.old_version_home").replace("%s", data.version),
@@ -65,7 +70,7 @@ export const transformFile = (src: string, id: string) => {
       newContent.push("</hgroup>");
     }
 
-    if (data.versionType === "old") {
+    if (versionType === "old") {
       newContent.push(
         "::: warning",
         resolver("version.reminder.old_version").replace("%s", data.version),
@@ -73,7 +78,7 @@ export const transformFile = (src: string, id: string) => {
       );
     }
 
-    if (data.versionType === "future") {
+    if (versionType === "future") {
       newContent.push(
         "::: warning",
         resolver("version.reminder.future_version").replace("%s", data.version),
