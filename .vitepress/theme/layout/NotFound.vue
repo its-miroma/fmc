@@ -9,9 +9,27 @@ import { useData } from "vitepress";
 import { VPLink } from "vitepress/theme";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
+import { useMaps } from "../composables/maps.ts";
 
 const data = useData<ThemeConfig>();
+const maps = useMaps();
 const prefersReducedMotion = usePreferredReducedMotion();
+
+const englishHref = computed(() => {
+  if (data.localeIndex.value === "root") {
+    return;
+  }
+
+  const split = data.page.value.relativePath.split("/").slice(1);
+  const version = /^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? split.shift()! : "";
+  const purePath = split.join("/");
+
+  if (!maps.versionToPurePathsMap.get(version)?.has(purePath)) {
+    return;
+  }
+
+  return purePath;
+});
 
 const root = ref<HTMLDivElement>();
 const ball = ref<HTMLCanvasElement>();
@@ -225,22 +243,17 @@ const TEXTURE = [
       >
         {{ options.linkText }}
       </VPLink>
-      <br />
-      <VPLink
-        v-if="data.localeIndex.value !== 'root'"
-        :href="data.page.value.relativePath.replace(data.localeIndex.value, 'en_us')"
-        :aria-label="options.englishLinkLabel"
-      >
-        {{ options.englishLinkText }}
-      </VPLink>
-      <br />
-      <VPLink
-        v-if="data.localeIndex.value !== 'root'"
-        :href="String(data.theme.value.editLink!.pattern)"
-        :aria-label="options.crowdinLinkLabel"
-      >
-        {{ options.crowdinLinkText }}
-      </VPLink>
+      <template v-if="englishHref">
+        <VPLink :href="englishHref" :aria-label="options.englishLinkLabel">
+          {{ options.englishLinkText }}
+        </VPLink>
+        <VPLink
+          :href="String(data.theme.value.editLink!.pattern)"
+          :aria-label="options.crowdinLinkLabel"
+        >
+          {{ options.crowdinLinkText }}
+        </VPLink>
+      </template>
     </div>
   </div>
 </template>
