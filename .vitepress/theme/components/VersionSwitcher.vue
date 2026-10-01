@@ -4,6 +4,7 @@ import VPNavMenuGroup from "vitepress/dist/client/theme-default/components/VPNav
 import { computed } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
 import { useIconSpan } from "../composables/iconSpan.ts";
+import { useMaps } from "../composables/maps.ts";
 
 const props = defineProps<{
   h1?: boolean;
@@ -17,6 +18,8 @@ const props = defineProps<{
 const data = useData<ThemeConfig>();
 const route = useRoute();
 const icon = useIconSpan("material-icon-theme:minecraft");
+const maps = useMaps();
+const collator = new Intl.Collator(undefined, { numeric: true });
 
 const options = computed(() => data.theme.value.version);
 
@@ -36,15 +39,6 @@ const currentV = computed(() => {
 
   return props.versioningPlugin.latestVersion;
 });
-
-// TODO: add future versions to the supported pages
-const collator = new Intl.Collator(undefined, { numeric: true });
-// PR previews (numeric env) only build latest
-const isPreview = computed(() => typeof data.theme.value.env === "number");
-const versions = computed(() => [
-  props.versioningPlugin.latestVersion,
-  ...(isPreview.value ? [] : props.versioningPlugin.versions.toSorted(collator.compare).reverse()),
-]);
 
 /**
 route format: `/[locale/][version/]path/to/[file-name]`
@@ -66,6 +60,15 @@ const getRoute = (v: string) => {
     .join("/")}`;
 };
 
+const versions = computed(() =>
+  [
+    ...(maps.purePathToVersionsMap.get(data.frontmatter.value.purePath)
+      || props.versioningPlugin.versions.concat(props.versioningPlugin.latestVersion)),
+  ]
+    .toSorted(collator.compare)
+    .toReversed()
+);
+
 const item = computed(() => ({
   text: `${icon} ${!props.h1 && props.screenMenu === false ? options.value.switcherTitle : currentV.value}`,
   items: [
@@ -74,7 +77,7 @@ const item = computed(() => ({
       link: getRoute(v),
       activeMatch: v === currentV.value ? "(?=)" : "(?!)",
     })),
-    isPreview.value && {
+    versions.value.length <= 1 && {
       text: options.value.noOtherVersions,
       link: "",
     },
