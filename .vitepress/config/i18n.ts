@@ -7,7 +7,7 @@ import { PLAYERS_SIDEBAR } from "../sidebars/players.ts";
 import type { Config, SidebarItem, ThemeConfig, Translations } from "../types.d.ts";
 
 const otherLocales = tinyglobby
-  .globSync("*", { cwd: path.join(AT, "translated"), onlyDirectories: true })
+  .globSync("**/translated/*", { cwd: AT, onlyDirectories: true })
   .map((d) => path.basename(d));
 
 export const excludedLocales = otherLocales.filter((l) =>

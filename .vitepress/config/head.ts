@@ -96,7 +96,7 @@ const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
     .replace(/((?<=^|[/])index)?[.](html|md)$/, "");
 
   const split = oldPath.toLowerCase().replaceAll(/[/]+/g, "/").split("/");
-  const localeIndex = /^..[_-]..$/.test(split[0])
+  const localePrefix = /^..[_-]..$/.test(split[0])
     ? `/${split.shift()}/`.replace("/en_us/", "/")
     : "/";
 
@@ -122,17 +122,17 @@ const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
     return nextPath;
   }, split.join("/"));
 
-  if (localeIndex.includes("-") || `/${oldPath}` !== `${localeIndex}${newPath}`) {
+  if (localePrefix.includes("-") || `/${oldPath}` !== `${localePrefix}${newPath}`) {
     if (context.isNotFound) {
-      return `${localeIndex.replace("-", "_")}${newPath}${context.search}${context.hash}`;
+      return `${localePrefix.replace("-", "_")}${newPath}${context.search}${context.hash}`;
     }
 
-    console.warn(`${oldPath}: unexpected redirection to '${localeIndex.slice(1)}${newPath}'`);
+    console.warn(`${oldPath}: unexpected redirection to '${localePrefix.slice(1)}${newPath}'`);
   }
 
-  const href = `${context.origin}${localeIndex}${newPath}`;
+  const href = `${context.origin}${localePrefix}${newPath}`;
   const ogLocale =
-    localeIndex.replaceAll("/", "").replace(/..$/, (m) => m.toUpperCase()) || "en_US";
+    localePrefix.replaceAll("/", "").replace(/..$/, (m) => m.toUpperCase()) || "en_US";
 
   const returned: [string, Record<string, string>][] = [
     ["meta", { name: "theme-color", content: "#2275da" }],

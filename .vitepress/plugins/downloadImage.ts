@@ -24,7 +24,7 @@ export const downloadImagePlugin = (md: MarkdownRenderer) => {
     }
 
     const token = tokens[idx];
-    const locale = env.frontmatter.localeIndex === "root" ? "en_us" : env.frontmatter.localeIndex;
+    const locale = env.localeIndex === "root" ? "en_us" : env.localeIndex;
     const resolver = getWebsiteResolver(locale);
 
     const srcValue = token.attrGet("src");
