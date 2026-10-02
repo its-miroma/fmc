@@ -5,31 +5,18 @@ import {
   useRafFn,
   useResizeObserver,
 } from "@vueuse/core";
-import { useData } from "vitepress";
+import { useData, useRoute } from "vitepress";
 import { VPLink } from "vitepress/theme";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
-import { useMaps } from "../composables/maps.ts";
 
 const data = useData<ThemeConfig>();
-const maps = useMaps();
+const route = useRoute();
 const prefersReducedMotion = usePreferredReducedMotion();
 
-const englishHref = computed(() => {
-  if (data.localeIndex.value === "root") {
-    return;
-  }
-
-  const split = data.page.value.relativePath.split("/").slice(1);
-  const version = /^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? split.shift()! : "";
-  const purePath = split.join("/");
-
-  if (!maps.versionToPurePathsMap.get(version)?.has(purePath)) {
-    return;
-  }
-
-  return purePath;
-});
+const localePrefix = computed(() =>
+  data.localeIndex.value === "root" ? "/" : `/${data.localeIndex.value}/`
+);
 
 const root = ref<HTMLDivElement>();
 const ball = ref<HTMLCanvasElement>();
@@ -237,16 +224,15 @@ const TEXTURE = [
       <h1>{{ options.title.toLocaleUpperCase(data.lang.value) }}</h1>
       <blockquote>{{ options.quote }}</blockquote>
 
-      <VPLink
-        :href="data.localeIndex.value === 'root' ? '/' : `/${data.localeIndex.value}/`"
-        :aria-label="options.linkLabel"
-      >
+      <VPLink :href="localePrefix" :aria-label="options.linkLabel">
         {{ options.linkText }}
       </VPLink>
-      <template v-if="englishHref">
-        <VPLink :href="englishHref" :aria-label="options.englishLinkLabel">
+      <br />
+      <template v-if="data.localeIndex.value !== 'root'">
+        <VPLink :href="route.path.replace(localePrefix, '')" :aria-label="options.englishLinkLabel">
           {{ options.englishLinkText }}
         </VPLink>
+        <br />
         <VPLink
           :href="String(data.theme.value.editLink!.pattern)"
           :aria-label="options.crowdinLinkLabel"

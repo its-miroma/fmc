@@ -7,7 +7,7 @@ import * as process from "node:process";
 import * as util from "node:util";
 import * as workerThreads from "node:worker_threads";
 import * as tinyglobby from "tinyglobby";
-import { AT, ENV, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
+import { AT, ENV, FUTURE_VERSIONS, LATEST_VERSION, OLD_VERSIONS } from "../constants.ts";
 
 if (!workerThreads.isMainThread) {
   const vitepress = await import("vitepress");
@@ -44,7 +44,7 @@ if (skipBuild) {
 }
 
 for (const v of versionsSet) {
-  if (v !== LATEST_VERSION && !OLD_VERSIONS.includes(v)) {
+  if (![...OLD_VERSIONS, LATEST_VERSION, ...FUTURE_VERSIONS].includes(v)) {
     throw new Error(`unrecognized version: '${v}'`);
   }
 }
@@ -57,6 +57,10 @@ if (versionsSet.size === 0) {
   for (const v of detectedVersions) {
     versionsSet.add(v);
   }
+}
+
+for (const v of FUTURE_VERSIONS) {
+  versionsSet.delete(v);
 }
 
 versionsSet.add(LATEST_VERSION);

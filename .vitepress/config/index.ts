@@ -6,7 +6,7 @@ import bytecode from "syntax-java-bytecode/java-bytecode.tmLanguage.json" with {
 import mcfunction from "syntax-mcfunction/mcfunction.tmLanguage.json" with { type: "json" };
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import defineVersionedConfig from "vitepress-versioning-plugin";
-import { AT, ENV, EXCLUDED_VERSIONS, LATEST_VERSION } from "../constants.ts";
+import { AT, ENV, EXCLUDED_OLD_VERSIONS, LATEST_VERSION } from "../constants.ts";
 import { createDownloadZips, downloadImagePlugin } from "../plugins/downloadImage.ts";
 import { transformFile, transformFilesPlugin } from "../plugins/transformFiles.ts";
 import type { Config } from "../types.d.ts";
@@ -98,7 +98,7 @@ export default defineVersionedConfig(
 
     srcExclude: [
       "README.md",
-      ...EXCLUDED_VERSIONS.map((v) => `versions/${v}`),
+      ...EXCLUDED_OLD_VERSIONS.map((v) => `versions/${v}`),
       ...excludedLocales.map((l) => `**/translated/${l}`),
     ],
 
