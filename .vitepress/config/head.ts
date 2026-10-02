@@ -105,7 +105,7 @@ const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
     || versionMap[`${split[0]}.0`]
     || (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? "" : split[0]);
   if (!split[0] || split[0] === context.latestVersion) {
-    split.shift();
+    split.splice(0, 1);
   }
 
   const seenPaths = new Set([split.join("/")]);
