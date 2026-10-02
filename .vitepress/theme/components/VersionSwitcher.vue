@@ -21,19 +21,23 @@ const collator = new Intl.Collator(undefined, { numeric: true });
 
 const options = computed(() => data.theme.value.version);
 
-const version = computed(() => {
+const segments = computed(() => {
   if (data.frontmatter.value.version) {
-    return data.frontmatter.value.version as string;
+    return data.frontmatter.value as { version: string; purePath: string };
   }
 
-  const split = data.page.value.relativePath.split("/");
+  const split = route.path.split("/").filter(Boolean);
   if (split[0] === data.localeIndex.value) {
     split.splice(0, 1);
   }
 
-  return /^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0])
-    ? split[0]
+  const version = /^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0])
+    ? split.shift()!
     : props.versioningPlugin.latestVersion;
+
+  const purePath = split.join("/");
+
+  return { version, purePath };
 });
 
 const versions = computed(
@@ -49,26 +53,26 @@ route format: `/[locale/][version/]path/to/[file-name]`
 - `[file-name]` is not added for index.md files
 */
 const getRoute = (v: string) => {
-  if (v === version.value) {
+  if (v === segments.value.version) {
     return route.hash || "#";
   }
 
   return `/${[
     data.localeIndex.value !== "root" && data.localeIndex.value,
     v !== props.versioningPlugin.latestVersion && v,
-    data.frontmatter.value.purePath,
+    segments.value.purePath,
   ]
     .filter(Boolean)
     .join("/")}`;
 };
 
 const item = computed(() => ({
-  text: `${icon} ${!props.h1 && props.screenMenu === false ? options.value.switcherTitle : version.value}`,
+  text: `${icon} ${!props.h1 && props.screenMenu === false ? options.value.switcherTitle : segments.value.version}`,
   items: [
     ...versions.value.map((v) => ({
       text: options.value.switcherLabel.replace("%s", v),
       link: getRoute(v),
-      activeMatch: v === version.value ? "(?=)" : "(?!)",
+      activeMatch: v === segments.value.version ? "(?=)" : "(?!)",
     })),
     versions.value.length <= 1 && {
       text: options.value.noOtherVersions,
@@ -83,7 +87,9 @@ const item = computed(() => ({
   <VPNavMenuGroup
     :item
     :screen="screenMenu"
-    :class="h1 && ['VPBadge', version === versioningPlugin.latestVersion ? 'info' : 'warning']"
+    :class="
+      h1 && ['VPBadge', segments.version === versioningPlugin.latestVersion ? 'info' : 'warning']
+    "
   />
 </template>
 
