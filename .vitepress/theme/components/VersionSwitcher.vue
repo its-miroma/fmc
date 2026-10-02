@@ -1,44 +1,46 @@
 <script setup lang="ts">
-import { type DefaultTheme, inBrowser, useData, useRoute } from "vitepress";
+import { type DefaultTheme, useData, useRoute } from "vitepress";
 import VPNavMenuGroup from "vitepress/dist/client/theme-default/components/VPNavMenuGroup.vue";
 import { computed } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
 import { useIconSpan } from "../composables/iconSpan.ts";
-import { useMaps } from "../composables/maps.ts";
 
 const props = defineProps<{
   h1?: boolean;
   screenMenu?: boolean;
   versioningPlugin: {
-    versions: string[];
     latestVersion: string;
+    versions: string[];
   };
 }>();
 
 const data = useData<ThemeConfig>();
 const route = useRoute();
 const icon = useIconSpan("material-icon-theme:minecraft");
-const maps = useMaps();
 const collator = new Intl.Collator(undefined, { numeric: true });
 
 const options = computed(() => data.theme.value.version);
 
-const currentV = computed(() => {
+const version = computed(() => {
   if (data.frontmatter.value.version) {
     return data.frontmatter.value.version as string;
   }
 
   const split = data.page.value.relativePath.split("/");
-  if (/^.._..$/.test(split[0])) {
+  if (split[0] === data.localeIndex.value) {
     split.splice(0, 1);
   }
 
-  if (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0])) {
-    return split[0];
-  }
-
-  return props.versioningPlugin.latestVersion;
+  return /^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0])
+    ? split[0]
+    : props.versioningPlugin.latestVersion;
 });
+
+const versions = computed(
+  () =>
+    (data.frontmatter.value.versions as string[])
+    || props.versioningPlugin.versions.toSorted(collator.compare).toReversed()
+);
 
 /**
 route format: `/[locale/][version/]path/to/[file-name]`
@@ -47,7 +49,7 @@ route format: `/[locale/][version/]path/to/[file-name]`
 - `[file-name]` is not added for index.md files
 */
 const getRoute = (v: string) => {
-  if (v === currentV.value) {
+  if (v === version.value) {
     return route.hash || "#";
   }
 
@@ -60,23 +62,14 @@ const getRoute = (v: string) => {
     .join("/")}`;
 };
 
-const versions = computed(() =>
-  inBrowser
-    ? [...(maps.purePathToVersionsMap.get(data.frontmatter.value.purePath) || [])]
-    : props.versioningPlugin.versions.concat(props.versioningPlugin.latestVersion)
-);
-
 const item = computed(() => ({
-  text: `${icon} ${!props.h1 && props.screenMenu === false ? options.value.switcherTitle : currentV.value}`,
+  text: `${icon} ${!props.h1 && props.screenMenu === false ? options.value.switcherTitle : version.value}`,
   items: [
-    ...versions.value
-      .toSorted(collator.compare)
-      .toReversed()
-      .map((v) => ({
-        text: options.value.switcherLabel.replace("%s", v),
-        link: getRoute(v),
-        activeMatch: v === currentV.value ? "(?=)" : "(?!)",
-      })),
+    ...versions.value.map((v) => ({
+      text: options.value.switcherLabel.replace("%s", v),
+      link: getRoute(v),
+      activeMatch: v === version.value ? "(?=)" : "(?!)",
+    })),
     versions.value.length <= 1 && {
       text: options.value.noOtherVersions,
       link: "",
@@ -90,7 +83,7 @@ const item = computed(() => ({
   <VPNavMenuGroup
     :item
     :screen="screenMenu"
-    :class="h1 && ['VPBadge', currentV === versioningPlugin.latestVersion ? 'info' : 'warning']"
+    :class="h1 && ['VPBadge', version === versioningPlugin.latestVersion ? 'info' : 'warning']"
   />
 </template>
 

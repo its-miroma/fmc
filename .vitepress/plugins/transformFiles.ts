@@ -1,12 +1,13 @@
 import matter from "gray-matter";
+import * as fs from "node:fs";
 import * as path from "node:path";
 import type { Plugin } from "vitepress";
 import { getWebsiteResolver } from "../config/i18n.ts";
-import { AT, LATEST_VERSION, OLD_VERSIONS, VERSION_RE } from "../constants.ts";
+import { AT, FUTURE_VERSIONS, LATEST_VERSION, OLD_VERSIONS, VERSION_RE } from "../constants.ts";
 
 const FILE_PATH_RE = /(?:^<<< *([^[{#\n]+))|(?:^@\[[^\]]*\]\(([^)]*)\))/gm;
-
 const VERSION_SWITCHER = `<VersionSwitcher h1 :versioningPlugin='${JSON.stringify({ versions: OLD_VERSIONS, latestVersion: LATEST_VERSION })}' />`;
+const collator = new Intl.Collator(undefined, { numeric: true });
 
 export const transformFile = (src: string, id: string) => {
   const { data, content } = matter(src, {});
@@ -34,6 +35,26 @@ export const transformFile = (src: string, id: string) => {
   }
 
   data.version ||= LATEST_VERSION;
+
+  const versions = new Set([data.version]);
+
+  for (const v of OLD_VERSIONS) {
+    if (fs.existsSync(path.join(AT, "versions", v, ...split))) {
+      versions.add(v);
+    }
+  }
+
+  if (fs.existsSync(path.join(AT, ...split))) {
+    versions.add(LATEST_VERSION);
+  }
+
+  for (const v of FUTURE_VERSIONS) {
+    if (fs.existsSync(path.join(AT, v, ...split))) {
+      versions.add(v);
+    }
+  }
+
+  data.versions = [...versions].toSorted(collator.compare).toReversed();
 
   data.purePath = split.join("/").replace(/((?<=^|[/])index)?[.]md$/, "");
   if (/[^/a-z-0-9.]/.test(data.purePath)) {
