@@ -29,8 +29,7 @@ export const EXCLUDED_OLD_VERSIONS = (process.env.EXCLUDED_VERSIONS || "")
 
 export const OLD_VERSIONS = tinyglobby
   .globSync("*", { cwd: path.join(AT, "versions"), onlyDirectories: true })
-  .map((v) => path.basename(v))
-  .filter((v) => !EXCLUDED_OLD_VERSIONS.includes(v));
+  .map((v) => path.basename(v));
 
 export const FUTURE_VERSIONS = tinyglobby
   .globSync("*.*", { cwd: AT, onlyDirectories: true })
