@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   useDebounceFn,
+  useMounted,
   usePreferredReducedMotion,
   useRafFn,
   useResizeObserver,
@@ -12,11 +13,29 @@ import type { ThemeConfig } from "../../types.d.ts";
 
 const data = useData<ThemeConfig>();
 const route = useRoute();
+const mounted = useMounted();
 const prefersReducedMotion = usePreferredReducedMotion();
 
 const localePrefix = computed(() =>
   data.localeIndex.value === "root" ? "/" : `/${data.localeIndex.value}/`
 );
+
+const hasEnglishPage = computed(() => {
+  if (data.localeIndex.value === "root") {
+    return false;
+  }
+
+  const pageVersions = mounted.value && window.__FD_PAGE_VERSIONS__;
+  if (!pageVersions) {
+    return true;
+  }
+
+  const split = route.path.replace(localePrefix.value, "").split("/").filter(Boolean);
+  const version = /^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? split.shift()! : "";
+  const purePath = split.join("/");
+
+  return Boolean((pageVersions[purePath] || pageVersions[`${purePath}/`])?.includes(version));
+});
 
 const root = ref<HTMLDivElement>();
 const ball = ref<HTMLCanvasElement>();
@@ -228,7 +247,7 @@ const TEXTURE = [
         {{ options.linkText }}
       </VPLink>
       <br />
-      <template v-if="data.localeIndex.value !== 'root'">
+      <template v-if="hasEnglishPage">
         <VPLink :href="route.path.replace(localePrefix, '')" :aria-label="options.englishLinkLabel">
           {{ options.englishLinkText }}
         </VPLink>

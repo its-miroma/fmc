@@ -1,5 +1,6 @@
 // @ts-expect-error
 import transclusionsPlugin from "markdown-it-vuepress-code-snippet-enhanced";
+import * as fs from "node:fs";
 import * as path from "node:path";
 import * as process from "node:process";
 import bytecode from "syntax-java-bytecode/java-bytecode.tmLanguage.json" with { type: "json" };
@@ -13,12 +14,23 @@ import type { Config } from "../types.d.ts";
 import { getBuildTransformHead, getClientTransformHead } from "./head.ts";
 import { excludedLocales, getLocaleConfig } from "./i18n.ts";
 
+const pageToVersionsMap = new Map<string, Set<string>>();
+
 // https://vitepress.dev/reference/site-config
 // https://www.npmjs.com/package/vitepress-versioning-plugin
 export default defineVersionedConfig(
   {
     buildEnd: (siteConfig) => {
       createDownloadZips(siteConfig);
+
+      fs.writeFileSync(
+        path.join(siteConfig.outDir, "page-versions.json"),
+        JSON.stringify(
+          Object.fromEntries(
+            [...pageToVersionsMap].map(([purePath, versions]) => [purePath, [...versions]])
+          )
+        )
+      );
     },
 
     cleanUrls: true,
@@ -94,6 +106,20 @@ export default defineVersionedConfig(
           (i) => !VITEPRESS_CONFIG.rewrites.inv[getFilePath(i.url)]?.startsWith("versions/")
         );
       },
+    },
+
+    transformPageData: (pageData) => {
+      if (/(^|[/])translated[/]/.test(pageData.filePath)) {
+        return;
+      }
+
+      const version = pageData.frontmatter.version as string;
+      const purePath = pageData.frontmatter.purePath as string;
+
+      if (!pageToVersionsMap.has(purePath)) {
+        pageToVersionsMap.set(purePath, new Set());
+      }
+      pageToVersionsMap.get(purePath)!.add(version === LATEST_VERSION ? "" : version);
     },
 
     srcExclude: [

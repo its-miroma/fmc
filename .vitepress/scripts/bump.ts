@@ -5,7 +5,7 @@ import * as tinyglobby from "tinyglobby";
 import { getLocales, getSidebar } from "../config/i18n.ts";
 import { AT, VERSION_RE } from "../constants.ts";
 
-// TODO: update head.ts versionMap
+// TODO: update head.ts' versionRedirects
 
 const git = (...args: string[]) => {
   const returned = childProcess.spawnSync("git", args, { encoding: "utf8" });

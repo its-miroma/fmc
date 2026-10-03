@@ -111,12 +111,6 @@ for (const [i, version] of versions.entries()) {
 const targetDir = path.join(AT, ".vitepress", "dist");
 fs.rmSync(targetDir, { recursive: true, force: true });
 
-if (versions.length === 1) {
-  fs.cpSync(path.join(tempDir, versions[0]), targetDir, { recursive: true });
-
-  process.exit(0);
-}
-
 console.log(`merging metadata...`);
 const getNewHash = (content: string) => crypto.hash("sha256", content, "hex").slice(0, 8);
 
@@ -150,25 +144,49 @@ for (const version of versions) {
   if (!split[0].startsWith(`window.__VP_HASH_MAP__=JSON.parse`)) {
     throw new Error(`failed to parse hash map in ${metadataFile}`);
   }
-  const versionHashMap = window.__VP_HASH_MAP__;
+  const hashMapFromVersion = window.__VP_HASH_MAP__;
 
   if (!split[1].startsWith(`window.__VP_SITE_DATA__=JSON.parse`)) {
     throw new Error(`failed to parse site data in ${metadataFile}`);
   }
-  const versionSiteData = window.__VP_SITE_DATA__;
+  const siteDataFromVersion = window.__VP_SITE_DATA__;
 
-  if (version === LATEST_VERSION) {
-    siteData = versionSiteData;
-  } else if (!util.isDeepStrictEqual(siteData, versionSiteData)) {
-    throw new Error(`site data for ${version} differs from ${LATEST_VERSION} (latest)!`);
+  siteData ||= siteDataFromVersion;
+  if (!util.isDeepStrictEqual(siteData, siteDataFromVersion)) {
+    throw new Error(`site data for ${version} differs from ${versions[0]}!`);
   }
 
-  Object.assign(hashMap, versionHashMap);
+  Object.assign(hashMap, hashMapFromVersion);
 
   (globalThis as any).window = undefined;
 }
 
-const newMetadataContent = `window.__VP_HASH_MAP__=JSON.parse(${JSON.stringify(JSON.stringify(hashMap))});window.__VP_SITE_DATA__=JSON.parse(${JSON.stringify(JSON.stringify(siteData))});`;
+const pageToVersionsMap = new Map<string, Set<string>>();
+for (const version of versions) {
+  const pageVersionsFromVersion = JSON.parse(
+    fs.readFileSync(path.join(tempDir, version, "page-versions.json"), "utf-8")
+  ) as Record<string, string[]>;
+
+  for (const [purePath, versions] of Object.entries(pageVersionsFromVersion)) {
+    if (!pageToVersionsMap.has(purePath)) {
+      pageToVersionsMap.set(purePath, new Set());
+    }
+
+    for (const v of versions) {
+      pageToVersionsMap.get(purePath)!.add(v);
+    }
+  }
+}
+
+const pageVersions = Object.fromEntries(
+  [...pageToVersionsMap].map(([purePath, versions]) => [purePath, [...versions]])
+);
+
+const newMetadataContent = `${[
+  `window.__VP_HASH_MAP__=JSON.parse(${JSON.stringify(JSON.stringify(hashMap))})`,
+  `window.__VP_SITE_DATA__=JSON.parse(${JSON.stringify(JSON.stringify(siteData))})`,
+  `window.__FD_PAGE_VERSIONS__=JSON.parse(${JSON.stringify(JSON.stringify(pageVersions))})`,
+].join(";")};`;
 const newHash = getNewHash(newMetadataContent);
 
 const newMetadataPath = path.join(targetDir, "assets", "chunks", `metadata.${newHash}.js`);
@@ -184,7 +202,7 @@ for (const version of versions) {
   const outDir = path.join(tempDir, version);
   const files = tinyglobby.globSync("**/*", {
     cwd: outDir,
-    ignore: ["hashmap.json", "assets/chunks/metadata.*.js"],
+    ignore: ["hashmap.json", "page-versions.json", "assets/chunks/metadata.*.js"],
     absolute: true,
   });
 

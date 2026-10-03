@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMounted } from "@vueuse/core";
 import { type DefaultTheme, useData, useRoute } from "vitepress";
 import VPNavMenuGroup from "vitepress/dist/client/theme-default/components/VPNavMenuGroup.vue";
 import { computed } from "vue";
@@ -16,6 +17,7 @@ const props = defineProps<{
 
 const data = useData<ThemeConfig>();
 const route = useRoute();
+const mounted = useMounted();
 const icon = useIconSpan("material-icon-theme:minecraft");
 const collator = new Intl.Collator(undefined, { numeric: true });
 
@@ -40,10 +42,22 @@ const segments = computed(() => {
   return { version, purePath };
 });
 
-const versions = computed(
-  () =>
-    (data.frontmatter.value.versions as string[])
-    || props.versioningPlugin.versions.toSorted(collator.compare).toReversed()
+const versions = computed(() =>
+  (
+    (mounted.value
+      && window.__FD_PAGE_VERSIONS__?.[segments.value.purePath]?.map(
+        (v) => v || props.versioningPlugin.latestVersion
+      )) || [
+      ...new Set([
+        segments.value.version,
+        props.versioningPlugin.latestVersion,
+        ...props.versioningPlugin.versions,
+      ]),
+    ]
+  )
+    .filter(Boolean)
+    .toSorted(collator.compare)
+    .toReversed()
 );
 
 /**
