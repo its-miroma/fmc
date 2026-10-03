@@ -53,39 +53,39 @@ const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
 
   const redirects: { from: RegExp; dest: string }[] = [
     {
-      from: /develop[/]custom-recipe-types(?=[/]|$)/,
-      dest: "develop/recipes/custom-recipe-types",
+      from: /^([0-9.]+[/])?develop[/]custom-recipe-types(?=[/]|$)/,
+      dest: "$1develop/recipes/custom-recipe-types",
     },
     {
-      from: /develop[/]items[/]custom-item-groups(?=[/]|$)/,
-      dest: "develop/items/custom-creative-tabs",
+      from: /^([0-9.]+[/])?develop[/]items[/]custom-item-groups(?=[/]|$)/,
+      dest: "$1develop/items/custom-creative-tabs",
     },
     {
-      from: /develop[/]rendering[/]draw-context(?=[/]|$)/,
-      dest: "develop/rendering/gui-graphics",
+      from: /^([0-9.]+[/])?develop[/]rendering[/]draw-context(?=[/]|$)/,
+      dest: "$1develop/rendering/gui-graphics",
     },
     {
-      from: /develop[/]migrating-mappings(?=[/]|$)/,
-      dest: "develop/porting/mappings",
+      from: /^([0-9.]+[/])?develop[/]migrating-mappings(?=[/]|$)/,
+      dest: "$1develop/porting/mappings",
     },
     {
-      from: /develop[/]porting[/]current(?=[/]|$)/,
-      dest: "develop/porting/",
+      from: /^([0-9.]+[/])?develop[/]porting[/]current(?=[/]|$)/,
+      dest: "$1develop/porting/",
     },
     {
-      from: /^(?:[0-9.]+[/])?develop[/]porting[/](next|26[.]1)(?=[/]|$)/,
+      from: /^([0-9.]+[/])?develop[/]porting[/](next|26[.]1)(?=[/]|$)/,
       dest: "26.1.2/develop/porting",
     },
     {
-      from: /develop[/]blocks[/]transparency-and-tinting(?=[/]|$)/,
-      dest: "develop/blocks/block-tinting",
+      from: /^([0-9.]+[/])?develop[/]blocks[/]transparency-and-tinting(?=[/]|$)/,
+      dest: "$1develop/blocks/block-tinting",
     },
     {
-      from: /develop[/](codecs|data-attachments|saved-data)(?=[/]|$)/,
-      dest: "develop/serialization/$1",
+      from: /^([0-9.]+[/])?develop[/](codecs|data-attachments|saved-data)(?=[/]|$)/,
+      dest: "$1develop/serialization/$2",
     },
     {
-      from: /^(?:[0-9.]+[/])?develop[/]porting[/]mappings(?=[/]|$)/,
+      from: /^([0-9.]+[/])?develop[/]porting[/]mappings(?=[/]|$)/,
       dest: "1.21.11/develop/porting/mappings",
     },
   ];
