@@ -17,7 +17,7 @@ type NewHeadContext = {
 };
 
 const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
-  const versionMap: Record<string, string> = {
+  const versionRedirects: Record<string, string> = {
     "26.1.2": "26.1.2",
     "26.1.1": "26.1.2",
     "26.1.0": "26.1.2",
@@ -101,8 +101,8 @@ const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
     : "/";
 
   split[0] =
-    versionMap[split[0]]
-    || versionMap[`${split[0]}.0`]
+    versionRedirects[split[0]]
+    || versionRedirects[`${split[0]}.0`]
     || (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? "" : split[0]);
   if (!split[0] || split[0] === context.latestVersion) {
     split.splice(0, 1);

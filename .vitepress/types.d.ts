@@ -191,6 +191,7 @@ declare global {
   var VITEPRESS_CONFIG: SiteConfig<ThemeConfig>;
 
   interface Window {
+    __FD_PAGE_VERSIONS__?: Record<string, string[]>;
     __VP_HASH_MAP__?: Record<string, string>;
     __VP_SITE_DATA__?: SiteData<ThemeConfig>;
   }
