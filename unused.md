@@ -1,5 +1,6 @@
 ---
 title: Unused Assets
+description: The assets listed in this file are used by some older version, but are no longer present in latest.
 ---
 
 <!-- markdownlint-disable -->

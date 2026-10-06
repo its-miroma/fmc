@@ -7,17 +7,17 @@ import bytecode from "syntax-java-bytecode/java-bytecode.tmLanguage.json" with {
 import mcfunction from "syntax-mcfunction/mcfunction.tmLanguage.json" with { type: "json" };
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import defineVersionedConfig from "vitepress-versioning-plugin";
-import { AT, ENV, EXCLUDED_OLD_VERSIONS, LATEST_VERSION } from "../constants.ts";
+import { AT, ENV, EXCLUDED_LOCALES, EXCLUDED_OLD_VERSIONS, LATEST_VERSION } from "../constants.ts";
 import { createDownloadZips, downloadImagePlugin } from "../plugins/downloadImage.ts";
 import { transformFile, transformFilesPlugin } from "../plugins/transformFiles.ts";
 import type { Config } from "../types.d.ts";
 import { getBuildTransformHead, getClientTransformHead } from "./head.ts";
-import { excludedLocales, getLocaleConfig } from "./i18n.ts";
+import { getLocaleConfig } from "./i18n.ts";
 
 const pageToVersionsMap = new Map<string, Set<string>>();
 
 // https://vitepress.dev/reference/site-config
-// https://www.npmjs.com/package/vitepress-versioning-plugin
+// https://npmx.dev/package/vitepress-versioning-plugin
 export default defineVersionedConfig(
   {
     buildEnd: (siteConfig) => {
@@ -125,7 +125,7 @@ export default defineVersionedConfig(
     srcExclude: [
       "README.md",
       ...EXCLUDED_OLD_VERSIONS.map((v) => `versions/${v}`),
-      ...excludedLocales.map((l) => `**/translated/${l}`),
+      ...EXCLUDED_LOCALES.map((l) => `**/translated/${l}`),
     ],
 
     themeConfig: {
