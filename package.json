@@ -24,20 +24,20 @@
     "@csstools/stylelint-formatter-github": "2.0.0",
     "@emnapi/core": "1.11.3",
     "@emnapi/runtime": "1.11.3",
-    "@iconify-json/lucide": "1.2.136",
+    "@iconify-json/lucide": "1.2.139",
     "@iconify-json/material-icon-theme": "1.2.70",
-    "@iconify-json/simple-icons": "1.2.97",
-    "@types/node": "26.6.3",
+    "@iconify-json/simple-icons": "1.2.98",
+    "@types/node": "26.6.4",
     "gray-matter": "4.0.3",
     "markdown-it-vuepress-code-snippet-enhanced": "github:IMB11/md-it-enhanced-snippets#dfb9fa25527b2f772d50ca37ae526484c890b8ae",
     "markdownlint-cli2": "0.23.3",
     "markdownlint-rule-search-replace": "1.2.0",
     "markdownlint-rule-titlecase": "0.1.0",
-    "oxc-minify": "0.151.0",
+    "oxc-minify": "0.152.0",
     "p-limit": "7.3.3",
     "postcss-html": "2.0.0",
     "prettier": "3.9.9",
-    "stylelint": "17.15.0",
+    "stylelint": "17.16.0",
     "stylelint-config-clean-order": "10.0.0",
     "stylelint-config-recommended-vue": "2.0.0",
     "stylelint-config-standard": "40.0.0",
@@ -47,12 +47,12 @@
     "syntax-mcfunction": "github:MinecraftCommands/syntax-mcfunction#51eb8bf4ca04355bb89f5538b7331cb0c0f3df2b",
     "tinyglobby": "0.2.17",
     "typescript": "6.0.3",
-    "vitepress-versioning-plugin": "github:FabricMC/vitepress-versioning-plugin#3710e8b43e0484731e79c0fce5e1d623609435f0"
+    "vitepress-versioning-plugin": "github:FabricMC/vitepress-versioning-plugin#65bae2d4dfee47d0d233f688844cbb572c534ef5"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.6.0",
+      "version": "12.9.1",
       "onFail": "download"
     },
     "runtime": {
