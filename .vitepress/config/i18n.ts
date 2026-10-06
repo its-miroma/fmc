@@ -1,25 +1,9 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as tinyglobby from "tinyglobby";
-import { AT } from "../constants.ts";
+import { AT, LOCALES } from "../constants.ts";
 import { DEVELOP_SIDEBAR } from "../sidebars/develop.ts";
 import { PLAYERS_SIDEBAR } from "../sidebars/players.ts";
 import type { Config, SidebarItem, ThemeConfig, Translations } from "../types.d.ts";
-
-const otherLocales = tinyglobby
-  .globSync("**/translated/*", { cwd: AT, onlyDirectories: true })
-  .map((d) => path.basename(d));
-
-export const excludedLocales = otherLocales.filter((l) =>
-  ["index.md", "website_translations.json"].some(
-    (f) => !fs.existsSync(path.join(AT, "translated", l, f))
-  )
-);
-
-export const getLocales = () => [
-  "en_us",
-  ...otherLocales.filter((l) => !excludedLocales.includes(l)),
-];
 
 const translationFileCache = new Map<string, Record<string, any>>();
 const readTranslationFile = <T extends Record<string, any>>(file: string, locale: string): T => {
@@ -122,7 +106,7 @@ export const getLocaleConfig = () => {
     zh_tw: "zh-TW",
   };
 
-  for (const l of getLocales()) {
+  for (const l of LOCALES) {
     const intlLocale =
       intlLocaleOverrides[l] || l.replace(/..$/, (m) => m.toUpperCase()).replace("_", "-");
     const crowdinLocale = crowdinLocaleOverrides[l] ?? l.split("_")[0];

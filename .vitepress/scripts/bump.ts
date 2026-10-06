@@ -2,8 +2,8 @@ import * as childProcess from "node:child_process";
 import * as fs from "node:fs";
 import * as process from "node:process";
 import * as tinyglobby from "tinyglobby";
-import { getLocales, getSidebar } from "../config/i18n.ts";
-import { AT, VERSION_RE } from "../constants.ts";
+import { getSidebar } from "../config/i18n.ts";
+import { AT, LOCALES, VERSION_RE } from "../constants.ts";
 
 // TODO: update head.ts' versionRedirects
 
@@ -89,7 +89,7 @@ if (fs.existsSync(`./${newVersion}/`)) {
 }
 
 console.log(`Creating sidebars at '.vitepress/sidebars/versioned/${oldVersion}.json'...`);
-for (const locale of getLocales()) {
+for (const locale of LOCALES) {
   fs.writeFileSync(
     `./.vitepress/sidebars/versioned/${oldVersion}${locale === "en_us" ? "" : `-${locale}`}.json`,
     JSON.stringify(getSidebar(locale), null, 2)

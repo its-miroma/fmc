@@ -35,3 +35,19 @@ export const FUTURE_VERSIONS = tinyglobby
   .globSync("*.*", { cwd: AT, onlyDirectories: true })
   .map((v) => path.basename(v))
   .filter((v) => VERSION_RE.test(v));
+
+const ALL_LOCALES = [
+  ...new Set(
+    tinyglobby
+      .globSync("**/translated/*", { cwd: AT, onlyDirectories: true })
+      .map((d) => path.basename(d))
+  ),
+];
+
+export const EXCLUDED_LOCALES = ALL_LOCALES.filter((l) =>
+  ["index.md", "website_translations.json"].some(
+    (f) => !fs.existsSync(path.join(AT, "translated", l, f))
+  )
+);
+
+export const LOCALES = ["en_us", ...ALL_LOCALES.filter((l) => !EXCLUDED_LOCALES.includes(l))];
