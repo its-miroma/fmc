@@ -4,10 +4,12 @@ import { useData } from "vitepress";
 import { VPLink } from "vitepress/theme";
 import { computed, onMounted, ref, watchEffect } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
+import { useRem } from "../composables/rem.ts";
 
 const data = useData<ThemeConfig>();
 const banner = ref<HTMLDivElement>();
 const { height } = useElementSize(banner);
+const rem = useRem();
 
 const env = computed(() => data.theme.value.env);
 const options = computed(() => data.theme.value.banner);
@@ -36,7 +38,7 @@ onMounted(() =>
   watchEffect(() => {
     document.documentElement.style.setProperty(
       "--vp-layout-top-height",
-      `${strings.value.length > 0 ? height.value + 16 : 0}px`
+      `${strings.value.length > 0 ? height.value / rem.value + 1 : 0}rem`
     );
   })
 );

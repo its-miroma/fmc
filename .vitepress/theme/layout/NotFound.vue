@@ -10,11 +10,13 @@ import { useData, useRoute } from "vitepress";
 import { VPLink } from "vitepress/theme";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import type { ThemeConfig } from "../../types.d.ts";
+import { useRem } from "../composables/rem.ts";
 
 const data = useData<ThemeConfig>();
 const route = useRoute();
 const mounted = useMounted();
 const prefersReducedMotion = usePreferredReducedMotion();
+const rem = useRem();
 
 const localePrefix = computed(() =>
   data.localeIndex.value === "root" ? "/" : `/${data.localeIndex.value}/`
@@ -61,16 +63,15 @@ let values: ReturnType<typeof getValues>;
 let tPattern: string;
 
 const getValues = () => {
-  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
   const rRect = root.value!.getBoundingClientRect();
   const cRect = content.value!.getBoundingClientRect();
 
-  const cMiddleX = cRect.width / rem / 2;
-  const bPixel = Math.floor((cRect.height * 1.5) / TEXTURE.length) / rem;
+  const cMiddleX = cRect.width / rem.value / 2;
+  const bPixel = Math.floor((cRect.height * 1.5) / TEXTURE.length) / rem.value;
   const bDiameter = TEXTURE.length * bPixel;
   const bStartX = -bDiameter - 2;
-  const bTotalX = -bStartX + rRect.width / rem + 2;
-  const bTopY = (rRect.height / rem - bDiameter) / 2;
+  const bTotalX = -bStartX + rRect.width / rem.value + 2;
+  const bTopY = (rRect.height / rem.value - bDiameter) / 2;
   const tTopY = bTopY + 12 * bPixel;
 
   return { bPixel, bDiameter, bStartX, bTotalX, bTopY, cMiddleX, tTopY };
