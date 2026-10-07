@@ -183,7 +183,7 @@ body {
     );
 
     .VPSidebar {
-      top: calc(var(--vp-nav-height) + 2.5rem);
+      top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0));
       width: var(--sidebar-width);
       padding-top: revert;
     }
