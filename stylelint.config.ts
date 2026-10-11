@@ -17,7 +17,10 @@ export default {
 
   plugins: ["stylelint-plugin-use-baseline", "stylelint-use-nesting"],
 
-  referenceFiles: ["node_modules/vitepress/dist/client/theme-default/styles/vars.css"],
+  referenceFiles: [
+    "node_modules/vitepress/dist/client/theme-default/styles/vars.css",
+    ".vitepress/theme/style.css",
+  ],
 
   rules: {
     "alpha-value-notation": "percentage",

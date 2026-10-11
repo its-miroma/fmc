@@ -17,6 +17,7 @@
     "JetBrains Mono", ui-monospace, "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New",
     monospace;
   --vp-layout-max-width: 100rem;
+  --media-border-radius: 0.5rem;
 
   scrollbar-gutter: stable;
 
@@ -89,7 +90,7 @@ body {
   .medium-zoom-image--opened {
     z-index: 10001;
     margin-inline: auto;
-    border-radius: 0.5rem;
+    border-radius: var(--media-border-radius);
     box-shadow: 0 4px 10px rgb(136 136 136 / 20%);
   }
 }
@@ -336,7 +337,7 @@ body {
 
   p > img {
     margin-inline: auto;
-    border-radius: 0.5rem;
+    border-radius: var(--media-border-radius);
     box-shadow: 0 4px 10px rgb(136 136 136 / 20%);
   }
 }

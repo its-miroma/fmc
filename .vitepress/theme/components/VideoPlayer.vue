@@ -1,63 +1,21 @@
 <script setup lang="ts">
-import "vidstack/player";
-import "vidstack/player/layouts/default";
-import "vidstack/player/styles/default/layouts/video.css";
-import "vidstack/player/styles/default/theme.css";
-import "vidstack/player/ui";
-import { useData } from "vitepress";
-import { VPButton } from "vitepress/theme";
-import { computed, ref, useSlots } from "vue";
-import type { ThemeConfig } from "../../types.d.ts";
+import { resolveAdapterType } from "@videojs/html";
+import { computed, useSlots } from "vue";
+import MediaPlayer from "./MediaPlayer.vue";
 
-const props = defineProps<{
+/** @deprecated use ![title](/path/to/video.webm) instead */
+interface VideoPlayerProps {
   src: string;
   warn?: boolean;
-}>();
+}
 
-const data = useData<ThemeConfig>();
-const slots = useSlots();
+const props = defineProps<VideoPlayerProps>();
 
-const options = computed(() => data.theme.value.video);
+const type = computed(() => resolveAdapterType(props.src) as "audio" | "video" | "youtube");
 
-const videoTitle = String(slots.default?.()?.[0]?.children || "");
-
-const showWarning = ref(props.warn);
+const title = String(useSlots().default?.()?.[0]?.children || "");
 </script>
 
 <template>
-  <media-player load="visible" view-type="video" stream-type="on-demand" :title="videoTitle" :src>
-    <media-provider />
-    <media-video-layout />
-
-    <dialog v-if="showWarning">
-      <h3>{{ options.title }}</h3>
-      <p>{{ options.description }}</p>
-      <VPButton @click="showWarning = !showWarning">{{ options.button }}</VPButton>
-    </dialog>
-  </media-player>
+  <MediaPlayer :type :src :title :warn />
 </template>
-
-<style scoped>
-dialog {
-  z-index: 10;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-  padding: 2rem;
-  border-radius: 0.375rem;
-
-  color: var(--vp-c-white);
-  text-align: center;
-
-  background-color: color-mix(in srgb, var(--vp-c-black) 93%, transparent);
-}
-
-h3 {
-  margin-top: 0;
-}
-</style>
