@@ -5,8 +5,6 @@ import * as tinyglobby from "tinyglobby";
 import { getSidebar } from "../config/i18n.ts";
 import { AT, LOCALES, VERSION_RE } from "../constants.ts";
 
-// TODO: update head.ts' versionRedirects
-
 const git = (...args: string[]) => {
   const returned = childProcess.spawnSync("git", args, { encoding: "utf8" });
 
@@ -29,7 +27,7 @@ console.log(`Current version: 'Minecraft ${oldVersion}'`);
 
 const launcherMetaUrl = "https://piston-meta.mojang.com/mc/game/version_manifest.json";
 const launcherVersions: any = await (await fetch(launcherMetaUrl)).json();
-const newVersion = process.argv[2] || launcherVersions?.latest?.release;
+const newVersion = process.argv[2]?.replace(/[.]0$/, "") || launcherVersions?.latest?.release;
 if (!newVersion) {
   throw new Error("Couldn't obtain a valid Minecraft version!");
 }
@@ -104,6 +102,27 @@ for (const file of tinyglobby.globSync(`./versions/${oldVersion}/**/*.md`, { onl
     .replaceAll("./contributing", "./../contributing");
   fs.writeFileSync(file, content);
 }
+
+console.log("Updating version redirects...");
+const toSemVer = (v: string) => (v.split(".").length === 2 ? `${v}.0` : v);
+const releaseVersions = (launcherVersions.versions as any[])
+  .filter((v) => v.type === "release")
+  .map<string>((v) => v.id);
+const newIndex = releaseVersions.findIndex((v) => v === newVersion);
+const oldIndex = releaseVersions.findIndex((v) => v === oldVersion);
+const newHeadContent = fs
+  .readFileSync("./.vitepress/config/head.ts", "utf-8")
+  .replace(
+    "const versionRedirects: Record<string, string> = {",
+    [
+      "$&",
+      ...(newIndex < oldIndex ? releaseVersions.slice(newIndex, oldIndex) : [newVersion]).map(
+        (v) => `    "${toSemVer(v)}": "${toSemVer(newVersion)}",`
+      ),
+      "",
+    ].join("\n")
+  );
+fs.writeFileSync("./.vitepress/config/head.ts", newHeadContent);
 
 console.log(`Committing 'chore: bump to ${newVersion}'...`);
 if (
