@@ -5,11 +5,6 @@ import { computed, useSlots } from "vue";
 
 /** @deprecated use {download} instead */
 interface DownloadOptions {
-  /**
-   * Set custom text for download button.
-   *
-   * @default "Download %s"
-   */
   text: string;
 }
 

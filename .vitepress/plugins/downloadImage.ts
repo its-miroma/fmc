@@ -8,12 +8,6 @@ import type { MarkdownRenderer, SiteConfig } from "vitepress";
 import { getWebsiteResolver } from "../config/i18n.ts";
 import { AT, ENV } from "../constants.ts";
 
-// {download} on an image marks it as having a downloadable counterpart:
-//   ![Condensed Oak Log texture](/assets/develop/blocks/condensed_oak_log.png){download}
-// The downloadable file lives at the same path, with /assets/ swapped for /download/.
-// An explicit path can still be given with {download=/download/...} if needed.
-// If the download path resolves to a directory, it will be zipped after build.
-
 const directoriesToBeZipped = new Set<string>();
 
 export const downloadImagePlugin = (md: MarkdownRenderer) => {

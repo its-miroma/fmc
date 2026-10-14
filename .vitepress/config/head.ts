@@ -1,4 +1,4 @@
-import { HeadConfig } from "vitepress";
+import type { HeadConfig } from "vitepress";
 import { LATEST_VERSION } from "../constants.ts";
 import type { Config } from "../types.d.ts";
 
@@ -207,7 +207,19 @@ export const getClientTransformHead = () => {
   return `(${script.toString()})(${_getNewHead.toString()}, ${JSON.stringify(LATEST_VERSION)})`;
 };
 
+export const pageToVersionsMap = new Map<string, Set<string>>();
+
 export const getBuildTransformHead = (): Config["transformHead"] => (context) => {
+  if (!/(^|[/])translated[/]/.test(context.pageData.filePath)) {
+    const version = (context.pageData.frontmatter.version as string) ?? LATEST_VERSION;
+    const purePath = (context.pageData.frontmatter.purePath as string) ?? "404";
+
+    if (!pageToVersionsMap.has(purePath)) {
+      pageToVersionsMap.set(purePath, new Set());
+    }
+    pageToVersionsMap.get(purePath)!.add(version === LATEST_VERSION ? "" : version);
+  }
+
   const returned = _getNewHead({
     latestVersion: LATEST_VERSION,
     pathname: context.pageData.relativePath,

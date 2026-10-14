@@ -44,10 +44,7 @@ const segments = computed(() => {
 
 const versions = computed(() =>
   (
-    (mounted.value
-      && window.__FD_PAGE_VERSIONS__?.[segments.value.purePath]?.map(
-        (v) => v || props.versioningPlugin.latestVersion
-      )) || [
+    (mounted.value && window.__FD_PAGE_VERSIONS__?.[segments.value.purePath]) || [
       ...new Set([
         segments.value.version,
         props.versioningPlugin.latestVersion,
@@ -55,7 +52,7 @@ const versions = computed(() =>
       ]),
     ]
   )
-    .filter(Boolean)
+    .map((v) => v || props.versioningPlugin.latestVersion)
     .toSorted(collator.compare)
     .toReversed()
 );

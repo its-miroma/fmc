@@ -1,12 +1,6 @@
 import { SiteConfig, SiteData, UserConfig } from "vitepress";
 import { Versioned } from "vitepress-versioning-plugin";
 
-// TODO: is there a way to use a .ts file instead of website_translations.json?
-// with this we would reduce the duplication stemming from @default here + values in .json
-// the only question is whether Crowdin supports translating .ts files, or
-// whether we shall generate the files in CI before pushing - trivial with fs.writeFileSync(JSON.stringify(...)).
-// This can also open the door to not having sidebar_translations.json and localizing the sidebar files directly.
-
 export interface Translations {
   sidebar: typeof import("../sidebar_translations.json");
   website: typeof import("../website_translations.json");
@@ -78,7 +72,7 @@ export interface ThemeConfig extends Versioned.ThemeConfig {
   };
 
   /**
-   * @deprecated TODO: remove
+   * @deprecated TODO: drop once DownloadEntry is removed
    */
   download: unknown;
 

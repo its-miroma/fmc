@@ -12,10 +12,8 @@ import { createDownloadZips, downloadImagePlugin } from "../plugins/downloadImag
 import { transformFile, transformFilesPlugin } from "../plugins/transformFiles.ts";
 import { videoImagePlugin } from "../plugins/videoImage.ts";
 import type { Config } from "../types.d.ts";
-import { getBuildTransformHead, getClientTransformHead } from "./head.ts";
+import { getBuildTransformHead, getClientTransformHead, pageToVersionsMap } from "./head.ts";
 import { getLocaleConfig } from "./i18n.ts";
-
-const pageToVersionsMap = new Map<string, Set<string>>();
 
 // https://vitepress.dev/reference/site-config
 // https://npmx.dev/package/vitepress-versioning-plugin
@@ -108,20 +106,6 @@ export default defineVersionedConfig(
           (i) => !VITEPRESS_CONFIG.rewrites.inv[getFilePath(i.url)]?.startsWith("versions/")
         );
       },
-    },
-
-    transformPageData: (pageData) => {
-      if (/(^|[/])translated[/]/.test(pageData.filePath)) {
-        return;
-      }
-
-      const version = pageData.frontmatter.version as string;
-      const purePath = pageData.frontmatter.purePath as string;
-
-      if (!pageToVersionsMap.has(purePath)) {
-        pageToVersionsMap.set(purePath, new Set());
-      }
-      pageToVersionsMap.get(purePath)!.add(version === LATEST_VERSION ? "" : version);
     },
 
     srcExclude: [

@@ -1,4 +1,4 @@
-# Available configuration options: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
 config:
   max-one-sentence-per-line:
     ignored_words:
@@ -43,6 +43,7 @@ config:
     # A link to [keyword].
     # [keyword]: <https://docs.fabricmc.net/>
     shortcut: false
+    # A link to [https://docs.fabricmc.net/](https://docs.fabricmc.net/).
     url_inline: false
   MD055:
     style: leading_and_trailing

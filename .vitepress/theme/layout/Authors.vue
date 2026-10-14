@@ -37,9 +37,9 @@ const getImageSrc = (author: Author) => {
 };
 </script>
 
-<template>
-  <h2 v-if="authors.length">{{ options.heading }}</h2>
-  <ul v-if="authors.length">
+<template v-if="authors.length">
+  <h2>{{ options.heading }}</h2>
+  <ul>
     <li v-for="a of authors" :key="a.noGitHub ? `${a.name}!` : a.name">
       <VPLink :href="a.noGitHub ? undefined : `https://github.com/${a.name}`" no-icon>
         <img

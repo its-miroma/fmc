@@ -228,7 +228,9 @@ for (const version of versions) {
 }
 
 const elapsed = ((perfHooks.performance.now() - start) / 1000).toFixed(2);
-if (skipBuild) {
+if (versions.length === 1) {
+  console.log(`'${versions[0]}' build complete in ${elapsed}s`);
+} else if (skipBuild) {
   console.log(`all ${versions.length} builds merged in ${elapsed}s`);
 } else {
   console.log(`all ${versions.length} builds complete in ${elapsed}s`);
