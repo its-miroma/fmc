@@ -37,7 +37,8 @@
     "syntax-java-bytecode": "github:mcgambing/Java-Bytecode#578f3e2c6861ac6396492540a987fe05d23b061a",
     "syntax-mcfunction": "github:MinecraftCommands/syntax-mcfunction#51eb8bf4ca04355bb89f5538b7331cb0c0f3df2b",
     "tinyglobby": "0.2.17",
-    "tsx": "4.20.6"
+    "tsx": "4.20.6",
+    "typescript": "6.0.3"
   },
   "devEngines": {
     "packageManager": {
