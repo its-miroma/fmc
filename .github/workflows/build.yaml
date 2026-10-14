@@ -66,8 +66,10 @@ jobs:
           path: .vitepress/.versions/
           pattern: "*"
       - run: pnpm run build --skip-build
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
+      - if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v4
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: .vitepress/dist
 
