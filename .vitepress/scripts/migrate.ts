@@ -34,6 +34,7 @@ const sorter = (a: string, b: string) => {
       if (aFragment.endsWith(".md")) {
         return -10.1;
       }
+
       return +10.1;
     }
 
