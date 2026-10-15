@@ -1,3 +1,4 @@
+import { LATEST_VERSION } from "../constants.ts";
 import type { Fabric } from "../types.d.ts";
 
 type NewHeadContext = {
@@ -160,7 +161,7 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
   return returned;
 };
 
-export const getClientTransformHead = (latestVersion: string) => {
+export const getClientTransformHead = () => {
   const script = (getNewHead: typeof _getNewHead, latestVersion: string) => {
     const headData = getNewHead({
       ...window.location,
@@ -194,14 +195,14 @@ export const getClientTransformHead = (latestVersion: string) => {
     }
   };
 
-  return `(${script.toString()})(${_getNewHead.toString()}, ${JSON.stringify(latestVersion)})`;
+  return `(${script.toString()})(${_getNewHead.toString()}, ${JSON.stringify(LATEST_VERSION)})`;
 };
 
 export const getBuildTransformHead =
-  (latestVersion: string): Fabric.Config["transformHead"] =>
+  (): Fabric.Config["transformHead"] =>
   (context) => {
     const returned = _getNewHead({
-      latestVersion,
+      latestVersion: LATEST_VERSION,
       pathname: context.pageData.relativePath,
       origin: context.siteConfig.sitemap!.hostname,
       hash: "",
