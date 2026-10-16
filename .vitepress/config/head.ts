@@ -83,10 +83,6 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
       dest: "$1develop/blocks/block-tinting",
     },
     {
-      from: /^([0-9.]+[/])?develop[/]blocks[/]block-tinting(?=[/]|$)/,
-      dest: "$1develop/blocks/transparency-and-tinting",
-    },
-    {
       from: /^([0-9.]+[/])?develop[/](codecs|data-attachments|saved-data)(?=[/]|$)/,
       dest: "$1develop/serialization/$2",
     },
