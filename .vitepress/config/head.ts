@@ -215,7 +215,7 @@ export const getBuildTransformHead =
     const returned = _getNewHead({
       latestVersion: LATEST_VERSION,
       pathname: context.pageData.relativePath,
-      origin: context.siteConfig.sitemap!.hostname,
+      origin: context.siteConfig.sitemap!.hostname.replace(/[/]$/, ""),
       hash: "",
       search: "",
       description: context.pageData.description,
