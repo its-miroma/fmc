@@ -28,7 +28,7 @@ console.log(`Current version: 'Minecraft ${oldVersion}'`);
 
 const launcherMetaUrl = "https://piston-meta.mojang.com/mc/game/version_manifest.json";
 const launcherVersions: any = await (await fetch(launcherMetaUrl)).json();
-const newVersion = process.argv[2] || launcherVersions?.latest?.release;
+const newVersion = process.argv[2]?.replace(/[.]0$/, "") || launcherVersions?.latest?.release;
 if (!newVersion) {
   console.error("Couldn't obtain a valid Minecraft version!");
   process.exit(1);
@@ -103,9 +103,31 @@ console.log("Updating links in content...");
 for (const file of tinyglobby.globSync(`./versions/${oldVersion}/**/*.md`, { onlyFiles: true })) {
   const content = fs
     .readFileSync(file, "utf-8")
-    .replaceAll(/[/]reference[/]latest/g, `/reference/${oldVersion}`);
+    .replaceAll(/[/]reference[/]latest/g, `/reference/${oldVersion}`)
+    .replaceAll("./contributing", "./../contributing");
   fs.writeFileSync(file, content);
 }
+
+console.log("Updating version redirects...");
+const toSemVer = (v: string) => (v.split(".").length === 2 ? `${v}.0` : v);
+const releaseVersions: string[] = launcherVersions.versions
+  .filter((v: any) => v.type === "release")
+  .map((v: any) => v.id);
+const newIndex = releaseVersions.indexOf(newVersion);
+const oldIndex = releaseVersions.indexOf(oldVersion);
+const redirectedVersions = newIndex !== -1 && newIndex < oldIndex
+  ? releaseVersions.slice(newIndex, oldIndex)
+  : [newVersion];
+const headFile = "./.vitepress/config/head.ts";
+fs.writeFileSync(
+  headFile,
+  fs.readFileSync(headFile, "utf-8").replace(
+    "const versionRedirects: Record<string, string> = {",
+    `$&\n${redirectedVersions
+      .map((v) => `    "${toSemVer(v)}": "${toSemVer(newVersion)}",`)
+      .join("\n")}`
+  )
+);
 
 console.log(`Committing 'chore: bump to ${newVersion}'...`);
 if (
