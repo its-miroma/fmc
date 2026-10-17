@@ -34,7 +34,6 @@
     "markdownlint-cli2": "0.23.3",
     "markdownlint-rule-search-replace": "1.2.0",
     "markdownlint-rule-titlecase": "0.1.0",
-    "oxc-minify": "0.153.0",
     "p-limit": "7.3.3",
     "postcss-html": "2.0.0",
     "prettier": "3.9.10",
