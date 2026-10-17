@@ -1,3 +1,4 @@
+import type { HeadConfig } from "vitepress";
 import { LATEST_VERSION } from "../constants.ts";
 import type { Config } from "../types.d.ts";
 
@@ -15,7 +16,7 @@ type NewHeadContext = {
   siteName: string;
 };
 
-const _getNewHead = (context: NewHeadContext): string | [string, Record<string, string>][] => {
+const _getNewHead = (context: NewHeadContext): string | HeadConfig[] => {
   const versionRedirects: Record<string, string> = {
     "26.2.0": "26.2.0",
 
@@ -97,7 +98,7 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
     .replace(/((?<=^|[/])index)?[.](html|md)$/, "");
 
   const split = oldPath.toLowerCase().replaceAll(/[/]+/g, "/").split("/");
-  const localeIndex = /^..[_-]..$/.test(split[0])
+  const localePrefix = /^..[_-]..$/.test(split[0])
     ? `/${split.shift()}/`.replace("/en_us/", "/")
     : "/";
 
@@ -106,30 +107,35 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
     || versionRedirects[`${split[0]}.0`]
     || (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? "" : split[0])
   ).replace(/[.]0$/, "");
-  if (!split[0] || split[0] === context.latestVersion) split.shift();
+  if (!split[0] || split[0] === context.latestVersion) {
+    split.splice(0, 1);
+  }
 
   const seenPaths = new Set([split.join("/")]);
   const newPath = redirects.reduce((currentPath, rule) => {
     const nextPath = currentPath.replace(rule.from, rule.dest);
 
     // skip the redirection rule if it causes a loop
-    if (seenPaths.has(nextPath)) return currentPath;
+    if (seenPaths.has(nextPath)) {
+      return currentPath;
+    }
 
     seenPaths.add(nextPath);
+
     return nextPath;
   }, split.join("/"));
 
-  if (localeIndex.includes("-") || `/${oldPath}` !== `${localeIndex}${newPath}`) {
+  if (localePrefix.includes("-") || `/${oldPath}` !== `${localePrefix}${newPath}`) {
     if (context.isNotFound) {
-      return `${localeIndex.replace("-", "_")}${newPath}${context.search}${context.hash}`;
-    } else {
-      console.warn(`${oldPath}: unexpected redirection to '${localeIndex.slice(1)}${newPath}'`);
+      return `${localePrefix.replace("-", "_")}${newPath}${context.search}${context.hash}`;
     }
+
+    console.warn(`${oldPath}: unexpected redirection to '${localePrefix.slice(1)}${newPath}'`);
   }
 
-  const href = `${context.origin}${localeIndex}${newPath}`;
+  const href = `${context.origin}${localePrefix}${newPath}`;
   const ogLocale =
-    localeIndex.replaceAll("/", "").replace(/..$/, (m) => m.toUpperCase()) || "en_US";
+    localePrefix.replaceAll("/", "").replace(/..$/, (m) => m.toUpperCase()) || "en_US";
 
   const returned: [string, Record<string, string>][] = [
     ["meta", { name: "theme-color", content: "#2275da" }],
@@ -147,7 +153,7 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
     ["meta", { property: "og:locale", content: ogLocale }],
   ];
 
-  if ((context.lastUpdated ?? 0) > 0) {
+  if ((context.lastUpdated || 0) > 0) {
     returned.push([
       "meta",
       { property: "article:modified_time", content: new Date(context.lastUpdated!).toISOString() },
@@ -180,6 +186,7 @@ export const getClientTransformHead = () => {
 
     if (typeof headData === "string") {
       window.location.replace(headData);
+
       return;
     }
 
@@ -189,7 +196,9 @@ export const getClientTransformHead = () => {
       const el = document.createElement(tag);
 
       attributes["data-gen"] = "";
-      for (const [k, v] of Object.entries(attributes)) el.setAttribute(k, v);
+      for (const [k, v] of Object.entries(attributes)) {
+        el.setAttribute(k, v);
+      }
 
       document.head.appendChild(el);
     }
@@ -200,32 +209,32 @@ export const getClientTransformHead = () => {
 
 export const pageToVersionsMap = new Map<string, Set<string>>();
 
-export const getBuildTransformHead =
-  (): Config["transformHead"] =>
-  (context) => {
-    if (!/(^|[/])translated[/]/.test(context.pageData.filePath)) {
-      const version = (context.pageData.frontmatter.version as string) ?? LATEST_VERSION;
-      const purePath = (context.pageData.frontmatter.purePath as string) ?? "404";
+export const getBuildTransformHead = (): Config["transformHead"] => (context) => {
+  if (!/(^|[/])translated[/]/.test(context.pageData.filePath)) {
+    const version = (context.pageData.frontmatter.version as string) ?? LATEST_VERSION;
+    const purePath = (context.pageData.frontmatter.purePath as string) ?? "404";
 
-      if (!pageToVersionsMap.has(purePath)) {
-        pageToVersionsMap.set(purePath, new Set());
-      }
-      pageToVersionsMap.get(purePath)!.add(version === LATEST_VERSION ? "" : version);
+    if (!pageToVersionsMap.has(purePath)) {
+      pageToVersionsMap.set(purePath, new Set());
     }
+    pageToVersionsMap.get(purePath)!.add(version === LATEST_VERSION ? "" : version);
+  }
 
-    const returned = _getNewHead({
-      latestVersion: LATEST_VERSION,
-      pathname: context.pageData.relativePath,
-      origin: context.siteConfig.sitemap!.hostname.replace(/[/]$/, ""),
-      hash: "",
-      search: "",
-      description: context.pageData.description,
-      title: context.pageData.title,
-      isNotFound: context.pageData.isNotFound,
-      isVersioned: context.pageData.filePath.startsWith("versions/"),
-      siteName: context.siteData.locales[context.siteData.localeIndex!].title!,
-      lastUpdated: context.pageData.lastUpdated,
-    });
+  const returned = _getNewHead({
+    latestVersion: LATEST_VERSION,
+    pathname: context.pageData.relativePath,
+    origin: context.siteConfig.sitemap!.hostname.replace(/[/]$/, ""),
+    hash: "",
+    search: "",
+    description: context.pageData.description,
+    title: context.pageData.title,
+    isNotFound: context.pageData.isNotFound,
+    isVersioned: context.pageData.filePath.startsWith("versions/"),
+    siteName: context.siteData.locales[context.siteData.localeIndex!].title!,
+    lastUpdated: context.pageData.lastUpdated,
+  });
 
-    if (typeof returned !== "string") return returned;
-  };
+  if (typeof returned !== "string") {
+    return returned;
+  }
+};
