@@ -18,7 +18,6 @@
     "medium-zoom": "1.1.0",
     "vitepress": "2.0.0-alpha.20",
     "vitepress-plugin-tabs": "0.9.1",
-    "vitepress-versioning-plugin": "github:FabricMC/vitepress-versioning-plugin#65bae2d4dfee47d0d233f688844cbb572c534ef5",
     "vue": "3.5.43"
   },
   "devDependencies": {
@@ -48,7 +47,8 @@
     "syntax-java-bytecode": "github:mcgambing/Java-Bytecode#578f3e2c6861ac6396492540a987fe05d23b061a",
     "syntax-mcfunction": "github:MinecraftCommands/syntax-mcfunction#51eb8bf4ca04355bb89f5538b7331cb0c0f3df2b",
     "tinyglobby": "0.2.17",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitepress-versioning-plugin": "github:FabricMC/vitepress-versioning-plugin#65bae2d4dfee47d0d233f688844cbb572c534ef5"
   },
   "devEngines": {
     "packageManager": {
