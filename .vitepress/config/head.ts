@@ -101,10 +101,11 @@ const _getNewHead = (context: NewHeadContext): string | [string, Record<string, 
     ? `/${split.shift()}/`.replace("/en_us/", "/")
     : "/";
 
-  split[0] =
+  split[0] = (
     versionRedirects[split[0]]
-    ?? versionRedirects[`${split[0]}.0`]
-    ?? (/^(?!404$)[0-9.]+$/.test(split[0]) ? "" : split[0]);
+    || versionRedirects[`${split[0]}.0`]
+    || (/^[0-9]+[.][0-9]+([.][0-9]+)?$/.test(split[0]) ? "" : split[0])
+  ).replace(/[.]0$/, "");
   if (!split[0] || split[0] === context.latestVersion) split.shift();
 
   const seenPaths = new Set([split.join("/")]);
