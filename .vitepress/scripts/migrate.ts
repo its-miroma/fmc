@@ -31,18 +31,13 @@ const sorter = (a: string, b: string) => {
     const bFragment = bs.shift()!;
 
     if ([...aFragment].reverse()[0] !== [...bFragment].reverse()[0]) {
-      if (aFragment.endsWith(".md")) {
-        return -10.1;
-      }
-
+      if (aFragment.endsWith(".md")) return -10.1;
       return +10.1;
     }
 
     const comparison =
       PRIORITY.indexOf(bFragment) - PRIORITY.indexOf(aFragment) || compare(aFragment, bFragment);
-    if (comparison !== 0) {
-      return comparison;
-    }
+    if (comparison !== 0) return comparison;
   }
 
   return as.length - bs.length;
