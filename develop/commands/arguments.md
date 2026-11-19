@@ -15,7 +15,9 @@ ambiguity, which should be avoided.
 In this case, after the command text `/command_with_arg`, you should type an integer. For example, if you
 run `/command_with_arg 3`, you will get the feedback message:
 
-> Called /command_with_arg with value = 3
+```text
+Called /command_with_arg with value = 3
+```
 
 If you type `/command_with_arg` without arguments, the command cannot be correctly parsed.
 

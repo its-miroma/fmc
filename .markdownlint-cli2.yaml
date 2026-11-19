@@ -81,6 +81,10 @@ config:
         message: "Don't use absolute links"
         searchPattern: "/\\[[^\\]]*\\]\\(/(?!assets|public|reference)[^\\)]*\\)/g"
         searchScope: text
+      - name: no-blockquotes
+        message: "Don't use blockquotes"
+        searchPattern: "/^ *>+/gm"
+        searchScope: text
       - name: no-curly-quotes
         message: "Don't use curly quotes"
         search: [“, ”, ‘, ’]
