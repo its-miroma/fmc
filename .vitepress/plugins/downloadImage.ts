@@ -10,6 +10,7 @@ export const downloadImagePlugin = (md: MarkdownRenderer) => {
     if (!env.localeIndex) {
       return image(tokens, idx, options, env, self);
     }
+
     const locale = env.localeIndex === "root" ? "en_us" : env.localeIndex;
     const resolver = getWebsiteResolver(locale);
 
