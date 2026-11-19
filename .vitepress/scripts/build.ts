@@ -123,11 +123,10 @@ const getNewHash = (content: string) => crypto.hash("sha256", content, "hex").sl
 
 const hashes: string[] = [];
 const hashMap: Record<string, string> = {};
-let siteData: unknown;
+let siteDataAssignment = "";
 
+const HASH_MAP_RE = /^window[.]__VP_HASH_MAP__=JSON[.]parse[(]("(?:[^"\\]|\\.)*")[)];/;
 for (const version of versions) {
-  (globalThis as any).window = {};
-
   const metadataFile = tinyglobby.globSync("metadata.*.js", {
     cwd: path.join(tempDir, version, "assets", "chunks"),
     absolute: true,
@@ -136,36 +135,27 @@ for (const version of versions) {
   hashes.push(path.basename(metadataFile).match(/^metadata[.](.+)[.]js$/)![1]);
 
   const fileContent = fs.readFileSync(metadataFile, { encoding: "utf-8" });
-  const split = fileContent
-    .split(";")
-    .map((s) => s.trim())
-    .filter(Boolean);
 
-  if (split.length !== 2) {
-    // deserializeFunctions is unsupported
-    throw new Error(`${metadataFile}: too many assignments`);
-  }
-
-  await import(metadataFile);
-
-  if (!split[0].startsWith(`window.__VP_HASH_MAP__=JSON.parse`)) {
+  const hashMapMatch = HASH_MAP_RE.exec(fileContent);
+  if (!hashMapMatch) {
     throw new Error(`${metadataFile}: failed to parse hash map`);
   }
-  const hashMapFromVersion = window.__VP_HASH_MAP__;
+  Object.assign(hashMap, JSON.parse(JSON.parse(hashMapMatch[1])));
 
-  if (!split[1].startsWith(`window.__VP_SITE_DATA__=JSON.parse`)) {
+  const siteData = fileContent.slice(hashMapMatch[0].length);
+  const isSiteDataValid =
+    siteData.endsWith(";")
+    && (siteData.startsWith("window.__VP_SITE_DATA__=JSON.parse(")
+      || (siteData.startsWith("function deserializeFunctions(")
+        && siteData.includes(";window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(")));
+  if (!isSiteDataValid) {
     throw new Error(`${metadataFile}: failed to parse site data`);
   }
-  const siteDataFromVersion = window.__VP_SITE_DATA__;
 
-  siteData ||= siteDataFromVersion;
-  if (!util.isDeepStrictEqual(siteData, siteDataFromVersion)) {
+  siteDataAssignment ||= siteData.slice(0, -1);
+  if (`${siteDataAssignment};` !== siteData) {
     throw new Error(`site data for ${version} differs from ${versions[0]}`);
   }
-
-  Object.assign(hashMap, hashMapFromVersion);
-
-  (globalThis as any).window = undefined;
 }
 
 const pageToVersionsMap = new Map<string, Set<string>>();
@@ -191,7 +181,7 @@ const pageVersions = Object.fromEntries(
 
 const newMetadataContent = `${[
   `window.__VP_HASH_MAP__=JSON.parse(${JSON.stringify(JSON.stringify(hashMap))})`,
-  `window.__VP_SITE_DATA__=JSON.parse(${JSON.stringify(JSON.stringify(siteData))})`,
+  siteDataAssignment,
   `window.__FD_PAGE_VERSIONS__=JSON.parse(${JSON.stringify(JSON.stringify(pageVersions))})`,
 ].join(";")};`;
 const newHash = getNewHash(newMetadataContent);
