@@ -132,6 +132,8 @@ for (const file of tinyglobby.globSync("**/*.md", {
   fs.cpSync(`./${file}`, `./versions/${oldVersion}/${file}`);
 }
 
+// TODO: update the porting article automatically
+
 if (fs.existsSync(`./${newVersion}/`)) {
   console.log(`Moving in files from '${newVersion}/'...`);
   for (const file of tinyglobby.globSync("**/*", { cwd: `./${newVersion}`, onlyFiles: true })) {
